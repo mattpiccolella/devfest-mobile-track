@@ -275,11 +275,178 @@ Now, try running our app. If you click the "Enter Pokedex" button, you should se
 
 ![Second Screen](https://dl.dropboxusercontent.com/s/25fn5to7xp1lrer/SecondScreen.png)
 
+## 2.2 Connecting our Storyboard to Code
+There's something that you may have noticed: we haven't written any code yet! The truth is, a lot of iOS development can be done using the interface builder we've been using to create our storyboard. However, now is the time that we begin writing code. We'll start by adding a collection view to our new view controller.
 
+### 2.2.1 `UICollectionView`
+`UICollectionView` is arguably one of the most important classes in all of iOS development. It's safe to say that most apps on your phone use this class in one way or another, as it's one of the most universal. Essentially what it does is manage a collection of data, as its name may suggest. In it's most common form, this consists of a list of items, but grids and other forms of collections are also implemented using it. You can read more about the class [here](collection-view).
 
+We're going to want to use one in our `PokedexViewController`. As a review of the things we learned in level 1, drag a collection view into the view on our `PokedexViewController`. Also, since we want our collection view to take up the entire screen, add constraints to do this; to do this, simply make the top/bottom/left/right space equal to 0. When you're done, the constraints and view hierarchy should look like this:
 
+![Collection View](https://dl.dropboxusercontent.com/s/8p1smrffn3podmb/collectionview.png)
 
+One thing that you may notice above is that the view has some extra padding, approximately 20px, on each the left and right side. This is because of [content margins](content-margin), a concept in iOS that adds default padding to the left and right side. However, in this case, we want our collection view to take up the entire screen. To do this, we need to make a change.
 
+In the left sidebar, you'll see a dropdown called "Constraints" under our `PokedexViewController` view. Click to expand this. Click on the constraint starting with "CollectionView.leading". On the left side, you'll see a dropdown entitled "Second Item". Click on this dropdown and uncheck the item "Relative to margin".
+
+![Relative to Margin](https://dl.dropboxusercontent.com/s/mundhwfvgu34cre/constrainmargin.png)
+
+Do the same thing for "CollectionView.trailing", and you should see the left and right margins disappear.
+
+### 2.2.2 Outlets
+Up until now, we've set the properties for different things using our Attributes inspector in the right sidebar; remember when we set the background color of our view to be red? However, in the future, we're going to need to do these things programmatically; imagine we wanted the background to be red during the day but black at night, we'd need code to be able to do this.
+
+To do this, we can add what's called an [outlet](outlet). An outlet basically connects an element in our storyboard file to an instance variable in our view controller. When iOS creates our view programmatically, the connection between the variable and the actual view is made. As a result, we can write code like `outletButton.text = "Enter Pokedex"`, rather than double-clicking and manually entering the text.
+
+To add an outlet, we'll be doing more Control-dragging. First, open the Assistant editor; to do this, click the overlapping circles in the top bar. Then, we'll see two files appear next to each other; make sure one of them is `Main.storyboard` and the other is `PokedexViewController.swift`. Control-drag from the collection view to the top of the `PokedexViewController.swift`, like this:
+
+![Pokedex Drag](https://dl.dropboxusercontent.com/s/i4zvwphqp29czi3/outlet.png)
+
+In the box that appears, make sure "Outlet" is selected, and use the name "collectionView".
+
+![Outlet Name](https://dl.dropboxusercontent.com/s/1h2fgsghjy6sffw/collectionViewOutlet.png)
+
+You should see, at the top of our `PokedexViewController.swift` file, that a new variable called `collectionView` appeared. Your file should now look something like this:
+
+```swift
+import UIKit
+
+class PokedexViewController: UIViewController {
+
+  @IBOutlet var collectionView: UICollectionView!
+  
+  ...
+}
+```
+
+Now that we've got our outlet, we can write some code! Change back to the Standard editor (press the button to the left of the overlapping circles) so we get a full screen again.
+
+Just to verify that we have added our `UICollectionView` correctly, run your app; if see a black screen after pressing "Enter Pokedex", everything is correct.
+
+## 2.3 Adding Data to our Collection
+We saw a black screen in the last step because we haven't added any data to our collection view. We're going to work on that here.
+
+In this section, we're going to be making extensive use of delegate methods. As we discussed before, delegate methods are implemented by the programmer (us) and the system calls them when they need them. Essentially, the delegate is like an interface; they expect us to provide implementations of some method, and the iOS internals call the respective methods when they are needed.
+
+### 2.3.1 Creating a Custom Cell
+As you may expect, a `UICollectionView` contains `UICollectionViewCell`s, each of which represents a single piece of data. In order to show some custom information about our Pokemon, let's make a custom cell for our collection view.
+
+To do this, do the same thing we did before to add a new file; right-click on "Pokedex", click "New File", make sure it's Cocoa Touch, and make sure the "Subclass of" says "UICollectionViewCell"; we want to subclass the parent to make our own custom cell. Name it "PokedexCollectionViewCell".
+
+![Custom Cell](https://dl.dropboxusercontent.com/s/ynjo4cx2kq2c5al/customcell.png)
+
+From here, let's set our collection view's cells to be of type `PokedexCollectionViewCell`. To do this, click the Collection View Cell inside of our Collection View in our storyboard file, and change its custom class to "PokedexCollectionViewCell". 
+
+![Pokedex Cell](https://dl.dropboxusercontent.com/s/2f67eykf4qn4g27/pokedexcell.png)
+
+Now, let's actually format our cell. We're going to make it very simple: let's just add a label for the name of the Pokemon for now. To do this, drag the cell to be as wide as the view; right now, it should just be a small square. Once you've done this, find a `UILabel` from the widgets box on the side and drag it onto our cell. For constraints, center it vertically and add 10 pixels of leading spacing to its container.
+
+![Label Constraints](https://dl.dropboxusercontent.com/s/kaobx989ghcusda/labelconstraint.png)
+
+Then, control-drag from our label (while in Assistant editor) to our new `PokedexCollectionViewCell` file; add it as an outlet, and call it `nameLabel`, so that your file looks like this:
+
+```swift
+import UIKit
+
+class PokedexCollectionViewCell: UICollectionViewCell {
+    
+  @IBOutlet var nameLabel: UILabel!
+  
+}
+```
+
+Once you're done with this, you've successfully created our custom cell. The last thing we need to do is set the "Reuse Identifier," which is basically a label which helps us to uniquely identify this type of cell. To set it, select the PokedexCollectionViewCell in the storyboard view hierarchy, pick the Attributes inspector in the right sidebar (third from the left), and enter "Pokedex Cell" in the box titled "Identifier". We'll use this later.
+
+Now, let's add some data to our Pokedex.
+
+### 2.3.2 Setting Cell Size
+Since our collection view can consist of many different kinds of arrangements (2D grid, list, etc.), we need to be able to specify the dimensions of each of our cells. To do this, we use something called `UICollectionViewDelegateFlowLayout`. As the [reference](flow-layout) tells us, the methods in this delegate define the size of the items and the spacing between items in the grid.
+
+At the bottom of our `PokedexViewController.swift` file, below the last closing curly brace, add the following code:
+
+```swift
+extension PokedexViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    return CGSizeMake(self.view.frame.width, 40.0)
+  }
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 3.0
+  }
+}
+```
+
+There are several things happening here. First, we're creating an [extension](extension). If you're not familiar, this is basically a way of adding functionality to an existing class; if you know Java, think of it as implementing a new interface. 
+
+Next, we're implementing two delegate methods. The first method, `sizeForItemAtIndexPath`, provides us an index (the position in our list) and we're expected to return a cell size. Since we want all of our cells to be the same size (at least initially), we simply return a size that is as wide as the screen and 40px tall. Our second method, `minimumLineSpacingForSectionAtIndex`, allows us to set the spacing between each row in our list. We'll make it so that there's 3px between each row. Since we only have one section, we don't need to worry about the parameter.
+
+### 2.3.3 Passing Data to the List
+To actually give the data we want to give to the list, we need to implement `UICollectionViewDataSource`. As you might expect, this is responsible for providing data and the views that will display in the collection view.
+
+Just below your flow layout extension, add the following code:
+
+```swift
+extension PokedexViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("PokedexCell", forIndexPath: indexPath) as! PokedexCollectionViewCell
+    newCell.nameLabel.text = "Pikachu"
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 20
+  }
+}
+```
+
+In the same way as above, we're using an extension. Next, we implement two delegate methods. 
+
+The first, `cellForItemAtIndexPath`, is where most of the interesting stuff happens. We make the call to `dequeueReusableCellWithReuseIdentifier` to get a PokedexCollectionViewCell. Because the task of creating a new cell is pretty computationally expensive, iOS handles the reusing of these cells; basically, if you're scrolling through a list and you pass by one cell, that cell will be reused to show you cells that occur lower in the list. We use the "PokedexCell" reuse identifier because it is the one we set before. We force the cast to `PokedexCollectionViewCell`, which works because we set our custom class in interface builder. Next, we set the name label to "Pikachu"; this is just filler data for now until we have real data to present. Next, we just make the background color white and return it.
+
+The second, `numberOfItemsInSection`, is the number of items in our table. We return 20 as an arbitrary number. Feel free to increase or decrease this and view the results.
+
+### 2.3.4 Configuring our View
+Finally, we're going to implement perhaps the most important method in a `UIViewController`: `viewDidLoad`. This method is called right after a view is loaded, and thus before it is going to be shown. This is the place where all configurations of the view, such as background color, changes to data, or things of that sort should be made.
+
+In our case, here is what our modified `viewDidLoad` method looks like:
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    collectionView.backgroundColor = UIColor.lightGrayColor()
+    collectionView.delegate = self
+    collectionView.dataSource = self
+      
+    self.automaticallyAdjustsScrollViewInsets = false
+}
+``` 
+
+First, we set the background to a nice light gray. Then, we set both the delegate and the data source of our view controller; we set these so our collection view knows to call the methods we just implemented when it needs data or sizing information. Finally, we set `automaticallyAdjustsScrollViewInsets` to false so that we don't run into any issue with margins.
+
+### 2.3.5 Adding Titles
+Now that we've seen how to change our views programmatically, let's make one small change. Let's add titles to our navigation bars.
+
+In `ViewController.swift`, add one line to `viewDidLoad` so that it looks like this:
+
+```swift
+self.navigationItem.title = "Home"
+```
+
+Also, in `PokedexViewController.swift`, add one line to `viewDidLoad`, just after your `automaticallyAdjustsScrollViewInsets` line:
+
+```swift
+self.navigationItem.title = "My Pokedex"
+```
+
+As you can imagine, this changes the title of our navigation bar. If you'd like to read more about `UINavigationItem`, more information is available [here](navigation-item).
+
+Finally we're done! Our app is starting to look more like a real app. Here's what yours should look like at this point:
+
+![Home Screen](https://dl.dropboxusercontent.com/s/s7twtysa59p98zp/homescreen.png)
+
+![Pokedex List](https://dl.dropboxusercontent.com/s/vgtlhvt1yn9oy6a/PokedexList.png)
 
 <a href="#top" class="top" id="level3">Top</a>
 ## Level 3: Loading Web Data
@@ -313,5 +480,13 @@ Along with this tutorial, there is a wealth of information available on iOS deve
 [autolayout]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/index.html
 [pokemon-logo]: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/English_Pok%C3%A9mon_logo.svg/2000px-English_Pok%C3%A9mon_logo.svg.png
 [segue]: https://developer.apple.com/library/ios/recipes/xcode_help-IB_storyboard/Chapters/StoryboardSegue.html
+[collection-view]: https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionView_class/
+[outlet]: https://developer.apple.com/library/mac/documentation/General/Conceptual/Devpedia-CocoaApp/Outlet.html
+[content-margin]: http://stackoverflow.com/questions/25701979/xcode-6-beta-7-storyboard-adds-extra-space-on-right-and-left-sides
+[flow-layout]: https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewDelegateFlowLayout_protocol/
+[extension]: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Extensions.html
+[datasource]: https://developer.apple.com/library/tvos/documentation/UIKit/Reference/UICollectionViewDataSource_protocol/index.html
+[navigation-item]: https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationItem_Class/
+
 
  
