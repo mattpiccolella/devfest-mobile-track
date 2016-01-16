@@ -131,10 +131,96 @@ On the left side, you'll see the hierarchy of the view controllers. Right now, w
 
 ![Custom Class](https://dl.dropboxusercontent.com/s/2fbimp9ge2a0tsr/configuration.png)
 
-
 Thus, in order to change what type of view controller we're using, we simply need to change this class. For example, if we wanted our first view controller to be a login screen, we might create a new file, `LoginViewController`, and set the Custom Class on this view controller to be 'LoginViewController'.
 
+Now, inside this ViewController hierarchy, we should see 'View'. For each ViewController, we have a View object, which corresponds to what we see visually. Click on 'View' on the left side. On the utilities sidebar on the right, click the attributes inspector; it's the third icon from the right. Click the 'Background' dropdown, click 'Other', and then select 'Red'; you can do this by entering 255,0,0 in the RGB selectors.
 
+![Attribute Selector](https://dl.dropboxusercontent.com/s/sg19rtqx475s2i0/attributeselector.png)
+
+Once you do this, the background color of the view should change to red. Press the play button to run the app, and you'll see the changed background color.
+
+### 1.4.2 Adding our First View
+You can't make an app just by changing the background color; we need things like buttons, text labels, and text fields. Let's start by adding some.
+
+Views in iOS are recursive by definition; views are composed of a collection of views, which we call subviews, and they all descend from the class `UIView`. Some examples of subclasses of `UIView` include `UILabel`, `UIButton`, and `UITextField`. In our `Main.storyboard` file, we can add these things to our view controller's view.
+
+To start making our app, let's add the Pokemon logo; it's a good way for people to know what exactly our app does.
+
+Make sure our red view is up. Next, you should see a section in the bottom right with things like "View Controller" and "Storyboard Reference" in there. This is where all of the UI widgets for iOS apps, like buttons, tab bars, and text fields, reside; to add one, you just drag and drop onto your storyboard file. In the text box, type "image"; you should see one result, "Image View": Drag and drop from the Image View into the center of the red canvas. We now have an image in our app!
+
+![Image View](https://dl.dropboxusercontent.com/s/ef0ql52ku5wiunk/image.png)
+
+Something you may be wondering: our storyboard view is a square, not the dimensions of an iPhone. This is because the view isn't for any particular iPhone, but is meant to represent all the different iPhones, from the iPhone 4 to the iPhone 6s. We do this with a system called [Auto Layout](autolayout).
+
+**Auto Layout** is essentially a generic way of laying out your views so that iOS can handle the views given a set of **constraints**. Constraints are a set of rules that the view must fulfill; it's the job of iOS to layout each of the views given a screen size, which we know once the app runs on the device. An example of a constraint would be to make sure that the left side of the view is 20px from the left edge, or to make sure that the top of one view is 10px from the bottom of another view, or to make sure that the view is 40px high.
+
+If we don't use constraints, our app has no idea how to layout our views. It doesn't know how big it should be or in what position it should be. So, to make sure our image looks like we want it to, we need to add constraints.
+
+First, let's make sure our logo is centered vertically; we want it to appear in the middle of the screen. To do this, we can add a constraint. Drag and drop from our ImageView in our left bar to its parent View; we drag in this direction because we want the subview to be centered within the parent view. Once you do this, you'll see several options for different constraints, most of which do what you'd think they'd do. 
+
+![Constraints](https://dl.dropboxusercontent.com/s/hea7osfnenno6g7/constraints.png)
+
+To center it vertically, please select "Center Vertically in Container". Since we know that it should be centered vertically, now we should define how it will look horizontally. Drag and drop the same way you did above, and first select 'Leading Space to Container Margin'. Then, select 'Trailing Space to Container Margin'. These essentially say 'How much space comes before it to the left?' and 'How much space comes before it to the right?'.
+
+To set the actual values, select the Size inspector icon on the right side; it's the second from the right. Down toward the bottom, you'll see all the constraints that you've added. To change a value of something, just click 'Edit'. For each the trailing space and leading space, change the value to 20; this way we'll add 20px on each side within our view. Once you're done, it should look as follows:
+
+![Constraints View](https://dl.dropboxusercontent.com/s/6ubzlgsg8r0j74e/Constraints%20View.png)
+
+Once we've done this, on the left side you should see a red dot appear to indicate an error. Double click it, and you'll see this screen:
+
+![Constraint Error](https://dl.dropboxusercontent.com/s/nu276g9cd7nla2m/constrainterror.png)
+
+Our error is telling us that we don't have constraints for Y position or height. What exactly does this mean?
+
+When we set constraints, we need to add constraints to fulfill four different things:
+
+1. X-position
+2. Y-position
+3. Width
+4. Height
+
+If we don't fulfill each of these, we'll get an error, and rightfully so! If we don't give each one of these four things, iOS won't have enough information to layout our views!
+
+Let's think about what our first three constraints did for us. Centering the image vertically means we've provided Y-position; if the view is 200px tall, iOS knows that the center of our view should be at 100px. We've also set our width; if our view is 200px wide, our view will be (200 - (2*20))px wide because of the padding we've added on each side. We've also set X-position, though this one may be less obvious. Since we've put 20px of padding on each side, we know that our view's center will be centered horizontally; we could have just as easily added another constraint, "Center Horizontally in Container."
+
+So, as our error tells us, we're missing height. How do we decide how tall our image should be? To do this, let's think back to why we're adding this image in the first place; we want to display the Pokemon logo. To do this, we need the Pokemon logo. So, download the image [here](pokemon-logo). Since we already know the width, and we know the aspect ratio of our image, it would probably be a good idea to set the aspect ratio for our image; that way, the height can be determined from our width.
+
+To do this, drag and drop from "Image View" to itself; you'll see a new menu for constraints appear. These constraints are a little bit different, in that they aren't in terms of the views container, but in terms of attributes of the view itself. Thus, if we wanted to set the width to 200px, we wouldn't need to know anything about the containing view. 
+
+![Self Constraints](https://dl.dropboxusercontent.com/s/sbmk0fkwxz4aple/selfconstraints.png)
+
+Once we've added this, in the "Constraint" menu on the right side, edit the "Aspect Ratio" constraint to be equal to 125:46, the aspect ratio of our attached image.
+
+Now that we've done this, we're almost done. However, you may notice there is a yellow warning to the right of the view hierarchy. Click it, and you should see this:
+
+![Constraints](https://dl.dropboxusercontent.com/s/vnhzidkibiw8vfq/constraintissues.png)
+
+What the errors (and the yellow lines we see on the views) tell us is that our views the actual dimensions don't match our expected errors. This is because iOS is trying to layout our views based on our default view size (it's 600 x 600 by default). To fix this, press the triangle in the bottom right corner and press "Update Frames". After this, you'll see the frames of our views update.
+
+![Update Frames](https://dl.dropboxusercontent.com/s/jd8e1jguueu44nf/updateframes.png) 
+
+Once you've done that, let's actually add our Pokemon logo. In XCode, click `File -> Add Files to "Pokedex"`, locate the Pokemon icon, and press "Add". At this point, you should see the file in the project navigator on the left, entitled "English_Pokemon_logo.svg.png". To set the image of our Image View, open `Main.storyboard`, and click the Image View in the view hierarchy on the left. Then, in your attribute selector, start typing the name of your image in the Image box, at which point it should autocomplete. Once you press enter, you'll see the Pokemon logo appear, and with that, we're done adding our first view!
+
+![Image Name](https://dl.dropboxusercontent.com/s/18l1wak4hhqzu3o/imageselect.png)
+
+Note: Auto Layout can be quite difficult to understand at first. Deciding what constraints will lead to the layout you want can feel like a logic puzzle at times. However, it's MUCH better than the alternative, which would be designing an interface for each of the six different iPhones. It's worth putting in the time to learn, perhaps by re-reading this section a couple times.
+
+### 1.4.2 Adding our Second View
+We're going to need a way to enter our Pokedex; let's add a button to do that. Make sure your `Main.storyboard` file is open. Just like we did last time, search "button" in the bottom-right widget section. Then, drag and drop a button onto the view just below our logo. First, let's add a constraint to center it horizontally; do this by dragging and dropping from Button to View in the view hierarchy on the left and selecting "Center Horizontally in Container". 
+
+Next, let's set the y-position relative to the Pokemon logo. Drag from Button to our Image View in the view hierarchy on the left (not everything has to be relative to our parent view, we can set constraints relative to two subviews). Once you've done this, select "Vertical Spacing". Once you've done this, edit the value in the right sidebar to be equal to 20; we'll want 20px between the bottom of our logo and the top of our button. Once you've done this, the constraints should look as follows:
+
+![Button Constraints](https://dl.dropboxusercontent.com/s/ot08708z63m1exa/buttonconstraints.png)
+
+To finish up, double click the button and change the text to "Enter Pokedex". (Note: At this time, you may have to press "Update Frames", depending on where you dragged the button.)
+
+Now that you're done, your storyboard should look as follows:
+
+![Finished Storyboard](https://dl.dropboxusercontent.com/s/hx66dk5diemg4sz/finstoryboard.png)
+
+Run your app, and you'll see your first completed application!
+
+![First App](https://dl.dropboxusercontent.com/s/mvkh63kmdyqtyvg/level1shot.png)
 
 <a href="#top" class="top" id="level2">Top</a>
 ## Level 2: Simple List View
@@ -168,5 +254,7 @@ Along with this tutorial, there is a wealth of information available on iOS deve
 [storyboard]: https://developer.apple.com/library/ios/recipes/xcode_help-IB_storyboard/Chapters/AboutStoryboards.html
 [view-controller]: https://developer.apple.com/library/ios/featuredarticles/ViewControllerPGforiPhoneOS/
 [delegates]: http://stackoverflow.com/questions/652460/what-is-the-appdelegate-for-and-how-do-i-know-when-to-use-it
+[autolayout]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/index.html
+[pokemon-logo]: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/English_Pok%C3%A9mon_logo.svg/2000px-English_Pok%C3%A9mon_logo.svg.png
 
  
