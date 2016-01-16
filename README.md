@@ -156,11 +156,11 @@ Something you may be wondering: our storyboard view is a square, not the dimensi
 
 If we don't use constraints, our app has no idea how to layout our views. It doesn't know how big it should be or in what position it should be. So, to make sure our image looks like we want it to, we need to add constraints.
 
-First, let's make sure our logo is centered vertically; we want it to appear in the middle of the screen. To do this, we can add a constraint. Drag and drop from our ImageView in our left bar to its parent View; we drag in this direction because we want the subview to be centered within the parent view. Once you do this, you'll see several options for different constraints, most of which do what you'd think they'd do. 
+First, let's make sure our logo is centered vertically; we want it to appear in the middle of the screen. To do this, we can add a constraint. Control-drag from our ImageView in our left bar to its parent View; we drag in this direction because we want the subview to be centered within the parent view. Once you do this, you'll see several options for different constraints, most of which do what you'd think they'd do. 
 
 ![Constraints](https://dl.dropboxusercontent.com/s/hea7osfnenno6g7/constraints.png)
 
-To center it vertically, please select "Center Vertically in Container". Since we know that it should be centered vertically, now we should define how it will look horizontally. Drag and drop the same way you did above, and first select 'Leading Space to Container Margin'. Then, select 'Trailing Space to Container Margin'. These essentially say 'How much space comes before it to the left?' and 'How much space comes before it to the right?'.
+To center it vertically, please select "Center Vertically in Container". Since we know that it should be centered vertically, now we should define how it will look horizontally. Control-drag the same way you did above, and first select 'Leading Space to Container Margin'. Then, select 'Trailing Space to Container Margin'. These essentially say 'How much space comes before it to the left?' and 'How much space comes before it to the right?'.
 
 To set the actual values, select the Size inspector icon on the right side; it's the second from the right. Down toward the bottom, you'll see all the constraints that you've added. To change a value of something, just click 'Edit'. For each the trailing space and leading space, change the value to 20; this way we'll add 20px on each side within our view. Once you're done, it should look as follows:
 
@@ -185,7 +185,7 @@ Let's think about what our first three constraints did for us. Centering the ima
 
 So, as our error tells us, we're missing height. How do we decide how tall our image should be? To do this, let's think back to why we're adding this image in the first place; we want to display the Pokemon logo. To do this, we need the Pokemon logo. So, download the image [here](pokemon-logo). Since we already know the width, and we know the aspect ratio of our image, it would probably be a good idea to set the aspect ratio for our image; that way, the height can be determined from our width.
 
-To do this, drag and drop from "Image View" to itself; you'll see a new menu for constraints appear. These constraints are a little bit different, in that they aren't in terms of the views container, but in terms of attributes of the view itself. Thus, if we wanted to set the width to 200px, we wouldn't need to know anything about the containing view. 
+To do this, Control-drag and drop from "Image View" to itself; you'll see a new menu for constraints appear. These constraints are a little bit different, in that they aren't in terms of the views container, but in terms of attributes of the view itself. Thus, if we wanted to set the width to 200px, we wouldn't need to know anything about the containing view. 
 
 ![Self Constraints](https://dl.dropboxusercontent.com/s/sbmk0fkwxz4aple/selfconstraints.png)
 
@@ -206,9 +206,9 @@ Once you've done that, let's actually add our Pokemon logo. In XCode, click `Fil
 Note: Auto Layout can be quite difficult to understand at first. Deciding what constraints will lead to the layout you want can feel like a logic puzzle at times. However, it's MUCH better than the alternative, which would be designing an interface for each of the six different iPhones. It's worth putting in the time to learn, perhaps by re-reading this section a couple times.
 
 ### 1.4.2 Adding our Second View
-We're going to need a way to enter our Pokedex; let's add a button to do that. Make sure your `Main.storyboard` file is open. Just like we did last time, search "button" in the bottom-right widget section. Then, drag and drop a button onto the view just below our logo. First, let's add a constraint to center it horizontally; do this by dragging and dropping from Button to View in the view hierarchy on the left and selecting "Center Horizontally in Container". 
+We're going to need a way to enter our Pokedex; let's add a button to do that. Make sure your `Main.storyboard` file is open. Just like we did last time, search "button" in the bottom-right widget section. Then, drag and drop a button onto the view just below our logo. First, let's add a constraint to center it horizontally; do this by Control-dragging from Button to View in the view hierarchy on the left and selecting "Center Horizontally in Container". 
 
-Next, let's set the y-position relative to the Pokemon logo. Drag from Button to our Image View in the view hierarchy on the left (not everything has to be relative to our parent view, we can set constraints relative to two subviews). Once you've done this, select "Vertical Spacing". Once you've done this, edit the value in the right sidebar to be equal to 20; we'll want 20px between the bottom of our logo and the top of our button. Once you've done this, the constraints should look as follows:
+Next, let's set the y-position relative to the Pokemon logo. Control-drag from Button to our Image View in the view hierarchy on the left (not everything has to be relative to our parent view, we can set constraints relative to two subviews). Once you've done this, select "Vertical Spacing". Once you've done this, edit the value in the right sidebar to be equal to 20; we'll want 20px between the bottom of our logo and the top of our button. Once you've done this, the constraints should look as follows:
 
 ![Button Constraints](https://dl.dropboxusercontent.com/s/ot08708z63m1exa/buttonconstraints.png)
 
@@ -223,7 +223,63 @@ Run your app, and you'll see your first completed application!
 ![First App](https://dl.dropboxusercontent.com/s/mvkh63kmdyqtyvg/level1shot.png)
 
 <a href="#top" class="top" id="level2">Top</a>
-## Level 2: Simple List View
+# Level 2: Creating a List of Data
+Now that we have a landing page, let's start fleshing out the bulk of the app. As you may imagine, if we're going to have a Pokedex, we'll probably need to create a list of Pokemon. Let's start that in this level.
+
+## 2.1 Adding Navigation
+In the last section, we added a button to "Enter Pokedex". Thus, we'll need a new screen to appear when we press this button, which will show the information about our pokemon. Also, ideally, we'll make it so we can press a "Back" button to get back to our landing page at any point. Let's do that here.
+
+### 2.1.1 UINavigationController
+`UINavigationController` is a built-in view controller in iOS that essentially handles navigation. You've probably seen apps where you can press a button and enter a new screen, and then there's a "Back" button in the upper left corner that brings you back to your previous page. The iOS Settings page is a good example of this.
+
+![Settings](https://dl.dropboxusercontent.com/s/8vw7gpnh2a1q3wf/SettingsPage.png)
+
+A `UINavigationController` handles all of this navigation by essentially embedding a stack of view controllers within it and showing a navigation bar at the top to allow the user to take further actions, like going back. We can hook up actions to add view controllers to the stack, pushing the navigation one layer deeper. We can always push the back button to back out of the navigation; that is, until we reach what is called the 'root view controller', the first view controller we want to appear.
+
+As you may guess, we want to add a UINavigationController to our project. Also, we'll want our landing page to be our root view controller. To do this is quite easy. Open your `Main.storyboard` file and click on our view controller. Then, in the menu bar, selector `Editor -> Embed In -> Navigation Controller`. Once you do this, you should see the following (you may need to zoom out a bit):
+
+![Nav Controller](https://dl.dropboxusercontent.com/s/esidomv8oiaqhgd/navcontroller.png)
+
+This gives us a better idea of what a full storyboard will look like. As we add screens, we'll be adding more and more view controllers onto our storyboard, just like we added a navigation controller here. Also, we'll see an arrow that connects our `UINavigationController` to our `ViewController`; if we click the arrow, we'll see it highlights a message on the left that says "Relationship 'root view controller' to 'View Controller". This is telling us that the arrow represents the fact that our `ViewController` is the root view controller, meaning it will be the first screen to appear.
+
+If you run the app at this point, it should look exactly the same as before, yet you'll see a navigation bar at the top. We'll handle this later.
+
+### 2.1.2 Adding a New Screen
+Now that we have our navigation controller, it's easy to show our next page when we press the button. First, let's begin by dragging a new view controller from our widgets section in the bottom right. Drag it anywhere onto the storyboard. It should look as follows when you're done:
+
+![Second View](https://dl.dropboxusercontent.com/s/mckhbiiaa76dy9d/secondviewcontroller.png)
+
+Now, we're going to need to write some code to make our list, so let's create a new custom view controller. To do this, click on "Pokedex" in the project navigator and click "New File". 
+
+![New File](https://dl.dropboxusercontent.com/s/ccb890frngfnnh4/newfile.png)
+
+
+Select "Cocoa Touch Class" from the iOS section, and name your file `PokedexViewController`. **IMPORTANT**: Make sure the "Subclass of" box is `UIViewController`; we're making a custom subclass for our new view controller.
+
+![Pokedex View](https://dl.dropboxusercontent.com/s/vipoay7td1pma18/pokedexview.png)
+
+You should see a new file, `PokedexViewController.swift`, in the project navigator. Feel free to look inside the file, but we'll be getting to it in just a moment.
+
+As we saw before, we want to set the custom class of the view controller we dragged onto the storyboard. To do this, click on the view controller in our storyboard, and set the custom class to 'PokedexViewController'; it can be found in the right sidebar when you click the icon third from the left. Note: the class name should autocomplete. If it doesn't, you may have added the file incorrectly.
+
+![Pokedex Custom](https://dl.dropboxusercontent.com/s/d4galttyp4e8cz9/pokedexcustom.png)
+
+### 2.1.3 Adding a Segue
+Now that we have a new screen, we need a way to present it. In particular, we need it to show when we press our 'Enter Pokedex' button. To do this, we can add a segue.
+
+A [seque](segue) is a transition between scenes. It allows us to move from one screen to the next when certain actions take place, such as pressing a button. To add a segue, simply Control-drag from our button to our new view controller. From the menu that pops up, select "Push"; you'll see a new arrow appear between the two view controllers.
+
+![Push Segue](https://dl.dropboxusercontent.com/s/l6nuc0jtvmn8ed9/pushsegue.png)
+
+Now, try running our app. If you click the "Enter Pokedex" button, you should see our new (albeit blank) screen appear! We have navigation! Try pressing the back button, and you'll see we end up back at our home screen.
+
+![Second Screen](https://dl.dropboxusercontent.com/s/25fn5to7xp1lrer/SecondScreen.png)
+
+
+
+
+
+
 
 <a href="#top" class="top" id="level3">Top</a>
 ## Level 3: Loading Web Data
@@ -256,5 +312,6 @@ Along with this tutorial, there is a wealth of information available on iOS deve
 [delegates]: http://stackoverflow.com/questions/652460/what-is-the-appdelegate-for-and-how-do-i-know-when-to-use-it
 [autolayout]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/index.html
 [pokemon-logo]: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/English_Pok%C3%A9mon_logo.svg/2000px-English_Pok%C3%A9mon_logo.svg.png
+[segue]: https://developer.apple.com/library/ios/recipes/xcode_help-IB_storyboard/Chapters/StoryboardSegue.html
 
  
