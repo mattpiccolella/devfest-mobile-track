@@ -764,7 +764,9 @@ To do this, let's do it as we have in the past. Open `Main.storyboard`, and drag
 
 Now, let's add the `UIViewController` custom class that we're going to associate with it. Control-click on "Pokemon" in our Project Navigator, select "New File", make sure it's a Cocoa Touch Class, and make sure it's a subclass of `UIViewController`. Name it "PokemonDetailViewController.swift". 
 
-Finally, set the custom class of the view controller we dragged onto the canvas to `PokemonDetailViewController`. Remember, we do this by clicking on the view controller and setting the class in Identity inspector, which is the third icon from the left.
+Finally, set the custom class of the view controller we dragged onto the canvas to `PokemonDetailViewController`. Remember, we do this by clicking on the view controller and setting the class in Identity inspector, which is the third icon from the left. Also, set the Storyboard ID to 'PokemonDetail'; we'll use this later.
+
+![Storyboard ID](https://dl.dropboxusercontent.com/s/w9wuyeg26w2zaom/storyboardid.png)
 
 When you're finished, it should look like this:
 
@@ -785,7 +787,7 @@ For the defense label, same thing: drag another `UILabel` onto the canvas, make 
 
 ![Relative Margin](https://dl.dropboxusercontent.com/s/j2i24ywyyqmv1gb/relatemargin.png)
 
-Finally, for the list of moves, we're going to use a `UICollectionView`. Drag one onto the canvas, make it 20px below our defense label, add 0px leading spacing and 0px trailing spacing, and make it 0px to the bottom; this way, our list of moves will fill the screen left-to-right and take up whatever space is left on the bottom. This means that for large screens, we'll show more moves, and more smaller screens, we'll show fewer moves. Also, you'll have to do the 'Relative to Margin' checkbox for this as well to make sure it goes all the way to the edge.
+Finally, for the list of moves, we're going to use a `UICollectionView`. Drag one onto the canvas, make it 20px below our defense label, add 0px leading spacing and 0px trailing spacing, and make it 20px to the bottom; this way, our list of moves will fill the screen left-to-right and take up whatever space is left on the bottom, minus 20px. This means that for large screens, we'll show more moves, and more smaller screens, we'll show fewer moves. Also, you'll have to do the 'Relative to Margin' checkbox for this as well to make sure it goes all the way to the edge.
 
 Once you're done, your view should look something like this:
 
@@ -803,6 +805,223 @@ When you're done, you should have added these five lines at the top of `PokemonD
 @IBOutlet var defenseLabel: UILabel!
 @IBOutlet var movesList: UICollectionView!
 ```
+
+### 4.2 Showing our New View Controller
+Now that we have our UI all laid out, we need to work on actual showing our new view when we tap on a Pokemon in our list. Let's do that now.
+
+### 4.2.1 `UICollectionViewDelegate`
+Just as we added extensions for `UICollectionViewDelegateFlowLayout` and `UICollectionViewDataSource`, we can add an extension for `UICollectionViewDelegate`. There's one method in there that will be important to us: `didSelectItemAtIndexPath`. As you may imagine, this method is called every time a cell is tapped.
+
+In `PokedexViewController.swift`, add the following code, just below our other two extensions:
+
+```swift
+extension PokedexViewController: UICollectionViewDelegate {
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier("PokemonDetail") as! PokemonDetailViewController
+    self.navigationController?.pushViewController(detailController, animated: true)
+  }
+}
+```
+
+The code may look a little confusing at first. First, we programmatically create an instance of our main storyboard by passing the name "Main" to the `UIStoryboard` constructor. Then, we create a `PokemonDetailViewController` by calling the `instantiateViewControllerWithIdentifier`; essentially, this loads the configuration we did in our storyboard for the `PokemonDetailViewController`, and creates an instance of that view controller. Then, we push it onto the navigation controller, which, as we saw before, will add another view controller onto our navigation stack.
+
+To look at our new view controller, run the app, enter the Pokedex, and select a Pokemon. You should see something like this:
+
+![Blank Detail](https://dl.dropboxusercontent.com/s/w6afdy1iaa5umfl/blankdetail.png)
+
+### 4.2.2 Making our View Unique
+As you can see, our view is completely blank. This is because we haven't set the view up for the Pokemon you selected. To do that, we'll need some way to keep track of which Pokemon we're currently looking at.
+
+To do this, add a string called `resourceURI` at the top of our `PokemonDetailViewController` class, just below the outlets we created before:
+
+```swift
+var resourceURI: String!
+```
+
+Now, in the delegate method we just implemented, we need to make sure we pass the resource URI from our stored `PokemonModel` in our Pokedex to our detail view controller. To do that, add one line to `didSelectItemAtIndexPath` to set this:
+
+```swift
+func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier("PokemonDetail") as! PokemonDetailViewController
+    detailController.resourceURI = pokemonData[indexPath.row].resourceURI
+    self.navigationController?.pushViewController(detailController, animated: true)
+}
+```
+
+### 4.3 Adding our Detail Data
+Now that we have the resource URI inside of our detail view controller, we can use that URI to load details about our individual Pokemon in a way similar to how we loaded data for our Pokedex. Open up `PokemonDetailViewController.swift`, and let's write some code.
+
+Also, before we forget, add `import Alamofire` and `import SwiftyJSON` at the top of the file as well.
+
+### 4.3.1 Fetching the Data
+Let's create a new method called `fetchPokemonData`:
+
+```swift
+func fetchPokemonData(resourceURI: String, completion: (JSON) -> Void) {
+    Alamofire.request(.GET, "http://pokeapi.co/" + resourceURI, encoding: .JSON).responseData { response in
+      switch response.result {
+      case .Success(_):
+        let pokemonData: JSON = JSON(data: response.data!)
+        completion(pokemonData)
+      case .Failure(let error):
+        print(error)
+      }
+    }
+}
+```
+
+Our method looks pretty similar to our earlier `fetchData` method, but there are some important differences. First, we see our `completion` function that we pass as a parameter takes a JSON object. Also, in this case, we don't pass the entire URL, instead just passing the URI we have available to us; in the request, we append it to the base URL, `http://pokeapi.co/`. Finally, we'll see we only call our completion in the case of a success; we pass the JSON data that we got back to our completion, which we'll write in the next step.
+
+### 4.3.2 Setting our Sub-Views
+Now that we have the data, we can set the sub-views to reflect the data we have loaded. To do that, we need to call `fetchPokemonData`, passing a closure which will do all of the setting that we need to. At the bottom of `viewDidLoad`, add the following code:
+
+```swift
+fetchPokemonData(resourceURI) { (pokemonData: JSON) -> Void in
+      self.nameLabel.text = pokemonData["name"].string
+      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].int!)
+      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].int!)
+}
+```
+
+We pass our `resourceURI`. Then, using the pokemon data we receive from our call to `completion` above, we can set the name label, the attack label, and the defense label; we use the string format to prepend "Attack" and "Defense".
+
+If you run the app, enter the pokedex, and select a Pokemon, you should see that our three text labels show our custom data! I clicked on Metapod and saw the following:
+
+![Metapod](https://dl.dropboxusercontent.com/s/j1r352pjtt9xhgf/Metapod.png)
+
+You may be asking why we didn't set the image or the moves; it's because they're both just a little bit more complicated. We'll do those now.
+
+### 4.3.3 Fetching the Image
+To set our image, we need to fetch it from a URL. After looking at the documentation, our API provides images of each Pokemon at the following URL: `http://pokeapi.co/media/img/_ID_.png`, where `_ID_` is the ID of our Pokemon. For example, if we wanted an image of Bulbasaur, Pokemon number 1, we could use `http://pokeapi.co/media/img/1.png`. Try it! Search that in your browser and you'll see a picture of Bulbasaur.
+
+Now, we'll need to load the image through Swift to set our image. Let's create a method called `loadAndSetImage`, which, as the name suggests, should load and set our image:
+
+```swift
+func loadAndSetImage(url: String) {
+    if let pictureURL = NSURL(string: url) {
+      if let data = NSData(contentsOfURL: pictureURL) {
+        image.image = UIImage(data: data)
+      }
+    }
+}
+```
+
+Not gonna lie, I basically copied the above code from [this Stack Overflow answer](stack-overflow). We generate our URL, fetch the data from it, create an image from our data, and then set our image equal to it.
+
+To make sure this method gets called, add these two lines below our other lines in our `fetchPokemonData` response closure:
+
+```swift
+let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].int!)
+self.loadAndSetImage(imageURL)
+```
+
+This formats our image URL using the Pokemon's ID, and then calls our new method. Now, try running the app, and select a Pokemon; you should see their picture! Here's Ninetales, one of my favorites:
+
+![Ninetales](https://dl.dropboxusercontent.com/s/jpq5vohleynwlqr/nintetales.png)
+
+(Note: It may take a moment to the details on our screen. This is because we load our image synchronously, meaning it blocks other methods from being called until it's done. We could do this asynchronously to make it run faster, but it would require more code and would add unnecessary complexity to this tutorial.)
+
+### 4.3.4 Displaying our List of Moves
+The only thing that we haven't done yet is show the Pokemon's moves. We're going to be doing this with a collection view, just as we did the list of Pokemon. To do this, let's start by configuring our custom cell. Start by adding a label to the collection view cell, just as we did before. Center it vertically and make it 20px from the left side, just like we did last time.
+
+![Move Cell](https://dl.dropboxusercontent.com/s/rnqtoanlj9395g6/movecell.png)
+
+Then, create a new file called 'MoveCollectionViewCell'; select 'Cocoa Touch Class' and make sure it's a subclass of `UICollectionViewCell`. Once you have the file, set the custom class of the `UICollectionViewCell` we just added a label to to "MoveCollectionViewCell". Once we've done this, add an outlet to our new cell by control-dragging from the label we just added to our cell while in Assistant editor. Finally, set the identifier for the cell to "MoveCell", similar to how we did it above.
+
+![Move Outlet](https://dl.dropboxusercontent.com/s/p0hck2ozlklz7la/moveoutlet.png)
+
+Now that we have a custom cell, let's add the code for `UICollectionViewDelegateFlowLayout`; it looks very similar to the code we added for `PokedexViewController` before:
+
+```swift
+extension PokemonDetailViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    return CGSizeMake(self.view.frame.width, 30.0)
+  }
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 3.0
+  }
+}
+```
+
+Notice, we've made the cells 30px tall in this case; they can probably be a little bit smaller in this case.
+
+Next, we need to add a way to keep track of the moves we're going to be showing. To do this, let's add an array of strings, each of which will represent a move, just below `resourceURI`:
+
+```swift
+var moves: [String] = []
+```
+
+Now, let's set our `moves` variable equal to the moves we get for the Pokemon. We'll do that inside of our callback, where we set the labels and the image:
+
+```swift
+fetchPokemonData(resourceURI) { (pokemonData: JSON) -> Void in
+    ...
+    let movesArray: [JSON] = pokemonData["moves"].array!
+    self.moves = movesArray.map({ (json: JSON) -> String in
+        json["name"].string!
+    })
+}
+```
+
+Now that we've set the data, let's add our `UICollectionViewDataSource`, so we can feed the data to the collection view:
+
+```swift
+extension PokemonDetailViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("MoveCell", forIndexPath: indexPath) as! MoveCollectionViewCell
+    newCell.moveName.text = moves[indexPath.row]
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return moves.count
+  }
+}
+```
+
+Finally, we need to do some configuration in `viewDidLoad`: we need to set `PokemonDetailViewController` to the delegate and data source for our collection view, as well as changing the background color to light gray:
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    movesList.delegate = self
+    movesList.dataSource = self
+    movesList.backgroundColor = UIColor.lightGrayColor()
+
+    fetchPokemonData(resourceURI) { (pokemonData: JSON) -> Void in
+      self.nameLabel.text = pokemonData["name"].string
+      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].int!)
+      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].int!)
+      let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].int!)
+      self.loadAndSetImage(imageURL)
+      let movesArray: [JSON] = pokemonData["moves"].array!
+      self.moves = movesArray.map({ (json: JSON) -> String in
+        json["name"].string!
+      })
+      self.movesList.reloadData()
+    }
+}
+```
+
+Just to recap, this is 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -851,6 +1070,7 @@ Along with this tutorial, there is a wealth of information available on iOS deve
 [swiftyjson]: https://github.com/SwiftyJSON/SwiftyJSON
 [swift-closure]: http://fuckingswiftblocksyntax.com/
 [array-map]: https://www.weheartswift.com/higher-order-functions-map-filter-reduce-and-more/
+[stack-overflow]: http://stackoverflow.com/questions/29472149/swift-how-to-display-an-image-using-url
 
 
 
