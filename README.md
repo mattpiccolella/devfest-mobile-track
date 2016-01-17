@@ -2,9 +2,9 @@
 # DevFest Mobile Development Track
 *Dive into iOS development by building your first application.*
 
-Written and developed by [Matt](http://mattpic.com) and [ADI](adi).
+Written and developed by [Matt Piccolella](http://mattpic.com) and [ADI](adi).
 
-<a href="#top" class="top" id="getting-started">Top</a>
+<a class="top" id="getting-started"></a>
 ## About This Document
 
 ### Methodology
@@ -1207,7 +1207,7 @@ Basically, we set our filtered data equal to a filtered version of Pokemon data.
 
 Before we run our app, here's the finalized code for `PokedexViewController`:
 
-```
+```swift
 import UIKit
 import Alamofire
 import SwiftyJSON
@@ -1323,7 +1323,7 @@ Other areas of iOS development that we didn't cover include that you may want to
 - Alert Views and Prompting the User
 - Using the Camera
 
-If you're interested in knowing all of the major areas of iOS, here's a cool [Chart][ios-chart] that shows all the core competencies for an experienced iOS developer; it will help you to see what you should learn next.
+If you're interested in knowing all of the major areas of iOS, here's a cool [chart][ios-chart] that shows all the core competencies for an experienced iOS developer; it will help you to see what you should learn next.
 
 ___________
 <a href="#top" class="top" id="additionalresources">Top</a>
