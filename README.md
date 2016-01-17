@@ -450,6 +450,270 @@ Finally we're done! Our app is starting to look more like a real app. Here's wha
 
 <a href="#top" class="top" id="level3">Top</a>
 ## Level 3: Loading Web Data
+Remember the line where we set the name of our cell?
+
+```swift
+newCell.nameLabel.text = "Pikachu"
+```
+
+For our Pokedex to be functional, we're going to need to set this to a different name for each Pokemon. To do this, we're going to need data from the web!
+
+### 3.1 PokeAPI
+[PokeAPI](pokeapi) is an [API](api) that allows us to access information about Pokemon. To make our app functional, we'll need to load data from it
+
+### 3.1.1 `pokedex/1/` Endpoint
+For our list of pokemon, we'll be calling the `pokedex/1/` API. If you look at the [docs](api-docs), you'll see that this endpoint "returns the names and resource_uri for all pokemon." This is exactly what we need; we'll be able to show the name of every Pokemon, and then later on access more information about each individual Pokemon. Try entering `http://pokeapi.co/api/v1/pokedex/1/` into your browser address bar and see what happens.
+
+### 3.1.2 Response Data
+Your response will be a [JSON](json) object, which is basically just a list of key-value pairs. Inside of that, we'll see a key, `pokemon`, inside of which is a list of Pokemon:
+
+```json
+"pokemon": [
+    {
+        "name": "rattata",
+        "resource_uri": "api/v1/pokemon/19/"
+    },
+    {
+        "name": "charmander",
+        "resource_uri": "api/v1/pokemon/4/"
+    },
+    {
+        "name": "charmeleon",
+        "resource_uri": "api/v1/pokemon/5/"
+    },
+    {
+        "name": "wartortle",
+        "resource_uri": "api/v1/pokemon/8/"
+    },
+    {
+        "name": "blastoise",
+        "resource_uri": "api/v1/pokemon/9/"
+    },
+    ...
+]
+```
+
+These are exactly the things we'll be needing. Now, let's integrate them into our application.
+
+### 3.2 Using External Libraries with CocoaPods
+For many applications, you'll need external libraries. For example, say if you want to add Google Maps support into your application; you'll need an external library. To do this, there's a lot of ugly configuration you'd normally have to do to make sure you could use that library. However, there's a thing called CocoaPods that will make your life a lot easier.
+
+### 3.2.1 CocoaPods
+[CocoaPods](cocoapods) is a dependency manager for Swift and Objective-C projects. Basically, you have a file named `Podfile`, in which you describe all of the external libraries you'll need. Then, you run a single command, and CocoaPods installs them all and configures them with your project so you can use them in your code.
+
+To start, open your [Terminal](terminal). Make sure you already have CocoaPods installed; if you don't, follow the instructions available [here](cocoapods-install). Once you've done that, enter the following command:
+
+```bash
+$ pod init
+```
+
+If this works, you should have the following files in your directory:
+
+```bash
+$ ls
+Podfile           Pokedex           Pokedex.xcodeproj PokedexTests      PokedexUITests
+```
+
+We'll see that we now have a new file: `Podfile`. This is the file in which you will add configurations for the libraries we'll need.
+
+### 3.2.2 Alamofire and SwiftyJSON
+For our project, we'll be using two different external libraries: [Alamofire](alamofire), which will make it easier for us to query the API and retrieve the data we need, and [SwiftyJSON](swiftyjson), a library that makes dealing with JSON in Swift much easier.
+
+To install these, simply add them to our `Podfile`. If you open the file, it should look like this:
+
+```bash
+$ cat Podfile
+# Uncomment this line to define a global platform for your project
+# platform :ios, '8.0'
+# Uncomment this line if you're using Swift
+# use_frameworks!
+
+target 'Pokedex' do
+
+end
+
+target 'PokedexTests' do
+
+end
+
+target 'PokedexUITests' do
+
+end
+```
+
+To add our files, we're going to add two lines to our 'Pokedex' target; the other two are for testing. Also, let's uncomment the two lines at the top, as the file instructs us to do. Your final file should look like this:
+
+```
+# Uncomment this line to define a global platform for your project
+platform :ios, '8.0'
+# Uncomment this line if you're using Swift
+use_frameworks!
+
+target 'Pokedex' do
+  pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git'
+  pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+end
+
+target 'PokedexTests' do
+
+end
+
+target 'PokedexUITests' do
+
+end
+```
+
+As you'll see, we're defining two 'pods', and providing the link to the GitHub repo in which the code for them are installed. Now, to install them, simply run:
+
+```bash
+$ pod install
+```
+
+### 3.2.3 `Pokedex.xcworkspace`
+If everything worked, you should now have the following files in your directory:
+
+```bash
+$ ls
+Podfile             Pods                Pokedex.xcodeproj   PokedexTests
+Podfile.lock        Pokedex             Pokedex.xcworkspace PokedexUITests
+```
+
+We already discussed `Podfile`. `Podfile.lock` is an internal file for CocoaPods' use. `Pods` is a directory, inside of which is all of the code for the external libraries. Perhaps the most important file for us is `Pokedex.xcworkspace`. This has everything we need to run our project; before, we opened `Pokedex.xcodeproj`, but as our install output tells us, now we'll be opening `Pokedex.xcworkspace`.
+
+**Important**: close XCode, making sure all of your different windows are closed. Then, from your terminal, enter the following command to open your new CocoaPods project:
+
+```bash
+$ open Pokedex.xcworkspace
+```
+
+You should see the top status bar showing that the project is "Indexing"; this means that XCode is taking note of all the new files we added so it can do things like autocompletion. Also, you should notice you have a new target on the left-side called "Pods":
+
+![Pods Target](https://dl.dropboxusercontent.com/s/dctfw0mscbuf29w/pods.png)
+
+Just to make sure our install worked correctly, add the following two lines to the top of `PokedexViewController.swift`, so we'll have three total `import` statements:
+
+```swift
+import Alamofire
+import SwiftyJSON
+```
+
+Now, try running your project. If everything works as you'd expect, your install worked, and we're ready to use our libraries!
+
+If you get an error on either of the two lines, trying cleaning your project by running `Product -> Clean`.
+
+### 3.3 Loading our Data from PokeAPI
+Now that we have the libraries we need, we can write the code to actually load and present our data. Let's start by loading our data from the API.
+
+### 3.3.1 Creating a Model Representation
+As we saw before in our response data, there are two things we need to remember for each Pokemon: its name and the resource URI, which we will use later to gather more information about each Pokemon. It's a good idea to create a Swift object for each record you're presenting information about in a list; that way, you can store the data easily in an array.
+
+To do that, let's add a new file. As we've done, click 'Pokedex', press 'New File'; this time, select 'Swift File', and name it 'PokemonModel'. Let's add the following code inside of that file, to create our new `PokemonModel` class:
+
+```swift
+class PokemonModel {
+  
+  var name: String!
+  var resourceURI: String!
+  
+  init(name: String, resourceURI: String) {
+    self.name = name
+    self.resourceURI = resourceURI
+  }
+
+}
+```
+
+This model is quite simple. We create two string variables, one for each of the things we'll need. We use the `!` to mark that these variables can never be `nil`; we will never have a Pokemon that doesn't have both of these. Also, we create a basic constructor to make sure we can create new `PokemonModel`s.
+
+### 3.3.2 Querying the API
+Once we have a model to represent our results, let's actually fetch our results! First, we'll need a way to store them. Just below your outlet, add an array of `PokemonModel` objects:
+
+```swift
+var pokemonData: [PokemonModel] = []
+```
+
+Next, we'll need to actually fetch the data from our API. For this, let's creating a new method called `fetchData`, as follows:
+
+```swift
+func fetchData(url: String, completion: () -> Void) {
+    Alamofire.request(.GET, url, encoding: .JSON).responseData { response in
+      switch response.result {
+      case .Success(_):
+        let responseData: JSON = JSON(data: response.data!)
+        if let pokemon = responseData["pokemon"].array {
+          self.pokemonData = pokemon.map({ (json: JSON) -> PokemonModel in
+            PokemonModel(name: json["name"].string!, resourceURI: json["resource_uri"].string!)
+          })
+        }
+      case .Failure(let error):
+        self.pokemonData = []
+        print(error)
+      }
+      completion()
+    }
+}
+```
+
+This is the most Swift code we've written thus far, so let's go through it line-by-line. In our function definition, we take a string, which will be the Pokedex API we saw earlier, as well as, more interestingly, a function that takes no parameters and doesn't return anything. As you can read about [here](swift-functions), Swift allows you to pass functions to a function as a parameter. In this case, we're doing it so we can run some code only after our results are loaded; we'll want to reload the data in our collection once we have new data to show. Generally, these callbacks can be useful to update UI elements once some data is available.
+
+In the next line, we use our Alamofire library to call our API, after passing some configuration parameters. Next, we call for the response data, to which we pass a closure, which [this website](swift-closure) really helps you to understand, as they are definitely quite confusing. Inside the closure, we check for success or failure. In the case of a failure, meaning we got a non-200 response code from our URL, we can just print an error and make our data an empty array.
+
+In the case of a success, we use our SwiftyJSON library to create a new JSON object from our response data. In the next line, we use the `if let ...` check to make sure that our `pokemon` array is not nil. Inside the check, we use the built-in `map` function, which iterates through an array, passing each item to a function and then returning your object of choice. We do this to change our array of JSON objects into an array of `PokemonModel` objects. You can read more about the map function [here](array-map). Inside the `map` function, we get the two things we need from our JSON (name and resource_uri) to create a new `PokemonModel`, which we then return. After all of this, we call `completion()`, which is the function we passed.
+
+Now, we have to call our function and supply it with the function we want to run after our data is loaded. Let's add this code to the bottom of our `viewDidLoad` function:
+
+```swift
+fetchData("http://pokeapi.co/api/v1/pokedex/1/", completion: {
+    self.collectionView.reloadData()
+})
+```
+
+We call our `fetchData` function by passing our PokeAPI URL, as well as a closure function, inside of which we reload the data in our collection view. We will discuss this more later.
+
+One more thing: since our PokeAPI URL is `http` instead of `https`, iOS blocks it by default because they want API accesses to be secure. Unfortunately, since we aren't the makers of this API, we have to use a workaround.
+
+To fix this, open the `Info.plist` file. Next to the "Information Property List", which is a dictionary, press the + button to add a new key-value pair.
+
+![Info Property](https://dl.dropboxusercontent.com/s/ddngofk0kkh7e0a/informationprop.png)
+
+In the new pair, type "App Transport Security Settings". On the left side of that, press the down arrow, then press the + button to add a new key-value pair. The key should autocomplete to "Allow Arbitrary Loads", which is a boolean that defaults to "NO"; change this to "YES", as you see below.
+
+![Allow Arbitrary](https://dl.dropboxusercontent.com/s/p8ibbds4h4clvg7/allowarbitrary.png)
+
+Once you've done this, save the file, and run your app. If you enter the Pokedex, you should still see just a list of our Pikachus.
+
+### 3.3.3 Passing the Data to our Collection View
+You may be wondering why we still see only Pikachus, when we've loaded all of our data from the API. As you may recall from our previous level, we use our `UICollectionViewDataSource` delegate methods to pass information to our collection view. Thus, if we want to change what cells go to our collection view, we need to change the implementation of those two methods. Let's do that here:
+
+```swift
+extension PokedexViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("PokedexCell", forIndexPath: indexPath) as! PokedexCollectionViewCell
+    let pokemonModel = pokemonData[indexPath.row]
+    newCell.nameLabel.text = pokemonModel.name.capitalizedString
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return pokemonData.count
+  }
+}
+```
+
+As you see in `numberOfItemsInSection`, we return the number of items in the `pokemmonData` array, each one of which is a Pokemon we'll want to show in our list. In our `cellForItemAtIndexPath`, we select the Pokemon at the row we're being asked for a cell from, then set the string of that cell equal to the name of our `PokemonModel` object (which we capitalize - our API returns us un-capitalized strings).
+
+To go back, remember the line where we reloaded the collection data:
+
+```swift
+self.collectionView.reloadData()
+```
+
+This is a very important line. It forces iOS to re-call each of the methods in our data source; it'll call `numberOfItemsInSection` to find out the new number of items. Then, it'll call `cellForItemAtIndexPath` for each cell that is visible in the app.
+
+Now, we're ready to run our app! Enter our Pokedex; you should temporarily see our gray background, as it takes a moment for all 778 Pokemon to be loaded. But after this short delay, you should see our completed list of Pokemon!
+
+![Complete List](https://dl.dropboxusercontent.com/s/u4jymwjk36knur9/completelist.png)
 
 <a href="#top" class="top" id="level4">Top</a>
 ## Level 4: Adding a Detail View
@@ -487,6 +751,20 @@ Along with this tutorial, there is a wealth of information available on iOS deve
 [extension]: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Extensions.html
 [datasource]: https://developer.apple.com/library/tvos/documentation/UIKit/Reference/UICollectionViewDataSource_protocol/index.html
 [navigation-item]: https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationItem_Class/
+[pokeapi]: http://pokeapi.co/
+[api]: https://en.wikipedia.org/wiki/Application_programming_interface
+[api-docs]: http://pokeapi.co/docs/
+[json]: http://www.json.org/
+[cocoapods]: https://cocoapods.org/
+[terminal]: https://en.wikipedia.org/wiki/Terminal_(OS_X)
+[cocoapods-install]: https://guides.cocoapods.org/using/getting-started.html#getting-started
+[alamofire]: https://github.com/Alamofire/Alamofire
+[swiftyjson]: https://github.com/SwiftyJSON/SwiftyJSON
+[swift-closure]: http://fuckingswiftblocksyntax.com/
+[array-map]: https://www.weheartswift.com/higher-order-functions-map-filter-reduce-and-more/
+
+
+
 
 
  
