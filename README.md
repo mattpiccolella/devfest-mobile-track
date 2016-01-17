@@ -17,7 +17,7 @@ You should have a beginner's knowledge of [Swift](swift-tour), Apple's new progr
 ## What We're Building
 Throughout this tutorial, we're going to be creating a Pokedex application. For those of you who don't know, a [Pokedex](pokedex) is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?
 
-We'll first start by creating a basic landing page. Then, we'll show you how to create a list to show all the different Pokemon. Next, we'll use the PokeAPI to populate our list with information about real Pokemon. After that, we'll create a detail page that will provide more information about a Pokemon that you would select. Finally, we'll make it so that each user can mark their favorite Pokemon to store for easier access.
+We'll first start by creating a basic landing page. Then, we'll show you how to create a list to show all the different Pokemon. Next, we'll use the PokeAPI to populate our list with information about real Pokemon. After that, we'll create a detail page that will provide more information about a Pokemon that you would select. Finally, we'll add a search bar so users can easily find their favorite Pokemon.
 
 <a href="#top" class="top" id="table-of-contents">Top</a>
 ## Table of Contents
@@ -28,7 +28,7 @@ We'll first start by creating a basic landing page. Then, we'll show you how to 
 -   [Level 2: Simple List View](#level2)
 -   [Level 3: Loading Web Data](#level3)
 -   [Level 4: Adding a Detail View](#level4)
--   [Level 5: Adding Favorites with Core Data](#level5)
+-   [Level 5: Filtering Data](#level5)
 -   [Additional Resources](#additionalresources)
 
 
@@ -1008,26 +1008,192 @@ override func viewDidLoad() {
 }
 ```
 
-Just to recap, this is 
+Just to recap, this is what our `PokemonDetailViewController.swift` file looks like:
 
+```swift
+import UIKit
+import Alamofire
+import SwiftyJSON
 
+class PokemonDetailViewController: UIViewController {
 
+  @IBOutlet var image: UIImageView!
+  @IBOutlet var nameLabel: UILabel!
+  @IBOutlet var attackLabel: UILabel!
+  @IBOutlet var defenseLabel: UILabel!
+  @IBOutlet var movesList: UICollectionView!
+  
+  var resourceURI: String!
+  var moves: [String] = []
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    movesList.delegate = self
+    movesList.dataSource = self
+    movesList.backgroundColor = UIColor.lightGrayColor()
 
+    fetchPokemonData(resourceURI) { (pokemonData: JSON) -> Void in
+      self.nameLabel.text = pokemonData["name"].string
+      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].int!)
+      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].int!)
+      let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].int!)
+      self.loadAndSetImage(imageURL)
+      let movesArray: [JSON] = pokemonData["moves"].array!
+      self.moves = movesArray.map({ (json: JSON) -> String in
+        json["name"].string!
+      })
+      self.movesList.reloadData()
+    }
+  }
 
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+  }
+  
+  func fetchPokemonData(resourceURI: String, completion: (JSON) -> Void) {
+    Alamofire.request(.GET, "http://pokeapi.co/" + resourceURI, encoding: .JSON).responseData { response in
+      switch response.result {
+      case .Success(_):
+        let pokemonData: JSON = JSON(data: response.data!)
+        completion(pokemonData)
+      case .Failure(let error):
+        print(error)
+      }
+    }
+  }
+  
+  func loadAndSetImage(url: String) {
+    if let pictureURL = NSURL(string: url) {
+      if let data = NSData(contentsOfURL: pictureURL) {
+        image.image = UIImage(data: data)
+      }
+    }
+  }
 
+}
 
+extension PokemonDetailViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    return CGSizeMake(self.view.frame.width, 30.0)
+  }
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 3.0
+  }
+}
 
+extension PokemonDetailViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("MoveCell", forIndexPath: indexPath) as! MoveCollectionViewCell
+    newCell.moveName.text = moves[indexPath.row]
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return moves.count
+  }
+}
+```
 
+If we run our app, we'll see our detail view is complete: we see the Pokemon's name, its attack and defense scores, a picture of it, as well as a scrollable list of all the moves it can learn. Here's the page for Gyrados:
 
-
-
-
-
-
-
+![Gyrados](https://dl.dropboxusercontent.com/s/hon8jk6tkmfy1om/gyrados.png)
 
 <a href="#top" class="top" id="level5">Top</a>
-## Level 5: Adding Favorites with Core Data
+## Level 5: Filtering Data
+Now that we have a nice detail page for each of our Pokemon, I'd love to be able to look up my favorite Pokemon. However, with 778 to search through, it can be tough. I think it would be a great feature to add a search bar so we can search for individual Pokemon.
+
+### 5.1 Adding a Search Bar
+Since we'll need a search bar to be able to find Pokemon, let's add that.
+
+### 5.1.1 Adding a `UISearchBar` sub-view
+First, open `Main.storyboard`, and look at `PokedexViewController`. Currently, we have the top constraint on our collection view to be 0px from the top. Remove that constraint, and drag the collection view top down a bit. Now, from the widget box, drag a `UISearchBar` and place it above our collection view. Add constraints to make it 0px from the left, 0px from the right, and 0px from the top. Remember to remove the 'Relative to Margin' checkbox (if you find this difficult, you can also make the constraint -20px padding, which will get rid of the margin).
+
+Finally, add a constraint to have 0px of padding from the bottom of the search bar to the top of the collection view. This will make sure the search bar appears just above the collection view, just as we want it.
+
+![Search Bar](https://dl.dropboxusercontent.com/s/n46soqln0xj3o1n/searchroom.png)
+
+Once you've done this, add an outlet by control-dragging from the storyboard to `PokedexViewController`:
+
+```swift
+@IBOutlet var searchBar: UISearchBar!
+```
+
+### 5.1.2 `UISearchBarDelegate`
+As we have discussed before, delegates have functions that are called when certain events happened. For search bars, there are several things events that could happen; examples include text changing, editing beginning, etc.
+
+To add functionality to our search bar, we can implement [`UISearchBarDelegate`](searchbar-delegate) methods. In particular, we're going to add `textDidChange` to listen to changes in the text for our search bar. Add this code below the other extensions we have in `PokedexViewController`.
+
+```swift
+extension PokedexViewController: UISearchBarDelegate {
+  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    // TODO: Filter results.
+  }
+}
+```
+
+Here, we merely added the function, which we will implement in the next step. However, first, we need to make sure the `searchBar` delegate is set to our view controller. Add this line at the bottom of our `viewDidLoad` method:
+
+```swift
+searchBar.delegate = self
+```
+
+### 5.2 Filtering Data
+Now that we're have our `textDidChange` method, we can implement the functionality that actual sorts our results.
+
+### 5.2.1 Adding a Filtered Array
+Right now, we have an array called `pokemonData`, which has all of the results we get from our API. Since we're going to need to filter our results from our original set, we should create a second array; let's call it `filteredData` and add it just below our `pokemonData`:
+
+```swift
+var pokemonData: [PokemonModel] = []
+var filteredData: [PokemonModel] = []
+```
+
+When we first load our data, we should set our filtered data equal to our original data, as we won't have filtered anything yet. Right below the line where we set `self.pokemonData` in `fetchData`, add this line:
+
+```swift
+self.filteredData = self.pokemonData
+```
+
+Now that we have our `filteredData` set, we need to make sure our collection view draws data from here instead of our original set. To do this, let's modify our `UICollectionViewDataSource` extension:
+
+```swift
+extension PokedexViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("PokedexCell", forIndexPath: indexPath) as! PokedexCollectionViewCell
+    let pokemonModel = filteredData[indexPath.row]
+    newCell.nameLabel.text = pokemonModel.name.capitalizedString
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return filteredData.count
+  }
+}
+```
+
+Notice we've switched `pokemonData` for `filteredData`. We'll also need to do the same thing in `UICollectionViewDelegate` to make sure the Pokemon passed to our detail view is the one we're pressing:
+
+```swift
+extension PokedexViewController: UICollectionViewDelegate {
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier("PokemonDetail") as! PokemonDetailViewController
+    detailController.resourceURI = filteredData[indexPath.row].resourceURI
+    self.navigationController?.pushViewController(detailController, animated: true)
+  }
+}
+```
+
+Now, try running the app and searching for a Pokemon. Still, nothing happens!
+
+### 5.2.2 Sorting Strings
+As you may remember, we left a TODO comment 
+
+
 
 
 ___________
@@ -1071,9 +1237,4 @@ Along with this tutorial, there is a wealth of information available on iOS deve
 [swift-closure]: http://fuckingswiftblocksyntax.com/
 [array-map]: https://www.weheartswift.com/higher-order-functions-map-filter-reduce-and-more/
 [stack-overflow]: http://stackoverflow.com/questions/29472149/swift-how-to-display-an-image-using-url
-
-
-
-
-
- 
+[searchbar-delegate]: https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UISearchBarDelegate_Protocol/index.html
