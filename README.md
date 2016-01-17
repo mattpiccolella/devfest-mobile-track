@@ -717,6 +717,95 @@ Now, we're ready to run our app! Enter our Pokedex; you should temporarily see o
 
 <a href="#top" class="top" id="level4">Top</a>
 ## Level 4: Adding a Detail View
+Now that we have a list, it would be great to have more details about each individual Pokemon, as a Pokedex should. To do this, take a look at the `resource_uri` for our first Pokemon, Rattata: `api/v1/pokemon/19/`. Append this to `http://pokeapi.co/`, enter it in your browser search box, and you should get these results:
+
+```json
+{
+    "abilities": [
+        {
+            "name": "run-away",
+            "resource_uri": "/api/v1/ability/50/"
+        },
+        {
+            "name": "hustle",
+            "resource_uri": "/api/v1/ability/55/"
+        },
+        {
+            "name": "guts",
+            "resource_uri": "/api/v1/ability/62/"
+        }
+    ],
+    "attack": 56,
+    "catch_rate": 0,
+    "created": "2013-11-03T15:05:41.305777",
+    "defense": 35,
+    "descriptions": [
+        {
+            "name": "rattata_gen_1",
+            "resource_uri": "/api/v1/description/290/"
+        },
+        {
+            "name": "rattata_gen_1",
+            "resource_uri": "/api/v1/description/291/"
+        },
+        ...
+    ]
+    ...
+}
+```
+
+Here, we have all sorts of information available to us about our specific Pokemon. Let's create a detail view so we can show all of this information to our user!
+
+### 4.1 Creating a New View Controller
+Let's create a new view controller, called `PokemonDetailViewController`. This will be the screen on which we can show all of the information about our Pokemon.
+
+### 4.1.1 Adding to `Main.storyboard`
+To do this, let's do it as we have in the past. Open `Main.storyboard`, and drag a new "View Controller" onto the canvas. 
+
+Now, let's add the `UIViewController` custom class that we're going to associate with it. Control-click on "Pokemon" in our Project Navigator, select "New File", make sure it's a Cocoa Touch Class, and make sure it's a subclass of `UIViewController`. Name it "PokemonDetailViewController.swift". 
+
+Finally, set the custom class of the view controller we dragged onto the canvas to `PokemonDetailViewController`. Remember, we do this by clicking on the view controller and setting the class in Identity inspector, which is the third icon from the left.
+
+When you're finished, it should look like this:
+
+![Pokemon Detail](https://dl.dropboxusercontent.com/s/3kgoil6urotpp3n/pokemondetail.png)
+
+### 4.1.2 Adding Sub-Views to our Detail View
+What good is a detail view if we don't show any details about the Pokemon? Let's add some views to it! After looking at what's available to us, it seems it would be useful to show a picture of the Pokemon, the name of the Pokemon, their attack and defense scores, and a list of their moves. Let's add all the views for this!
+
+For the image, drag a `UIImageView` onto the view for our new view controller. Center it horizontally, and add height and width constraints so that the image is 150 x 150 (we haven't done this yet, but just Control-drag onto itself like we did for aspect ratio; you'll see height and width). Also, for y-position, make it 20px from the top.
+
+For the name, drag a `UILabel` onto the canvas. Center it horizontally, and make it appear 10px below our image by Control-dragging from one to the other. Width will be determined automatically to fill the text provided.
+
+For the attack label, drag another `UILabel` onto the canvas. Make it 20px from the left, and 20px below our name label. Again, width will be determined automatically.
+
+For the defense label, same thing: drag another `UILabel` onto the canvas, make it 20px from the left. Now, make the defense label 10px below the attack label, just as we did for the attack label below the name label, but set the value differently.
+
+(Note: for the above two, you'll have to edit the constraint to unclick 'Relative to Margin', as we did before. As a reminder, you can do this by double-clicking the constraint in the right menu and unchecking 'Relative to Margin' in the 'Second Item' dropdown. If this doesn't work, try unchecking 'Relative to Margin' in the 'First Item' dropdown.)
+
+![Relative Margin](https://dl.dropboxusercontent.com/s/j2i24ywyyqmv1gb/relatemargin.png)
+
+Finally, for the list of moves, we're going to use a `UICollectionView`. Drag one onto the canvas, make it 20px below our defense label, add 0px leading spacing and 0px trailing spacing, and make it 0px to the bottom; this way, our list of moves will fill the screen left-to-right and take up whatever space is left on the bottom. This means that for large screens, we'll show more moves, and more smaller screens, we'll show fewer moves. Also, you'll have to do the 'Relative to Margin' checkbox for this as well to make sure it goes all the way to the edge.
+
+Once you're done, your view should look something like this:
+
+![Detail Constraints](https://dl.dropboxusercontent.com/s/j2i24ywyyqmv1gb/relatemargin.png)
+
+### 4.1.3 Adding Outlets to `PokemonDetailViewController`
+Now that we have each of our elements, we're going to need to be able to change these things programmatically. To do this, add outlets for each of our subviews to `PokemonDetailViewController`. Remember, we do this by Control-dragging from each of the UI elements to the `PokemonDetailViewController.swift` file while we're in Assistant editor.
+
+When you're done, you should have added these five lines at the top of `PokemonDetailViewController.swift`:
+
+```swift
+@IBOutlet var image: UIImageView!
+@IBOutlet var nameLabel: UILabel!
+@IBOutlet var attackLabel: UILabel!
+@IBOutlet var defenseLabel: UILabel!
+@IBOutlet var movesList: UICollectionView!
+```
+
+
+
 
 <a href="#top" class="top" id="level5">Top</a>
 ## Level 5: Adding Favorites with Core Data
