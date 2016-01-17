@@ -1,7 +1,6 @@
 <a id="top"></a>
 # DevFest Mobile Development Track
-
-*A short description of your document*
+*Dive into iOS development by building your first application.*
 
 Written and developed by [Matt](http://mattpic.com) and [ADI](adi).
 
@@ -29,8 +28,8 @@ We'll first start by creating a basic landing page. Then, we'll show you how to 
 -   [Level 3: Loading Web Data](#level3)
 -   [Level 4: Adding a Detail View](#level4)
 -   [Level 5: Filtering Data](#level5)
+-   [Next Steps](#nextsteps)
 -   [Additional Resources](#additionalresources)
-
 
 ------------------------------
 <a href="#top" class="top" id="level0">Top</a>
@@ -1191,20 +1190,154 @@ extension PokedexViewController: UICollectionViewDelegate {
 Now, try running the app and searching for a Pokemon. Still, nothing happens!
 
 ### 5.2.2 Sorting Strings
-As you may remember, we left a TODO comment 
+As you may remember, we left a TODO comment in the `textDidChange` method. Let's go and implement that now. Essentially, what we want to do whenever the text changes is filter the Pokemon from  `pokemonData` that match our search term and set those Pokemon equal to our `filteredData` array. Once we've done that, we can reload our collection view to show our new results.
 
+To do that, let's add the following code to `textDidChange` in our `PokedexViewController`:
 
+```swift
+func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    filteredData = pokemonData.filter({ (pokemon: PokemonModel) -> Bool in
+      return pokemon.name.hasPrefix(searchText.lowercaseString) || searchText == ""
+    })
+    collectionView.reloadData()
+}
+```
 
+Basically, we set our filtered data equal to a filtered version of Pokemon data. For each Pokemon, we check whether our search text is a prefix of that Pokemon's name (we make sure the string is lowercase so capitalization doesn't matter). Also, we check for the blank search string, in which case we want to match all Pokemon; after checking [here](string-characters), we found that "" doesn't match as a prefix, so we needed to check for it separately.
+
+Before we run our app, here's the finalized code for `PokedexViewController`:
+
+```
+import UIKit
+import Alamofire
+import SwiftyJSON
+
+class PokedexViewController: UIViewController {
+
+  @IBOutlet var collectionView: UICollectionView!
+  var pokemonData: [PokemonModel] = []
+  var filteredData: [PokemonModel] = []
+  @IBOutlet var searchBar: UISearchBar!
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    collectionView.backgroundColor = UIColor.lightGrayColor()
+    collectionView.delegate = self
+    collectionView.dataSource = self
+      
+    self.automaticallyAdjustsScrollViewInsets = false
+
+    self.navigationItem.title = "My Pokedex"
+    
+    fetchData("http://pokeapi.co/api/v1/pokedex/1/", completion: {
+      self.collectionView.reloadData()
+    })
+    
+    searchBar.delegate = self
+  }
+
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+  }
+  
+  func fetchData(url: String, completion: () -> Void) {
+    Alamofire.request(.GET, url, encoding: .JSON).responseData { response in
+      switch response.result {
+      case .Success(_):
+        let responseData: JSON = JSON(data: response.data!)
+        if let pokemon = responseData["pokemon"].array {
+          self.pokemonData = pokemon.map({ (json: JSON) -> PokemonModel in
+            PokemonModel(name: json["name"].string!, resourceURI: json["resource_uri"].string!)
+          })
+          self.filteredData = self.pokemonData
+        }
+      case .Failure(let error):
+        self.pokemonData = []
+        print(error)
+      }
+      completion()
+    }
+  }
+
+}
+
+extension PokedexViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    return CGSizeMake(self.view.frame.width, 40.0)
+  }
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 3.0
+  }
+}
+
+extension PokedexViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("PokedexCell", forIndexPath: indexPath) as! PokedexCollectionViewCell
+    let pokemonModel = filteredData[indexPath.row]
+    newCell.nameLabel.text = pokemonModel.name.capitalizedString
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return filteredData.count
+  }
+}
+
+extension PokedexViewController: UICollectionViewDelegate {
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier("PokemonDetail") as! PokemonDetailViewController
+    detailController.resourceURI = filteredData[indexPath.row].resourceURI
+    self.navigationController?.pushViewController(detailController, animated: true)
+  }
+}
+
+extension PokedexViewController: UISearchBarDelegate {
+  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    filteredData = pokemonData.filter({ (pokemon: PokemonModel) -> Bool in
+      return pokemon.name.hasPrefix(searchText.lowercaseString) || searchText == ""
+    })
+    collectionView.reloadData()
+  }
+}
+```
+
+If your code looks like the above code, then let's run our app. Try typing something into the search box, and you should see the results update whenever you type! I tried searching for Dragonite, one of my favorites, and I was able to find him quite easily:
+
+![Dragonite](https://dl.dropboxusercontent.com/s/yvux8vp8pcs6ti2/dragonite.png)
+
+<a href="#top" class="top" id="nextsteps">Top</a>
+## Next Steps
+Congratulations on finishing your Pokedex app! You've learned most of the fundamentals of iOS programming while making the app, so you should feel very proud. If you're interested in doing more with your Pokedex app, some things you may want to work on:
+
+- Use [Core Data][core-data] to implement the marking of favorites in your Pokedex.
+- Filter Pokemon by type (bug, grass, etc.)
+- Add descriptions of Pokemon to their detail page (requires additional API calls)
+
+Other areas of iOS development that we didn't cover include that you may want to explore:
+
+- Location Services and Maps
+- Alert Views and Prompting the User
+- Using the Camera
+
+If you're interested in knowing all of the major areas of iOS, here's a cool [Chart][ios-chart] that shows all the core competencies for an experienced iOS developer; it will help you to see what you should learn next.
 
 ___________
 <a href="#top" class="top" id="additionalresources">Top</a>
 ## Additional Resources
-
 Along with this tutorial, there is a wealth of information available on iOS development all across the web. Below are some good places to start:
 
 - [ADI Resources][learn]
+- [Big Nerd Ranch][big-nerd-ranch]
+- [Ray Wenderlich][ray-wenderlich]
+- [Little Bites of Cocoa][little-bites]
+- [NSHipster][ns-hipster]
+- [Other Sources][other-sources]
 
-
+Thanks for reading!
 
 [github]: https://github.com/mjp2220/devfest-mobile-track
 [learn]: http://adicu.com/learn
@@ -1238,3 +1371,11 @@ Along with this tutorial, there is a wealth of information available on iOS deve
 [array-map]: https://www.weheartswift.com/higher-order-functions-map-filter-reduce-and-more/
 [stack-overflow]: http://stackoverflow.com/questions/29472149/swift-how-to-display-an-image-using-url
 [searchbar-delegate]: https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UISearchBarDelegate_Protocol/index.html
+[strings-characters]: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/StringsAndCharacters.html
+[big-nerd-ranch]: https://www.bignerdranch.com/we-write/ios-programming/
+[ray-wenderlich]: http://www.raywenderlich.com/
+[little-bites]: https://littlebitesofcocoa.com/
+[ns-hipster]: http://nshipster.com/
+[other-sources]: https://medium.com/app-coder-io/27-places-to-learn-ios-development-best-ones-b1bcfb48efab
+[core-data]: https://developer.apple.com/library/tvos/documentation/Cocoa/Conceptual/CoreData/index.html
+[ios-chart]: http://i.imgur.com/WGEhRAe.png
