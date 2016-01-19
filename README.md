@@ -43,7 +43,7 @@ We'll first start by creating a basic landing page. Then, we'll show you how to 
 ## Level 1: Your First iPhone Application
 In this section, we're going to be starting our first iOS project. We'll explore the fundamentals of how to use XCode, what a Storyboard is, and how to layout your user interface using constraints.
 
-<a href
+<a href="#top" class="top" id="first-project"></a>
 ### 1.1 Creating your First Project
 To create your first project, open XCode. Next, from the top menu bar, select `File -> New -> Project`. For your project, on the left side, select 'Application' under 'iOS', and make sure it's a 'Single View Application', as seen below. Then press next.
 
@@ -55,20 +55,25 @@ Next, give a name for your project; I'm calling mine Pokedex. Also, if it doesn'
 
 Now you've created your first project!
 
+<a href="#top" class="top" id="exploring-xcode"></a>
 ### 1.2 Exploring XCode
 XCode is the application that you develop iOS applications in. Because it's such a large piece of software with a lot of functionality, it can be confusing to understand at times. Generally though, the application is broken up into four parts: the editor, the project navigator, the utilities, and the project toolbar.
 
+<a href="#top" class="top" id="editor"></a>
 #### 1.2.1 The Editor
 The editor is the large part in the center. This is where you'll write code, build your user interfaces, and essentially do most of the work. It's essentially a text editor built into the application as you might see in Sublime or some other IDE.
 
+<a href="#top" class="top" id="navigator"></a>
 ### 1.2.2 The Project Navigator
 The project navigator is the column all the way to the left in the project. It shows all of the files that are in your project. Clicking on one opens the file in our editor. For our project, this is what it should look like:
 
 ![Navigator](https://dl.dropboxusercontent.com/s/g4rv9k3rdp7kd8q/navigator.png)
 
+<a href="#top" class="top" id="utilities"></a>
 ### 1.2.3 The Utilities
 A lot of different things are crammed into the utilities sidebar, which appears on the right side. We'll see most of them as we continue, but it features attribute inspectors, which allow us to attributes, like fonts and colors, to UI elements, size inspectors, which allow us to configure their positions, and identity inspectors which allow us to assign specific classes to views. Also, it features our object library, which has all of the built-in views we'll use in our app, including buttons, labels, and other things.
 
+<a href="#top" class="top" id="toolbar"></a>
 ### 1.2.4 The Project Toolbar
 The project toolbar is all the way at the top, above the editor, project navigator, and utilities. On the left side, we'll see a play button and a stop button. As you may expect, these are used to run your project and to stop your project. You just pick which device you want to run your project on and press the play button.
 
@@ -76,9 +81,11 @@ The project toolbar is all the way at the top, above the editor, project navigat
 
 On the right side are some buttons that change the way our views are presented Play around with them to see what they do.
 
+<a href="#top" class="top" id="file-structure"></a>
 ## 1.3 Project File Structure
 In the Project Navigator we saw above, you'll notice that there are several files that we have: `Main.storyboard`, `ViewController.swift`, and `AppDelegate.swift` are the most important. Let's discuss each one of them in detail.
 
+<a href="#top" class="top" id="storyboards"></a>
 ### 1.3.1 Storyboards
 `Main.storyboard` will be where we create our user interface. As the name suggests, the storyboard allows us to build different screens and then configure how we get from one screen to another. For example, in this level, we'll create our home screen in our `Main.storyboard` file. In the next level, we'll configure the 'Enter' button on our homescreen to bring us to the Pokedex list screen. Thus, by looking at our storyboard file, we'll be able to understand the entire flow of our application, from start to finish.
 
@@ -86,6 +93,7 @@ By default, we are given `Main.storyboard`, which is configured to by the entry 
 
 You can read more about storyboards [here](storyboard).
 
+<a href="#top" class="top" id="view-controller"></a>
 ### 1.3.2 View Controller
 `ViewController.swift` represents our home screen. As the name suggests, a view controller controls the view. This means that we do things like set the text for labels, set the images for image views, load data from an API to present, and many other things. Roughly, each view controller corresponds to a different screen in our application; thus, if we want a new screen in our application, we'll create a new view controller file in our project.
 
@@ -93,6 +101,7 @@ Each ViewController extends the base class `UIViewController`; thus, our default
 
 You can read more about view controllers [here](view-controller).
 
+<a href="#top" class="top" id="app-delegate"></a>
 ### 1.3.3 App Delegate
 `AppDelegate.swift` contains many of the global configurations for our application. We won't touch this file often, but it is the first code that is run when our application is launched. The top function in this file, `applicationDidFinishLaunchingWithOptions`, runs immediately after the application has launched, and allows us to decide which storyboard should be used, whether we have a logged-in user or not, and many other kinds of things. Global variables are also often stored in this file.
 
@@ -100,6 +109,7 @@ As we'll see later, a delegate is essentially an object that gets notified when 
 
 I found this [StackOverflow question](delegates) to be quite helpful.
 
+<a href="#top" class="top" id="other-files"></a>
 ### 1.3.4 Other Files
 While the above three are our main files, there are some other files in our project that are less important, but still worth discussing.
 
@@ -111,6 +121,7 @@ While the above three are our main files, there are some other files in our proj
 
 ![Assets](https://dl.dropboxusercontent.com/s/flwod4zizqvsz2j/assets.png)
 
+<a href="#top" class="top" id="home-screen"></a>
 ## 1.4 Creating our Home Screen
 Now that we have a pretty good idea of how to use XCode and what all our different files mean, let's start making our app! To start, in our project toolbar up at the top, select 'iPhone 6s' from the dropdown and press the 'Play' button. 
 
@@ -120,6 +131,7 @@ Initially, your application should just be a blank screen, as below. From here, 
 
 ![Blank Screen](https://dl.dropboxusercontent.com/s/pxzgu8mq4s94we0/blankscreen.png)
 
+<a href="#top" class="top" id="first-prop"></a>
 ### 1.4.1 Setting our First Property
 Everyone knows that the Pokedex is red, so our plain white background definitely won't do. Let's set the background of our home screen to be red!
 
@@ -139,6 +151,7 @@ Now, inside this ViewController hierarchy, we should see 'View'. For each ViewCo
 
 Once you do this, the background color of the view should change to red. Press the play button to run the app, and you'll see the changed background color.
 
+<a href="#top" class="top" id="first-view"></a>
 ### 1.4.2 Adding our First View
 You can't make an app just by changing the background color; we need things like buttons, text labels, and text fields. Let's start by adding some.
 
@@ -205,6 +218,7 @@ Once you've done that, let's actually add our Pokemon logo. In XCode, click `Fil
 
 Note: Auto Layout can be quite difficult to understand at first. Deciding what constraints will lead to the layout you want can feel like a logic puzzle at times. However, it's MUCH better than the alternative, which would be designing an interface for each of the six different iPhones. It's worth putting in the time to learn, perhaps by re-reading this section a couple times.
 
+<a href="#top" class="top" id="second-view"></a>
 ### 1.4.2 Adding our Second View
 We're going to need a way to enter our Pokedex; let's add a button to do that. Make sure your `Main.storyboard` file is open. Just like we did last time, search "button" in the bottom-right widget section. Then, drag and drop a button onto the view just below our logo. First, let's add a constraint to center it horizontally; do this by Control-dragging from Button to View in the view hierarchy on the left and selecting "Center Horizontally in Container". 
 
@@ -1324,7 +1338,7 @@ Other areas of iOS development that we didn't cover include that you may want to
 - Alert Views and Prompting the User
 - Using the Camera
 
-If you're interested in knowing all of the major areas of iOS, here's a cool [chart](ios-chart) that shows all the core competencies for an experienced iOS developer; it will help you to see what you should learn next.
+If you're interested in knowing all of the major areas of iOS, here's a cool [chart][ios-chart] that shows all the core competencies for an experienced iOS developer; it will help you to see what you should learn next.
 
 ___________
 <a href="#top" class="top" id="additional-resources"></a>
