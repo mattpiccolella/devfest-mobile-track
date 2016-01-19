@@ -32,17 +32,18 @@ We'll first start by creating a basic landing page. Then, we'll show you how to 
 -   [Additional Resources](#additionalresources)
 
 ------------------------------
-<a href="#top" class="top" id="level0">Top</a>
+<a href="#top" class="top" id="level0"></a>
 ## Level 0: Environment Setup
 - General DevFest environment setup (likely Git)
 - Have a Mac
 - Install XCode
 - Install Cocoapods
 
-<a href="#top" class="top" id="level1">Top</a>
+<a href="#top" class="top" id="level1"></a>
 ## Level 1: Your First iPhone Application
 In this section, we're going to be starting our first iOS project. We'll explore the fundamentals of how to use XCode, what a Storyboard is, and how to layout your user interface using constraints.
 
+<a href
 ### 1.1 Creating your First Project
 To create your first project, open XCode. Next, from the top menu bar, select `File -> New -> Project`. For your project, on the left side, select 'Application' under 'iOS', and make sure it's a 'Single View Application', as seen below. Then press next.
 
@@ -221,7 +222,7 @@ Run your app, and you'll see your first completed application!
 
 ![First App](https://dl.dropboxusercontent.com/s/mvkh63kmdyqtyvg/level1shot.png)
 
-<a href="#top" class="top" id="level2">Top</a>
+<a href="#top" class="top" id="level2"></a>
 # Level 2: Creating a List of Data
 Now that we have a landing page, let's start fleshing out the bulk of the app. As you may imagine, if we're going to have a Pokedex, we'll probably need to create a list of Pokemon. Let's start that in this level.
 
@@ -447,7 +448,7 @@ Finally we're done! Our app is starting to look more like a real app. Here's wha
 
 ![Pokedex List](https://dl.dropboxusercontent.com/s/vgtlhvt1yn9oy6a/PokedexList.png)
 
-<a href="#top" class="top" id="level3">Top</a>
+<a href="#top" class="top" id="level3"></a>
 ## Level 3: Loading Web Data
 Remember the line where we set the name of our cell?
 
@@ -714,7 +715,7 @@ Now, we're ready to run our app! Enter our Pokedex; you should temporarily see o
 
 ![Complete List](https://dl.dropboxusercontent.com/s/u4jymwjk36knur9/completelist.png)
 
-<a href="#top" class="top" id="level4">Top</a>
+<a href="#top" class="top" id="level4"></a>
 ## Level 4: Adding a Detail View
 Now that we have a list, it would be great to have more details about each individual Pokemon, as a Pokedex should. To do this, take a look at the `resource_uri` for our first Pokemon, Rattata: `api/v1/pokemon/19/`. Append this to `http://pokeapi.co/`, enter it in your browser search box, and you should get these results:
 
@@ -1100,7 +1101,7 @@ If we run our app, we'll see our detail view is complete: we see the Pokemon's n
 
 ![Gyrados](https://dl.dropboxusercontent.com/s/hon8jk6tkmfy1om/gyrados.png)
 
-<a href="#top" class="top" id="level5">Top</a>
+<a href="#top" class="top" id="level5"></a>
 ## Level 5: Filtering Data
 Now that we have a nice detail page for each of our Pokemon, I'd love to be able to look up my favorite Pokemon. However, with 778 to search through, it can be tough. I think it would be a great feature to add a search bar so we can search for individual Pokemon.
 
@@ -1309,7 +1310,7 @@ If your code looks like the above code, then let's run our app. Try typing somet
 
 ![Dragonite](https://dl.dropboxusercontent.com/s/yvux8vp8pcs6ti2/dragonite.png)
 
-<a href="#top" class="top" id="nextsteps">Top</a>
+<a href="#top" class="top" id="next-steps"></a>
 ## Next Steps
 Congratulations on finishing your Pokedex app! You've learned most of the fundamentals of iOS programming while making the app, so you should feel very proud. If you're interested in doing more with your Pokedex app, some things you may want to work on:
 
@@ -1323,10 +1324,10 @@ Other areas of iOS development that we didn't cover include that you may want to
 - Alert Views and Prompting the User
 - Using the Camera
 
-If you're interested in knowing all of the major areas of iOS, here's a cool [chart][ios-chart] that shows all the core competencies for an experienced iOS developer; it will help you to see what you should learn next.
+If you're interested in knowing all of the major areas of iOS, here's a cool [chart](ios-chart) that shows all the core competencies for an experienced iOS developer; it will help you to see what you should learn next.
 
 ___________
-<a href="#top" class="top" id="additionalresources">Top</a>
+<a href="#top" class="top" id="additional-resources"></a>
 ## Additional Resources
 Along with this tutorial, there is a wealth of information available on iOS development all across the web. Below are some good places to start:
 
