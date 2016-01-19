@@ -18,18 +18,72 @@ Throughout this tutorial, we're going to be creating a Pokedex application. For 
 
 We'll first start by creating a basic landing page. Then, we'll show you how to create a list to show all the different Pokemon. Next, we'll use the PokeAPI to populate our list with information about real Pokemon. After that, we'll create a detail page that will provide more information about a Pokemon that you would select. Finally, we'll add a search bar so users can easily find their favorite Pokemon.
 
-<a href="#top" class="top" id="table-of-contents">Top</a>
 ## Table of Contents
 -   [Level 0: Environment Setup](#level0)
--   [Level 1: Basic Landing Screen](#level1)
-    -   [1.1 Sample](#sample)
-        -   [1.1.1 Sample](#sample)
+-   [Level 1: Your First iPhone Application](#level1)
+    -   [1.1 Creating your First Project](#first-project)
+    -   [1.2 Exploring XCode](#exploring-xcode)
+        -   [1.2.1 The Editor](#editor)
+        -   [1.2.2 The Project Navigator](#navigator)
+        -   [1.2.3 The Utilities](#utilities)
+        -   [1.2.4 The Project Toolbar](#toolbar)
+    -   [1.3 Project File Structure](#file-structure)
+        -   [1.3.1 Storyboards](#storyboards)
+        -   [1.3.2 View Controller](#view-controller)
+        -   [1.3.3 App Delegate](#app-delegate)
+        -   [1.3.4 Other Files](#other-files)
+    -   [1.4 Creating our Home Screen](#home-screen)
+        -   [1.4.1 Setting our First Property](#first-prop)
+        -   [1.4.2 Adding our First View](#first-view)
+        -   [1.4.3 Adding our Second View](#second-view)
 -   [Level 2: Simple List View](#level2)
+    -   [2.1 Adding Navigation](#add-nav)
+        -   [2.1.1 `UINavigationController`](#ui-nav)
+        -   [2.1.2 Adding a New Screen](#new-screen)
+        -   [2.1.3 Adding a Segue](#add-segue)
+    -   [2.2 Connceting our Storyboard to Code](#connect-story)
+        -   [2.2.1 `UICollectionView`](#ui-coll)
+        -   [2.2.2 Outlets](#outlets)
+    -   [2.3 Adding Data to our Collection](#add-data)
+        -   [2.3.1 Creating a Custom Cell](#custom-cell)
+        -   [2.3.2 Setting Cell Size](#cell-size)
+        -   [2.3.3 Passing Data to the List](#pass-data)
+        -   [2.3.4 Configuring our View](#config-view)
+        -   [2.3.5 Adding Titles](#add-titles)
 -   [Level 3: Loading Web Data](#level3)
+    -   [3.1 PokeAPI](#pokeapi)
+        -   [3.1.1 `pokedex/1/` Endpoint](#pokedex-endpoint)
+        -   [3.1.2 Response Data](#response-data)
+    -   [3.2 Using External Libraries with CocoaPods](#external-lib)
+        -   [3.2.1 Cocoapods](#cocoapods)
+        -   [3.2.2 Alamofire and SwiftyJSON](#alamo-swift)
+        -   [3.2.3 `Pokedex.xcworkspace`](#xcworkspace)
+    -   [3.3 Loading our Data from PokeAPI](#data-poke)
+        -   [3.3.1 Creating a Model Representation](#model-rep)
+        -   [3.3.2 Querying the API](#query-api)
+        -   [3.3.3 Passing the Data to our Collection View](#data-coll)
 -   [Level 4: Adding a Detail View](#level4)
+    -   [4.1 Creating a New View Controller](#new-vc)
+        -   [4.1.1 Adding to `Main.storyboard`](#main-story)
+        -   [4.1.2 Adding Sub-Views to our Detail View](#sub-detail)
+        -   [4.1.3 Adding Outlets to `PokemonDetailViewController`](#detail-outlet)
+    -   [4.2 Showing our New View Controller](#show-new-vc)
+        -   [4.2.1 `UICollectionViewDelegate`](#coll-view-del)
+        -   [4.2.2 Making our View Unique](#unique-view)
+    -   [4.3 Adding our Detail Data](#detail-data)
+        -   [4.3.1 Fetching the Data](#fetch-data)
+        -   [4.3.2 Setting our Sub-Views](#set-sub-views)
+        -   [4.3.3 Fetching the Image](#fetch-image)
+        -   [4.3.4 Displaying our List of Moves](#list-moves)
 -   [Level 5: Filtering Data](#level5)
--   [Next Steps](#nextsteps)
--   [Additional Resources](#additionalresources)
+    -   [5.1 Adding a Search Bar](#search-bar)
+        -   [5.1.1 Adding a `UISearchBar` sub-view](#uisearchbar)
+        -   [5.1.2 `UISearchBarDelegate`](#uisearchbardelegate)
+    -   [5.2 Filtering Data](#filter-data)
+        -   [5.2.1 Adding a Filtered Array](#filtered-array)
+        -   [5.2.2 Sorting Strings](#sort-strings)
+-   [Next Steps](#next-steps)
+-   [Additional Resources](#additional-resources)
 
 ------------------------------
 <a href="#top" class="top" id="level0"></a>
@@ -240,10 +294,12 @@ Run your app, and you'll see your first completed application!
 # Level 2: Creating a List of Data
 Now that we have a landing page, let's start fleshing out the bulk of the app. As you may imagine, if we're going to have a Pokedex, we'll probably need to create a list of Pokemon. Let's start that in this level.
 
+<a href="#top" class="top" id="add-nav"></a>
 ## 2.1 Adding Navigation
 In the last section, we added a button to "Enter Pokedex". Thus, we'll need a new screen to appear when we press this button, which will show the information about our pokemon. Also, ideally, we'll make it so we can press a "Back" button to get back to our landing page at any point. Let's do that here.
 
-### 2.1.1 UINavigationController
+<a href="#top" class="top" id="ui-nav"></a>
+### 2.1.1 `UINavigationController`
 `UINavigationController` is a built-in view controller in iOS that essentially handles navigation. You've probably seen apps where you can press a button and enter a new screen, and then there's a "Back" button in the upper left corner that brings you back to your previous page. The iOS Settings page is a good example of this.
 
 ![Settings](https://dl.dropboxusercontent.com/s/8vw7gpnh2a1q3wf/SettingsPage.png)
@@ -258,6 +314,7 @@ This gives us a better idea of what a full storyboard will look like. As we add 
 
 If you run the app at this point, it should look exactly the same as before, yet you'll see a navigation bar at the top. We'll handle this later.
 
+<a href="#top" class="top" id="new-screen"></a>
 ### 2.1.2 Adding a New Screen
 Now that we have our navigation controller, it's easy to show our next page when we press the button. First, let's begin by dragging a new view controller from our widgets section in the bottom right. Drag it anywhere onto the storyboard. It should look as follows when you're done:
 
@@ -278,6 +335,7 @@ As we saw before, we want to set the custom class of the view controller we drag
 
 ![Pokedex Custom](https://dl.dropboxusercontent.com/s/d4galttyp4e8cz9/pokedexcustom.png)
 
+<a href="#top" class="top" id="add-segue"></a>
 ### 2.1.3 Adding a Segue
 Now that we have a new screen, we need a way to present it. In particular, we need it to show when we press our 'Enter Pokedex' button. To do this, we can add a segue.
 
@@ -289,9 +347,11 @@ Now, try running our app. If you click the "Enter Pokedex" button, you should se
 
 ![Second Screen](https://dl.dropboxusercontent.com/s/25fn5to7xp1lrer/SecondScreen.png)
 
+<a href="#top" class="top" id="connect-story"></a>
 ## 2.2 Connecting our Storyboard to Code
 There's something that you may have noticed: we haven't written any code yet! The truth is, a lot of iOS development can be done using the interface builder we've been using to create our storyboard. However, now is the time that we begin writing code. We'll start by adding a collection view to our new view controller.
 
+<a href="#top" class="top" id="ui-coll"></a>
 ### 2.2.1 `UICollectionView`
 `UICollectionView` is arguably one of the most important classes in all of iOS development. It's safe to say that most apps on your phone use this class in one way or another, as it's one of the most universal. Essentially what it does is manage a collection of data, as its name may suggest. In it's most common form, this consists of a list of items, but grids and other forms of collections are also implemented using it. You can read more about the class [here](collection-view).
 
@@ -307,6 +367,7 @@ In the left sidebar, you'll see a dropdown called "Constraints" under our `Poked
 
 Do the same thing for "CollectionView.trailing", and you should see the left and right margins disappear.
 
+<a href="#top" class="top" id="outlets"></a>
 ### 2.2.2 Outlets
 Up until now, we've set the properties for different things using our Attributes inspector in the right sidebar; remember when we set the background color of our view to be red? However, in the future, we're going to need to do these things programmatically; imagine we wanted the background to be red during the day but black at night, we'd need code to be able to do this.
 
@@ -337,11 +398,13 @@ Now that we've got our outlet, we can write some code! Change back to the Standa
 
 Just to verify that we have added our `UICollectionView` correctly, run your app; if see a black screen after pressing "Enter Pokedex", everything is correct.
 
+<a href="#top" class="top" id="add-data"></a>
 ## 2.3 Adding Data to our Collection
 We saw a black screen in the last step because we haven't added any data to our collection view. We're going to work on that here.
 
 In this section, we're going to be making extensive use of delegate methods. As we discussed before, delegate methods are implemented by the programmer (us) and the system calls them when they need them. Essentially, the delegate is like an interface; they expect us to provide implementations of some method, and the iOS internals call the respective methods when they are needed.
 
+<a href="#top" class="top" id="custom-cell"></a>
 ### 2.3.1 Creating a Custom Cell
 As you may expect, a `UICollectionView` contains `UICollectionViewCell`s, each of which represents a single piece of data. In order to show some custom information about our Pokemon, let's make a custom cell for our collection view.
 
@@ -373,6 +436,7 @@ Once you're done with this, you've successfully created our custom cell. The las
 
 Now, let's add some data to our Pokedex.
 
+<a href="#top" class="top" id="cell-size"></a>
 ### 2.3.2 Setting Cell Size
 Since our collection view can consist of many different kinds of arrangements (2D grid, list, etc.), we need to be able to specify the dimensions of each of our cells. To do this, we use something called `UICollectionViewDelegateFlowLayout`. As the [reference](flow-layout) tells us, the methods in this delegate define the size of the items and the spacing between items in the grid.
 
@@ -394,6 +458,7 @@ There are several things happening here. First, we're creating an [extension](ex
 
 Next, we're implementing two delegate methods. The first method, `sizeForItemAtIndexPath`, provides us an index (the position in our list) and we're expected to return a cell size. Since we want all of our cells to be the same size (at least initially), we simply return a size that is as wide as the screen and 40px tall. Our second method, `minimumLineSpacingForSectionAtIndex`, allows us to set the spacing between each row in our list. We'll make it so that there's 3px between each row. Since we only have one section, we don't need to worry about the parameter.
 
+<a href="#top" class="top" id="pass-data"></a>
 ### 2.3.3 Passing Data to the List
 To actually give the data we want to give to the list, we need to implement `UICollectionViewDataSource`. As you might expect, this is responsible for providing data and the views that will display in the collection view.
 
@@ -420,6 +485,7 @@ The first, `cellForItemAtIndexPath`, is where most of the interesting stuff happ
 
 The second, `numberOfItemsInSection`, is the number of items in our table. We return 20 as an arbitrary number. Feel free to increase or decrease this and view the results.
 
+<a href="#top" class="top" id="config-view"></a>
 ### 2.3.4 Configuring our View
 Finally, we're going to implement perhaps the most important method in a `UIViewController`: `viewDidLoad`. This method is called right after a view is loaded, and thus before it is going to be shown. This is the place where all configurations of the view, such as background color, changes to data, or things of that sort should be made.
 
@@ -439,6 +505,7 @@ override func viewDidLoad() {
 
 First, we set the background to a nice light gray. Then, we set both the delegate and the data source of our view controller; we set these so our collection view knows to call the methods we just implemented when it needs data or sizing information. Finally, we set `automaticallyAdjustsScrollViewInsets` to false so that we don't run into any issue with margins.
 
+<a href="#top" class="top" id="add-titles"></a>
 ### 2.3.5 Adding Titles
 Now that we've seen how to change our views programmatically, let's make one small change. Let's add titles to our navigation bars.
 
@@ -472,12 +539,15 @@ newCell.nameLabel.text = "Pikachu"
 
 For our Pokedex to be functional, we're going to need to set this to a different name for each Pokemon. To do this, we're going to need data from the web!
 
+<a href="#top" class="top" id="pokeapi"></a>
 ### 3.1 PokeAPI
 [PokeAPI](pokeapi) is an [API](api) that allows us to access information about Pokemon. To make our app functional, we'll need to load data from it
 
+<a href="#top" class="top" id="pokedex-endpoint"></a>
 ### 3.1.1 `pokedex/1/` Endpoint
 For our list of pokemon, we'll be calling the `pokedex/1/` API. If you look at the [docs](api-docs), you'll see that this endpoint "returns the names and resource_uri for all pokemon." This is exactly what we need; we'll be able to show the name of every Pokemon, and then later on access more information about each individual Pokemon. Try entering `http://pokeapi.co/api/v1/pokedex/1/` into your browser address bar and see what happens.
 
+<a href="#top" class="top" id="response-data"></a>
 ### 3.1.2 Response Data
 Your response will be a [JSON](json) object, which is basically just a list of key-value pairs. Inside of that, we'll see a key, `pokemon`, inside of which is a list of Pokemon:
 
@@ -509,9 +579,11 @@ Your response will be a [JSON](json) object, which is basically just a list of k
 
 These are exactly the things we'll be needing. Now, let's integrate them into our application.
 
+<a href="#top" class="top" id="external-lib"></a>
 ### 3.2 Using External Libraries with CocoaPods
 For many applications, you'll need external libraries. For example, say if you want to add Google Maps support into your application; you'll need an external library. To do this, there's a lot of ugly configuration you'd normally have to do to make sure you could use that library. However, there's a thing called CocoaPods that will make your life a lot easier.
 
+<a href="#top" class="top" id="cocoapods"></a>
 ### 3.2.1 CocoaPods
 [CocoaPods](cocoapods) is a dependency manager for Swift and Objective-C projects. Basically, you have a file named `Podfile`, in which you describe all of the external libraries you'll need. Then, you run a single command, and CocoaPods installs them all and configures them with your project so you can use them in your code.
 
@@ -530,6 +602,7 @@ Podfile           Pokedex           Pokedex.xcodeproj PokedexTests      PokedexU
 
 We'll see that we now have a new file: `Podfile`. This is the file in which you will add configurations for the libraries we'll need.
 
+<a href="#top" class="top" id="alamo-swift"></a>
 ### 3.2.2 Alamofire and SwiftyJSON
 For our project, we'll be using two different external libraries: [Alamofire](alamofire), which will make it easier for us to query the API and retrieve the data we need, and [SwiftyJSON](swiftyjson), a library that makes dealing with JSON in Swift much easier.
 
@@ -583,6 +656,7 @@ As you'll see, we're defining two 'pods', and providing the link to the GitHub r
 $ pod install
 ```
 
+<a href="#top" class="top" id="xcworkspace"></a>
 ### 3.2.3 `Pokedex.xcworkspace`
 If everything worked, you should now have the following files in your directory:
 
@@ -615,9 +689,11 @@ Now, try running your project. If everything works as you'd expect, your install
 
 If you get an error on either of the two lines, trying cleaning your project by running `Product -> Clean`.
 
+<a href="#top" class="top" id="data-poke"></a>
 ### 3.3 Loading our Data from PokeAPI
 Now that we have the libraries we need, we can write the code to actually load and present our data. Let's start by loading our data from the API.
 
+<a href="#top" class="top" id="model-rep"></a>
 ### 3.3.1 Creating a Model Representation
 As we saw before in our response data, there are two things we need to remember for each Pokemon: its name and the resource URI, which we will use later to gather more information about each Pokemon. It's a good idea to create a Swift object for each record you're presenting information about in a list; that way, you can store the data easily in an array.
 
@@ -639,6 +715,7 @@ class PokemonModel {
 
 This model is quite simple. We create two string variables, one for each of the things we'll need. We use the `!` to mark that these variables can never be `nil`; we will never have a Pokemon that doesn't have both of these. Also, we create a basic constructor to make sure we can create new `PokemonModel`s.
 
+<a href="#top" class="top" id="query-api"></a>
 ### 3.3.2 Querying the API
 Once we have a model to represent our results, let's actually fetch our results! First, we'll need a way to store them. Just below your outlet, add an array of `PokemonModel` objects:
 
@@ -696,6 +773,7 @@ In the new pair, type "App Transport Security Settings". On the left side of tha
 
 Once you've done this, save the file, and run your app. If you enter the Pokedex, you should still see just a list of our Pikachus.
 
+<a href="#top" class="top" id="data-coll"></a>
 ### 3.3.3 Passing the Data to our Collection View
 You may be wondering why we still see only Pikachus, when we've loaded all of our data from the API. As you may recall from our previous level, we use our `UICollectionViewDataSource` delegate methods to pass information to our collection view. Thus, if we want to change what cells go to our collection view, we need to change the implementation of those two methods. Let's do that here:
 
@@ -770,9 +848,11 @@ Now that we have a list, it would be great to have more details about each indiv
 
 Here, we have all sorts of information available to us about our specific Pokemon. Let's create a detail view so we can show all of this information to our user!
 
+<a href="#top" class="top" id="new-vc"></a>
 ### 4.1 Creating a New View Controller
 Let's create a new view controller, called `PokemonDetailViewController`. This will be the screen on which we can show all of the information about our Pokemon.
 
+<a href="#top" class="top" id="main-story"></a>
 ### 4.1.1 Adding to `Main.storyboard`
 To do this, let's do it as we have in the past. Open `Main.storyboard`, and drag a new "View Controller" onto the canvas. 
 
@@ -786,6 +866,7 @@ When you're finished, it should look like this:
 
 ![Pokemon Detail](https://dl.dropboxusercontent.com/s/3kgoil6urotpp3n/pokemondetail.png)
 
+<a href="#top" class="top" id="sub-detail"></a>
 ### 4.1.2 Adding Sub-Views to our Detail View
 What good is a detail view if we don't show any details about the Pokemon? Let's add some views to it! After looking at what's available to us, it seems it would be useful to show a picture of the Pokemon, the name of the Pokemon, their attack and defense scores, and a list of their moves. Let's add all the views for this!
 
@@ -807,6 +888,7 @@ Once you're done, your view should look something like this:
 
 ![Detail Constraints](https://dl.dropboxusercontent.com/s/j2i24ywyyqmv1gb/relatemargin.png)
 
+<a href="#top" class="top" id="detail-outlet"></a>
 ### 4.1.3 Adding Outlets to `PokemonDetailViewController`
 Now that we have each of our elements, we're going to need to be able to change these things programmatically. To do this, add outlets for each of our subviews to `PokemonDetailViewController`. Remember, we do this by Control-dragging from each of the UI elements to the `PokemonDetailViewController.swift` file while we're in Assistant editor.
 
@@ -820,9 +902,11 @@ When you're done, you should have added these five lines at the top of `PokemonD
 @IBOutlet var movesList: UICollectionView!
 ```
 
+<a href="#top" class="top" id="show-new-vc"></a>
 ### 4.2 Showing our New View Controller
 Now that we have our UI all laid out, we need to work on actual showing our new view when we tap on a Pokemon in our list. Let's do that now.
 
+<a href="#top" class="top" id="coll-view-del"></a>
 ### 4.2.1 `UICollectionViewDelegate`
 Just as we added extensions for `UICollectionViewDelegateFlowLayout` and `UICollectionViewDataSource`, we can add an extension for `UICollectionViewDelegate`. There's one method in there that will be important to us: `didSelectItemAtIndexPath`. As you may imagine, this method is called every time a cell is tapped.
 
@@ -844,6 +928,7 @@ To look at our new view controller, run the app, enter the Pokedex, and select a
 
 ![Blank Detail](https://dl.dropboxusercontent.com/s/w6afdy1iaa5umfl/blankdetail.png)
 
+<a href="#top" class="top" id="unique-view"></a>
 ### 4.2.2 Making our View Unique
 As you can see, our view is completely blank. This is because we haven't set the view up for the Pokemon you selected. To do that, we'll need some way to keep track of which Pokemon we're currently looking at.
 
@@ -864,11 +949,13 @@ func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath i
 }
 ```
 
+<a href="#top" class="top" id="detail-data"></a>
 ### 4.3 Adding our Detail Data
 Now that we have the resource URI inside of our detail view controller, we can use that URI to load details about our individual Pokemon in a way similar to how we loaded data for our Pokedex. Open up `PokemonDetailViewController.swift`, and let's write some code.
 
 Also, before we forget, add `import Alamofire` and `import SwiftyJSON` at the top of the file as well.
 
+<a href="#top" class="top" id="fetch-data"></a>
 ### 4.3.1 Fetching the Data
 Let's create a new method called `fetchPokemonData`:
 
@@ -888,6 +975,7 @@ func fetchPokemonData(resourceURI: String, completion: (JSON) -> Void) {
 
 Our method looks pretty similar to our earlier `fetchData` method, but there are some important differences. First, we see our `completion` function that we pass as a parameter takes a JSON object. Also, in this case, we don't pass the entire URL, instead just passing the URI we have available to us; in the request, we append it to the base URL, `http://pokeapi.co/`. Finally, we'll see we only call our completion in the case of a success; we pass the JSON data that we got back to our completion, which we'll write in the next step.
 
+<a href="#top" class="top" id="set-sub-views"></a>
 ### 4.3.2 Setting our Sub-Views
 Now that we have the data, we can set the sub-views to reflect the data we have loaded. To do that, we need to call `fetchPokemonData`, passing a closure which will do all of the setting that we need to. At the bottom of `viewDidLoad`, add the following code:
 
@@ -907,6 +995,7 @@ If you run the app, enter the pokedex, and select a Pokemon, you should see that
 
 You may be asking why we didn't set the image or the moves; it's because they're both just a little bit more complicated. We'll do those now.
 
+<a href="#top" class="top" id="fetch-image"></a>
 ### 4.3.3 Fetching the Image
 To set our image, we need to fetch it from a URL. After looking at the documentation, our API provides images of each Pokemon at the following URL: `http://pokeapi.co/media/img/_ID_.png`, where `_ID_` is the ID of our Pokemon. For example, if we wanted an image of Bulbasaur, Pokemon number 1, we could use `http://pokeapi.co/media/img/1.png`. Try it! Search that in your browser and you'll see a picture of Bulbasaur.
 
@@ -937,6 +1026,7 @@ This formats our image URL using the Pokemon's ID, and then calls our new method
 
 (Note: It may take a moment to the details on our screen. This is because we load our image synchronously, meaning it blocks other methods from being called until it's done. We could do this asynchronously to make it run faster, but it would require more code and would add unnecessary complexity to this tutorial.)
 
+<a href="#top" class="top" id="list-moves"></a>
 ### 4.3.4 Displaying our List of Moves
 The only thing that we haven't done yet is show the Pokemon's moves. We're going to be doing this with a collection view, just as we did the list of Pokemon. To do this, let's start by configuring our custom cell. Start by adding a label to the collection view cell, just as we did before. Center it vertically and make it 20px from the left side, just like we did last time.
 
@@ -1119,9 +1209,11 @@ If we run our app, we'll see our detail view is complete: we see the Pokemon's n
 ## Level 5: Filtering Data
 Now that we have a nice detail page for each of our Pokemon, I'd love to be able to look up my favorite Pokemon. However, with 778 to search through, it can be tough. I think it would be a great feature to add a search bar so we can search for individual Pokemon.
 
+<a href="#top" class="top" id="search-bar"></a>
 ### 5.1 Adding a Search Bar
 Since we'll need a search bar to be able to find Pokemon, let's add that.
 
+<a href="#top" class="top" id="uisearchbar"></a>
 ### 5.1.1 Adding a `UISearchBar` sub-view
 First, open `Main.storyboard`, and look at `PokedexViewController`. Currently, we have the top constraint on our collection view to be 0px from the top. Remove that constraint, and drag the collection view top down a bit. Now, from the widget box, drag a `UISearchBar` and place it above our collection view. Add constraints to make it 0px from the left, 0px from the right, and 0px from the top. Remember to remove the 'Relative to Margin' checkbox (if you find this difficult, you can also make the constraint -20px padding, which will get rid of the margin).
 
@@ -1135,6 +1227,7 @@ Once you've done this, add an outlet by control-dragging from the storyboard to 
 @IBOutlet var searchBar: UISearchBar!
 ```
 
+<a href="#top" class="top" id="uisearchbardelegate"></a>
 ### 5.1.2 `UISearchBarDelegate`
 As we have discussed before, delegates have functions that are called when certain events happened. For search bars, there are several things events that could happen; examples include text changing, editing beginning, etc.
 
@@ -1154,9 +1247,11 @@ Here, we merely added the function, which we will implement in the next step. Ho
 searchBar.delegate = self
 ```
 
+<a href="#top" class="top" id="filter-data"></a>
 ### 5.2 Filtering Data
 Now that we're have our `textDidChange` method, we can implement the functionality that actual sorts our results.
 
+<a href="#top" class="top" id="filtered-array"></a>
 ### 5.2.1 Adding a Filtered Array
 Right now, we have an array called `pokemonData`, which has all of the results we get from our API. Since we're going to need to filter our results from our original set, we should create a second array; let's call it `filteredData` and add it just below our `pokemonData`:
 
@@ -1204,6 +1299,7 @@ extension PokedexViewController: UICollectionViewDelegate {
 
 Now, try running the app and searching for a Pokemon. Still, nothing happens!
 
+<a href="#top" class="top" id="sort-strings"></a>
 ### 5.2.2 Sorting Strings
 As you may remember, we left a TODO comment in the `textDidChange` method. Let's go and implement that now. Essentially, what we want to do whenever the text changes is filter the Pokemon from  `pokemonData` that match our search term and set those Pokemon equal to our `filteredData` array. Once we've done that, we can reload our collection view to show our new results.
 
