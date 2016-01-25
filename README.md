@@ -13,6 +13,9 @@ This guide will teach you the basics of mobile programming, in particular iOS pr
 ## Prerequisites
 You should have a beginner's knowledge of [Swift][swift-tour], Apple's new programming language that will be used for future generations of iPhone applications. It's a great language that is somewhere between Objective-C, Python, and Javascript. Also, you should have programmed before; we'll skip over concepts like variables and functions, assuming you know what they are.
 
+## Starter Code
+This document advances linearly, meaning that level 2 builds atop level 1, level 3 atop level 2, and so on. If you don't want to do some of the levels, we provide starter code at the top of each level past the first; simply download it, unzip it, and open the relevant file, either `Pokedex.xcworkspace` or `Pokedex.xcodeproj`. Also, code can be taken from [GitHub][pokedex-git]; there are branches for each of the different levels.
+
 # What We're Building
 Throughout this tutorial, we're going to be creating a **Pokedex application**. For those of you who don't know, a [Pokedex][pokedex] is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?
 
@@ -297,6 +300,9 @@ Run your app, and you'll see your first completed application!
 
 <a href="#top" class="top" id="level2"></a>
 # Level 2: Creating a List of Data
+
+#### [Download Prerequisite Code](https://dl.dropboxusercontent.com/s/a3h962t1k2fsvbs/Pokedex-level2-starter.zip)
+
 Now that we have a landing page, let's start fleshing out the bulk of the app. As you may imagine, if we're going to have a Pokedex, we'll probably need to create a list of Pokemon. Let's start that in this level.
 
 <a href="#top" class="top" id="add-nav"></a>
@@ -536,6 +542,9 @@ Finally we're done! Our app is starting to look more like a real app. Here's wha
 
 <a href="#top" class="top" id="level3"></a>
 # Level 3: Loading Web Data
+
+#### [Download Prerequisite Code](https://dl.dropboxusercontent.com/s/9wkffmfa8wfncx9/Pokedex-level3-starter.zip)
+
 Remember the line where we set the name of our cell?
 
 ```swift
@@ -814,6 +823,9 @@ Now, we're ready to run our app! Enter our Pokedex; you should temporarily see o
 
 <a href="#top" class="top" id="level4"></a>
 # Level 4: Adding a Detail View
+
+#### [Download Prerequisite Code](https://dl.dropboxusercontent.com/s/bvbgu1yqkgmh9kl/Pokedex-level4-starter.zip)
+
 Now that we have a list, it would be great to have more details about each individual Pokemon, as a Pokedex should. To do this, take a look at the `resource_uri` for our first Pokemon, Rattata: `api/v1/pokemon/19/`. Append this to `http://pokeapi.co/`, enter it in your browser search box, and you should get these results:
 
 ```json
@@ -1212,6 +1224,9 @@ If we run our app, we'll see our detail view is complete: we see the Pokemon's n
 
 <a href="#top" class="top" id="level5"></a>
 # Level 5: Filtering Data
+
+#### [Download Prerequisite Code](https://dl.dropboxusercontent.com/s/xeuxqldhlgndt2k/Pokedex-level5-starter.zip)
+
 Now that we have a nice detail page for each of our Pokemon, I'd love to be able to look up my favorite Pokemon. However, with 778 to search through, it can be tough. I think it would be a great feature to add a search bar so we can search for individual Pokemon.
 
 <a href="#top" class="top" id="search-bar"></a>
@@ -1498,3 +1513,4 @@ Thanks for reading!
 [ide]: https://en.wikipedia.org/wiki/Integrated_development_environment
 [install-xcode]: https://developer.apple.com/xcode/download/
 [rvm]: https://rvm.io/
+[pokedex-git]: https://github.com/mjp2220/Pokedex
