@@ -886,7 +886,7 @@ Finally, for the list of moves, we're going to use a `UICollectionView`. Drag on
 
 Once you're done, your view should look something like this:
 
-![Detail Constraints](https://dl.dropboxusercontent.com/s/dlqrrei4wmh1c8t/detail-constraints.png)
+![Detail Constraints](https://dl.dropboxusercontent.com/s/oddclave9h7nkfd/detail-constraints.png)
 
 <a href="#top" class="top" id="detail-outlet"></a>
 ### 4.1.3 Adding Outlets to `PokemonDetailViewController`
