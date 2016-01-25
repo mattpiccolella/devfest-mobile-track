@@ -11,7 +11,7 @@ Written and developed by [Matt Piccolella](http://mattpic.com) and [ADI](adi).
 This guide will teach you the basics of mobile programming, in particular iOS programming, by helping you to create your first mobile application. We will start with a basic app, incrementally adding features at each level until we have a fully-featured app. You can start at any of the levels if you have prior experience with iOS programming, but we recommend beginners start at the beginning to make sure they see the entire picture.
 
 ## Prerequisites
-You should have a beginner's knowledge of [Swift](swift-tour), Apple's new programming language that will be used for future generations of iPhone applications. It's a great language that is somewhere between Objective-C, Python, and Javascript. Also, you should have programmed before; we'll skip over concepts like variables and functions, assuming you know what they are.
+You should have a beginner's knowledge of [Swift][swift-tour], Apple's new programming language that will be used for future generations of iPhone applications. It's a great language that is somewhere between Objective-C, Python, and Javascript. Also, you should have programmed before; we'll skip over concepts like variables and functions, assuming you know what they are.
 
 # What We're Building
 Throughout this tutorial, we're going to be creating a Pokedex application. For those of you who don't know, a [Pokedex](pokedex) is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?
@@ -630,7 +630,7 @@ end
 
 To add our files, we're going to add two lines to our 'Pokedex' target; the other two are for testing. Also, let's uncomment the two lines at the top, as the file instructs us to do. Your final file should look like this:
 
-```
+```bash
 # Uncomment this line to define a global platform for your project
 platform :ios, '8.0'
 # Uncomment this line if you're using Swift
