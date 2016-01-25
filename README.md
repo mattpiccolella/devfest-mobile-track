@@ -2,7 +2,7 @@
 # DevFest Mobile Development Track
 *Dive into iOS development by building your first application.*
 
-Written and developed by [Matt Piccolella](http://mattpic.com) and [ADI](adi).
+Written and developed by [Matt Piccolella](http://mattpic.com) and [ADI][adi].
 
 <a class="top" id="getting-started"></a>
 # About This Document
@@ -14,7 +14,7 @@ This guide will teach you the basics of mobile programming, in particular iOS pr
 You should have a beginner's knowledge of [Swift][swift-tour], Apple's new programming language that will be used for future generations of iPhone applications. It's a great language that is somewhere between Objective-C, Python, and Javascript. Also, you should have programmed before; we'll skip over concepts like variables and functions, assuming you know what they are.
 
 # What We're Building
-Throughout this tutorial, we're going to be creating a Pokedex application. For those of you who don't know, a [Pokedex](pokedex) is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?
+Throughout this tutorial, we're going to be creating a Pokedex application. For those of you who don't know, a [Pokedex][pokedex] is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?
 
 We'll first start by creating a basic landing page. Then, we'll show you how to create a list to show all the different Pokemon. Next, we'll use the PokeAPI to populate our list with information about real Pokemon. After that, we'll create a detail page that will provide more information about a Pokemon that you would select. Finally, we'll add a search bar so users can easily find their favorite Pokemon.
 
@@ -145,7 +145,7 @@ In the Project Navigator we saw above, you'll notice that there are several file
 
 By default, we are given `Main.storyboard`, which is configured to by the entry point to our application. When our application runs, the first thing that will be presented will be the entry point of our storyboard.
 
-You can read more about storyboards [here](storyboard).
+You can read more about storyboards [here][storyboard].
 
 <a href="#top" class="top" id="view-controller"></a>
 ### 1.3.2 View Controller
@@ -153,7 +153,7 @@ You can read more about storyboards [here](storyboard).
 
 Each ViewController extends the base class `UIViewController`; thus, our default `ViewController` inherits many methods from this base class, which we'll see later. To use new custom classes, we simply set the custom class inside of our `Main.storyboard` file, in the utilities sidebar. We'll see much more of this later.
 
-You can read more about view controllers [here](view-controller).
+You can read more about view controllers [here][view-controller].
 
 <a href="#top" class="top" id="app-delegate"></a>
 ### 1.3.3 App Delegate
@@ -161,7 +161,7 @@ You can read more about view controllers [here](view-controller).
 
 As we'll see later, a delegate is essentially an object that gets notified when certain events occur or when certain states are reached. If you click on `AppDelegate.swift`, you'll see `applicationDidEnterBackground` and `applicationWillTerminate`; without knowing how these things are detected, we can simply write code that will run whenever our application performs these things. Delegates are really helpful, and we'll explore them more later.
 
-I found this [StackOverflow question](delegates) to be quite helpful.
+I found this [StackOverflow question][delegates] to be quite helpful.
 
 <a href="#top" class="top" id="other-files"></a>
 ### 1.3.4 Other Files
@@ -217,7 +217,7 @@ Make sure our red view is up. Next, you should see a section in the bottom right
 
 ![Image View](https://dl.dropboxusercontent.com/s/ef0ql52ku5wiunk/image.png)
 
-Something you may be wondering: our storyboard view is a square, not the dimensions of an iPhone. This is because the view isn't for any particular iPhone, but is meant to represent all the different iPhones, from the iPhone 4 to the iPhone 6s. We do this with a system called [Auto Layout](autolayout).
+Something you may be wondering: our storyboard view is a square, not the dimensions of an iPhone. This is because the view isn't for any particular iPhone, but is meant to represent all the different iPhones, from the iPhone 4 to the iPhone 6s. We do this with a system called [Auto Layout][autolayout].
 
 **Auto Layout** is essentially a generic way of laying out your views so that iOS can handle the views given a set of **constraints**. Constraints are a set of rules that the view must fulfill; it's the job of iOS to layout each of the views given a screen size, which we know once the app runs on the device. An example of a constraint would be to make sure that the left side of the view is 20px from the left edge, or to make sure that the top of one view is 10px from the bottom of another view, or to make sure that the view is 40px high.
 
@@ -250,7 +250,7 @@ If we don't fulfill each of these, we'll get an error, and rightfully so! If we 
 
 Let's think about what our first three constraints did for us. Centering the image vertically means we've provided Y-position; if the view is 200px tall, iOS knows that the center of our view should be at 100px. We've also set our width; if our view is 200px wide, our view will be (200 - (2*20))px wide because of the padding we've added on each side. We've also set X-position, though this one may be less obvious. Since we've put 20px of padding on each side, we know that our view's center will be centered horizontally; we could have just as easily added another constraint, "Center Horizontally in Container."
 
-So, as our error tells us, we're missing height. How do we decide how tall our image should be? To do this, let's think back to why we're adding this image in the first place; we want to display the Pokemon logo. To do this, we need the Pokemon logo. So, download the image [here](pokemon-logo). Since we already know the width, and we know the aspect ratio of our image, it would probably be a good idea to set the aspect ratio for our image; that way, the height can be determined from our width.
+So, as our error tells us, we're missing height. How do we decide how tall our image should be? To do this, let's think back to why we're adding this image in the first place; we want to display the Pokemon logo. To do this, we need the Pokemon logo. So, download the image [here][pokemon-logo]. Since we already know the width, and we know the aspect ratio of our image, it would probably be a good idea to set the aspect ratio for our image; that way, the height can be determined from our width.
 
 To do this, Control-drag and drop from "Image View" to itself; you'll see a new menu for constraints appear. These constraints are a little bit different, in that they aren't in terms of the views container, but in terms of attributes of the view itself. Thus, if we wanted to set the width to 200px, we wouldn't need to know anything about the containing view. 
 
@@ -339,7 +339,7 @@ As we saw before, we want to set the custom class of the view controller we drag
 ### 2.1.3 Adding a Segue
 Now that we have a new screen, we need a way to present it. In particular, we need it to show when we press our 'Enter Pokedex' button. To do this, we can add a segue.
 
-A [seque](segue) is a transition between scenes. It allows us to move from one screen to the next when certain actions take place, such as pressing a button. To add a segue, simply Control-drag from our button to our new view controller. From the menu that pops up, select "Push"; you'll see a new arrow appear between the two view controllers.
+A [seque][segue] is a transition between scenes. It allows us to move from one screen to the next when certain actions take place, such as pressing a button. To add a segue, simply Control-drag from our button to our new view controller. From the menu that pops up, select "Push"; you'll see a new arrow appear between the two view controllers.
 
 ![Push Segue](https://dl.dropboxusercontent.com/s/l6nuc0jtvmn8ed9/pushsegue.png)
 
@@ -353,13 +353,13 @@ There's something that you may have noticed: we haven't written any code yet! Th
 
 <a href="#top" class="top" id="ui-coll"></a>
 ### 2.2.1 `UICollectionView`
-`UICollectionView` is arguably one of the most important classes in all of iOS development. It's safe to say that most apps on your phone use this class in one way or another, as it's one of the most universal. Essentially what it does is manage a collection of data, as its name may suggest. In it's most common form, this consists of a list of items, but grids and other forms of collections are also implemented using it. You can read more about the class [here](collection-view).
+`UICollectionView` is arguably one of the most important classes in all of iOS development. It's safe to say that most apps on your phone use this class in one way or another, as it's one of the most universal. Essentially what it does is manage a collection of data, as its name may suggest. In it's most common form, this consists of a list of items, but grids and other forms of collections are also implemented using it. You can read more about the class [here][collection-view].
 
 We're going to want to use one in our `PokedexViewController`. As a review of the things we learned in level 1, drag a collection view into the view on our `PokedexViewController`. Also, since we want our collection view to take up the entire screen, add constraints to do this; to do this, simply make the top/bottom/left/right space equal to 0. When you're done, the constraints and view hierarchy should look like this:
 
 ![Collection View](https://dl.dropboxusercontent.com/s/8p1smrffn3podmb/collectionview.png)
 
-One thing that you may notice above is that the view has some extra padding, approximately 20px, on each the left and right side. This is because of [content margins](content-margin), a concept in iOS that adds default padding to the left and right side. However, in this case, we want our collection view to take up the entire screen. To do this, we need to make a change.
+One thing that you may notice above is that the view has some extra padding, approximately 20px, on each the left and right side. This is because of [content margins][content-margin], a concept in iOS that adds default padding to the left and right side. However, in this case, we want our collection view to take up the entire screen. To do this, we need to make a change.
 
 In the left sidebar, you'll see a dropdown called "Constraints" under our `PokedexViewController` view. Click to expand this. Click on the constraint starting with "CollectionView.leading". On the left side, you'll see a dropdown entitled "Second Item". Click on this dropdown and uncheck the item "Relative to margin".
 
@@ -371,7 +371,7 @@ Do the same thing for "CollectionView.trailing", and you should see the left and
 ### 2.2.2 Outlets
 Up until now, we've set the properties for different things using our Attributes inspector in the right sidebar; remember when we set the background color of our view to be red? However, in the future, we're going to need to do these things programmatically; imagine we wanted the background to be red during the day but black at night, we'd need code to be able to do this.
 
-To do this, we can add what's called an [outlet](outlet). An outlet basically connects an element in our storyboard file to an instance variable in our view controller. When iOS creates our view programmatically, the connection between the variable and the actual view is made. As a result, we can write code like `outletButton.text = "Enter Pokedex"`, rather than double-clicking and manually entering the text.
+To do this, we can add what's called an [outlet][outlet]. An outlet basically connects an element in our storyboard file to an instance variable in our view controller. When iOS creates our view programmatically, the connection between the variable and the actual view is made. As a result, we can write code like `outletButton.text = "Enter Pokedex"`, rather than double-clicking and manually entering the text.
 
 To add an outlet, we'll be doing more Control-dragging. First, open the Assistant editor; to do this, click the overlapping circles in the top bar. Then, we'll see two files appear next to each other; make sure one of them is `Main.storyboard` and the other is `PokedexViewController.swift`. Control-drag from the collection view to the top of the `PokedexViewController.swift`, like this:
 
@@ -438,7 +438,7 @@ Now, let's add some data to our Pokedex.
 
 <a href="#top" class="top" id="cell-size"></a>
 ### 2.3.2 Setting Cell Size
-Since our collection view can consist of many different kinds of arrangements (2D grid, list, etc.), we need to be able to specify the dimensions of each of our cells. To do this, we use something called `UICollectionViewDelegateFlowLayout`. As the [reference](flow-layout) tells us, the methods in this delegate define the size of the items and the spacing between items in the grid.
+Since our collection view can consist of many different kinds of arrangements (2D grid, list, etc.), we need to be able to specify the dimensions of each of our cells. To do this, we use something called `UICollectionViewDelegateFlowLayout`. As the [reference][flow-layout] tells us, the methods in this delegate define the size of the items and the spacing between items in the grid.
 
 At the bottom of our `PokedexViewController.swift` file, below the last closing curly brace, add the following code:
 
@@ -454,7 +454,7 @@ extension PokedexViewController: UICollectionViewDelegateFlowLayout {
 }
 ```
 
-There are several things happening here. First, we're creating an [extension](extension). If you're not familiar, this is basically a way of adding functionality to an existing class; if you know Java, think of it as implementing a new interface. 
+There are several things happening here. First, we're creating an [extension][extension]. If you're not familiar, this is basically a way of adding functionality to an existing class; if you know Java, think of it as implementing a new interface. 
 
 Next, we're implementing two delegate methods. The first method, `sizeForItemAtIndexPath`, provides us an index (the position in our list) and we're expected to return a cell size. Since we want all of our cells to be the same size (at least initially), we simply return a size that is as wide as the screen and 40px tall. Our second method, `minimumLineSpacingForSectionAtIndex`, allows us to set the spacing between each row in our list. We'll make it so that there's 3px between each row. Since we only have one section, we don't need to worry about the parameter.
 
@@ -521,7 +521,7 @@ Also, in `PokedexViewController.swift`, add one line to `viewDidLoad`, just afte
 self.navigationItem.title = "My Pokedex"
 ```
 
-As you can imagine, this changes the title of our navigation bar. If you'd like to read more about `UINavigationItem`, more information is available [here](navigation-item).
+As you can imagine, this changes the title of our navigation bar. If you'd like to read more about `UINavigationItem`, more information is available [here][navigation-item].
 
 Finally we're done! Our app is starting to look more like a real app. Here's what yours should look like at this point:
 
@@ -541,15 +541,15 @@ For our Pokedex to be functional, we're going to need to set this to a different
 
 <a href="#top" class="top" id="pokeapi"></a>
 ## 3.1 PokeAPI
-[PokeAPI](pokeapi) is an [API](api) that allows us to access information about Pokemon. To make our app functional, we'll need to load data from it
+[PokeAPI][pokeapi] is an [API][api] that allows us to access information about Pokemon. To make our app functional, we'll need to load data from it
 
 <a href="#top" class="top" id="pokedex-endpoint"></a>
 ### 3.1.1 `pokedex/1/` Endpoint
-For our list of pokemon, we'll be calling the `pokedex/1/` API. If you look at the [docs](api-docs), you'll see that this endpoint "returns the names and resource_uri for all pokemon." This is exactly what we need; we'll be able to show the name of every Pokemon, and then later on access more information about each individual Pokemon. Try entering `http://pokeapi.co/api/v1/pokedex/1/` into your browser address bar and see what happens.
+For our list of pokemon, we'll be calling the `pokedex/1/` API. If you look at the [docs][api-docs], you'll see that this endpoint "returns the names and resource_uri for all pokemon." This is exactly what we need; we'll be able to show the name of every Pokemon, and then later on access more information about each individual Pokemon. Try entering `http://pokeapi.co/api/v1/pokedex/1/` into your browser address bar and see what happens.
 
 <a href="#top" class="top" id="response-data"></a>
 ### 3.1.2 Response Data
-Your response will be a [JSON](json) object, which is basically just a list of key-value pairs. Inside of that, we'll see a key, `pokemon`, inside of which is a list of Pokemon:
+Your response will be a [JSON][json] object, which is basically just a list of key-value pairs. Inside of that, we'll see a key, `pokemon`, inside of which is a list of Pokemon:
 
 ```json
 "pokemon": [
@@ -585,9 +585,9 @@ For many applications, you'll need external libraries. For example, say if you w
 
 <a href="#top" class="top" id="cocoapods"></a>
 ### 3.2.1 CocoaPods
-[CocoaPods](cocoapods) is a dependency manager for Swift and Objective-C projects. Basically, you have a file named `Podfile`, in which you describe all of the external libraries you'll need. Then, you run a single command, and CocoaPods installs them all and configures them with your project so you can use them in your code.
+[CocoaPods][cocoapods] is a dependency manager for Swift and Objective-C projects. Basically, you have a file named `Podfile`, in which you describe all of the external libraries you'll need. Then, you run a single command, and CocoaPods installs them all and configures them with your project so you can use them in your code.
 
-To start, open your [Terminal](terminal). Make sure you already have CocoaPods installed; if you don't, follow the instructions available [here](cocoapods-install). Once you've done that, enter the following command:
+To start, open your [Terminal][terminal]. Make sure you already have CocoaPods installed; if you don't, follow the instructions available [here][cocoapods-install]. Once you've done that, enter the following command:
 
 ```bash
 $ pod init
@@ -604,7 +604,7 @@ We'll see that we now have a new file: `Podfile`. This is the file in which you 
 
 <a href="#top" class="top" id="alamo-swift"></a>
 ### 3.2.2 Alamofire and SwiftyJSON
-For our project, we'll be using two different external libraries: [Alamofire](alamofire), which will make it easier for us to query the API and retrieve the data we need, and [SwiftyJSON](swiftyjson), a library that makes dealing with JSON in Swift much easier.
+For our project, we'll be using two different external libraries: [Alamofire][alamofire], which will make it easier for us to query the API and retrieve the data we need, and [SwiftyJSON][swiftyjson], a library that makes dealing with JSON in Swift much easier.
 
 To install these, simply add them to our `Podfile`. If you open the file, it should look like this:
 
@@ -745,11 +745,11 @@ func fetchData(url: String, completion: () -> Void) {
 }
 ```
 
-This is the most Swift code we've written thus far, so let's go through it line-by-line. In our function definition, we take a string, which will be the Pokedex API we saw earlier, as well as, more interestingly, a function that takes no parameters and doesn't return anything. As you can read about [here](swift-functions), Swift allows you to pass functions to a function as a parameter. In this case, we're doing it so we can run some code only after our results are loaded; we'll want to reload the data in our collection once we have new data to show. Generally, these callbacks can be useful to update UI elements once some data is available.
+This is the most Swift code we've written thus far, so let's go through it line-by-line. In our function definition, we take a string, which will be the Pokedex API we saw earlier, as well as, more interestingly, a function that takes no parameters and doesn't return anything. As you can read about [here][swift-functions], Swift allows you to pass functions to a function as a parameter. In this case, we're doing it so we can run some code only after our results are loaded; we'll want to reload the data in our collection once we have new data to show. Generally, these callbacks can be useful to update UI elements once some data is available.
 
-In the next line, we use our Alamofire library to call our API, after passing some configuration parameters. Next, we call for the response data, to which we pass a closure, which [this website](swift-closure) really helps you to understand, as they are definitely quite confusing. Inside the closure, we check for success or failure. In the case of a failure, meaning we got a non-200 response code from our URL, we can just print an error and make our data an empty array.
+In the next line, we use our Alamofire library to call our API, after passing some configuration parameters. Next, we call for the response data, to which we pass a closure, which [this website][swift-closure] really helps you to understand, as they are definitely quite confusing. Inside the closure, we check for success or failure. In the case of a failure, meaning we got a non-200 response code from our URL, we can just print an error and make our data an empty array.
 
-In the case of a success, we use our SwiftyJSON library to create a new JSON object from our response data. In the next line, we use the `if let ...` check to make sure that our `pokemon` array is not nil. Inside the check, we use the built-in `map` function, which iterates through an array, passing each item to a function and then returning your object of choice. We do this to change our array of JSON objects into an array of `PokemonModel` objects. You can read more about the map function [here](array-map). Inside the `map` function, we get the two things we need from our JSON (name and resource_uri) to create a new `PokemonModel`, which we then return. After all of this, we call `completion()`, which is the function we passed.
+In the case of a success, we use our SwiftyJSON library to create a new JSON object from our response data. In the next line, we use the `if let ...` check to make sure that our `pokemon` array is not nil. Inside the check, we use the built-in `map` function, which iterates through an array, passing each item to a function and then returning your object of choice. We do this to change our array of JSON objects into an array of `PokemonModel` objects. You can read more about the map function [here][array-map]. Inside the `map` function, we get the two things we need from our JSON (name and resource_uri) to create a new `PokemonModel`, which we then return. After all of this, we call `completion()`, which is the function we passed.
 
 Now, we have to call our function and supply it with the function we want to run after our data is loaded. Let's add this code to the bottom of our `viewDidLoad` function:
 
@@ -1011,7 +1011,7 @@ func loadAndSetImage(url: String) {
 }
 ```
 
-Not gonna lie, I basically copied the above code from [this Stack Overflow answer](stack-overflow). We generate our URL, fetch the data from it, create an image from our data, and then set our image equal to it.
+Not gonna lie, I basically copied the above code from [this Stack Overflow answer][stack-overflow]. We generate our URL, fetch the data from it, create an image from our data, and then set our image equal to it.
 
 To make sure this method gets called, add these two lines below our other lines in our `fetchPokemonData` response closure:
 
@@ -1231,7 +1231,7 @@ Once you've done this, add an outlet by control-dragging from the storyboard to 
 ### 5.1.2 `UISearchBarDelegate`
 As we have discussed before, delegates have functions that are called when certain events happened. For search bars, there are several things events that could happen; examples include text changing, editing beginning, etc.
 
-To add functionality to our search bar, we can implement [`UISearchBarDelegate`](searchbar-delegate) methods. In particular, we're going to add `textDidChange` to listen to changes in the text for our search bar. Add this code below the other extensions we have in `PokedexViewController`.
+To add functionality to our search bar, we can implement [`UISearchBarDelegate`][searchbar-delegate] methods. In particular, we're going to add `textDidChange` to listen to changes in the text for our search bar. Add this code below the other extensions we have in `PokedexViewController`.
 
 ```swift
 extension PokedexViewController: UISearchBarDelegate {
@@ -1314,7 +1314,7 @@ func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 }
 ```
 
-Basically, we set our filtered data equal to a filtered version of Pokemon data. For each Pokemon, we check whether our search text is a prefix of that Pokemon's name (we make sure the string is lowercase so capitalization doesn't matter). Also, we check for the blank search string, in which case we want to match all Pokemon; after checking [here](string-characters), we found that "" doesn't match as a prefix, so we needed to check for it separately.
+Basically, we set our filtered data equal to a filtered version of Pokemon data. For each Pokemon, we check whether our search text is a prefix of that Pokemon's name (we make sure the string is lowercase so capitalization doesn't matter). Also, we check for the blank search string, in which case we want to match all Pokemon; after checking [here][string-characters], we found that "" doesn't match as a prefix, so we needed to check for it separately.
 
 Before we run our app, here's the finalized code for `PokedexViewController`:
 
