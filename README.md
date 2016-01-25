@@ -98,7 +98,7 @@ We'll first start by creating a basic landing page. Then, we'll show you how to 
 In this section, we're going to be starting our first iOS project. We'll explore the fundamentals of how to use XCode, what a Storyboard is, and how to layout your user interface using constraints.
 
 <a href="#top" class="top" id="first-project"></a>
-### 1.1 Creating your First Project
+## 1.1 Creating your First Project
 To create your first project, open XCode. Next, from the top menu bar, select `File -> New -> Project`. For your project, on the left side, select 'Application' under 'iOS', and make sure it's a 'Single View Application', as seen below. Then press next.
 
 ![Create Project](https://dl.dropboxusercontent.com/s/2648wkh80gt8zxl/create-proj.png)
@@ -110,11 +110,11 @@ Next, give a name for your project; I'm calling mine Pokedex. Also, if it doesn'
 Now you've created your first project!
 
 <a href="#top" class="top" id="exploring-xcode"></a>
-### 1.2 Exploring XCode
+## 1.2 Exploring XCode
 XCode is the application that you develop iOS applications in. Because it's such a large piece of software with a lot of functionality, it can be confusing to understand at times. Generally though, the application is broken up into four parts: the editor, the project navigator, the utilities, and the project toolbar.
 
 <a href="#top" class="top" id="editor"></a>
-#### 1.2.1 The Editor
+### 1.2.1 The Editor
 The editor is the large part in the center. This is where you'll write code, build your user interfaces, and essentially do most of the work. It's essentially a text editor built into the application as you might see in Sublime or some other IDE.
 
 <a href="#top" class="top" id="navigator"></a>
@@ -291,7 +291,7 @@ Run your app, and you'll see your first completed application!
 ![First App](https://dl.dropboxusercontent.com/s/mvkh63kmdyqtyvg/level1shot.png)
 
 <a href="#top" class="top" id="level2"></a>
-# Level 2: Creating a List of Data
+## Level 2: Creating a List of Data
 Now that we have a landing page, let's start fleshing out the bulk of the app. As you may imagine, if we're going to have a Pokedex, we'll probably need to create a list of Pokemon. Let's start that in this level.
 
 <a href="#top" class="top" id="add-nav"></a>
