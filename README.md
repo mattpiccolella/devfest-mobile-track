@@ -5,20 +5,20 @@
 Written and developed by [Matt Piccolella](http://mattpic.com) and [ADI](adi).
 
 <a class="top" id="getting-started"></a>
-## About This Document
+# About This Document
 
-### Methodology
+## Methodology
 This guide will teach you the basics of mobile programming, in particular iOS programming, by helping you to create your first mobile application. We will start with a basic app, incrementally adding features at each level until we have a fully-featured app. You can start at any of the levels if you have prior experience with iOS programming, but we recommend beginners start at the beginning to make sure they see the entire picture.
 
-### Prerequisites
+## Prerequisites
 You should have a beginner's knowledge of [Swift](swift-tour), Apple's new programming language that will be used for future generations of iPhone applications. It's a great language that is somewhere between Objective-C, Python, and Javascript. Also, you should have programmed before; we'll skip over concepts like variables and functions, assuming you know what they are.
 
-## What We're Building
+# What We're Building
 Throughout this tutorial, we're going to be creating a Pokedex application. For those of you who don't know, a [Pokedex](pokedex) is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?
 
 We'll first start by creating a basic landing page. Then, we'll show you how to create a list to show all the different Pokemon. Next, we'll use the PokeAPI to populate our list with information about real Pokemon. After that, we'll create a detail page that will provide more information about a Pokemon that you would select. Finally, we'll add a search bar so users can easily find their favorite Pokemon.
 
-## Table of Contents
+# Table of Contents
 -   [Level 0: Environment Setup](#level0)
 -   [Level 1: Your First iPhone Application](#level1)
     -   [1.1 Creating your First Project](#first-project)
@@ -87,14 +87,14 @@ We'll first start by creating a basic landing page. Then, we'll show you how to 
 
 ------------------------------
 <a href="#top" class="top" id="level0"></a>
-## Level 0: Environment Setup
+# Level 0: Environment Setup
 - General DevFest environment setup (likely Git)
 - Have a Mac
 - Install XCode
 - Install Cocoapods
 
 <a href="#top" class="top" id="level1"></a>
-## Level 1: Your First iPhone Application
+# Level 1: Your First iPhone Application
 In this section, we're going to be starting our first iOS project. We'll explore the fundamentals of how to use XCode, what a Storyboard is, and how to layout your user interface using constraints.
 
 <a href="#top" class="top" id="first-project"></a>
@@ -291,7 +291,7 @@ Run your app, and you'll see your first completed application!
 ![First App](https://dl.dropboxusercontent.com/s/mvkh63kmdyqtyvg/level1shot.png)
 
 <a href="#top" class="top" id="level2"></a>
-## Level 2: Creating a List of Data
+# Level 2: Creating a List of Data
 Now that we have a landing page, let's start fleshing out the bulk of the app. As you may imagine, if we're going to have a Pokedex, we'll probably need to create a list of Pokemon. Let's start that in this level.
 
 <a href="#top" class="top" id="add-nav"></a>
@@ -530,7 +530,7 @@ Finally we're done! Our app is starting to look more like a real app. Here's wha
 ![Pokedex List](https://dl.dropboxusercontent.com/s/vgtlhvt1yn9oy6a/PokedexList.png)
 
 <a href="#top" class="top" id="level3"></a>
-## Level 3: Loading Web Data
+# Level 3: Loading Web Data
 Remember the line where we set the name of our cell?
 
 ```swift
@@ -540,7 +540,7 @@ newCell.nameLabel.text = "Pikachu"
 For our Pokedex to be functional, we're going to need to set this to a different name for each Pokemon. To do this, we're going to need data from the web!
 
 <a href="#top" class="top" id="pokeapi"></a>
-### 3.1 PokeAPI
+## 3.1 PokeAPI
 [PokeAPI](pokeapi) is an [API](api) that allows us to access information about Pokemon. To make our app functional, we'll need to load data from it
 
 <a href="#top" class="top" id="pokedex-endpoint"></a>
@@ -580,7 +580,7 @@ Your response will be a [JSON](json) object, which is basically just a list of k
 These are exactly the things we'll be needing. Now, let's integrate them into our application.
 
 <a href="#top" class="top" id="external-lib"></a>
-### 3.2 Using External Libraries with CocoaPods
+## 3.2 Using External Libraries with CocoaPods
 For many applications, you'll need external libraries. For example, say if you want to add Google Maps support into your application; you'll need an external library. To do this, there's a lot of ugly configuration you'd normally have to do to make sure you could use that library. However, there's a thing called CocoaPods that will make your life a lot easier.
 
 <a href="#top" class="top" id="cocoapods"></a>
@@ -690,7 +690,7 @@ Now, try running your project. If everything works as you'd expect, your install
 If you get an error on either of the two lines, trying cleaning your project by running `Product -> Clean`.
 
 <a href="#top" class="top" id="data-poke"></a>
-### 3.3 Loading our Data from PokeAPI
+## 3.3 Loading our Data from PokeAPI
 Now that we have the libraries we need, we can write the code to actually load and present our data. Let's start by loading our data from the API.
 
 <a href="#top" class="top" id="model-rep"></a>
@@ -808,7 +808,7 @@ Now, we're ready to run our app! Enter our Pokedex; you should temporarily see o
 ![Complete List](https://dl.dropboxusercontent.com/s/u4jymwjk36knur9/completelist.png)
 
 <a href="#top" class="top" id="level4"></a>
-## Level 4: Adding a Detail View
+# Level 4: Adding a Detail View
 Now that we have a list, it would be great to have more details about each individual Pokemon, as a Pokedex should. To do this, take a look at the `resource_uri` for our first Pokemon, Rattata: `api/v1/pokemon/19/`. Append this to `http://pokeapi.co/`, enter it in your browser search box, and you should get these results:
 
 ```json
@@ -849,7 +849,7 @@ Now that we have a list, it would be great to have more details about each indiv
 Here, we have all sorts of information available to us about our specific Pokemon. Let's create a detail view so we can show all of this information to our user!
 
 <a href="#top" class="top" id="new-vc"></a>
-### 4.1 Creating a New View Controller
+## 4.1 Creating a New View Controller
 Let's create a new view controller, called `PokemonDetailViewController`. This will be the screen on which we can show all of the information about our Pokemon.
 
 <a href="#top" class="top" id="main-story"></a>
@@ -903,7 +903,7 @@ When you're done, you should have added these five lines at the top of `PokemonD
 ```
 
 <a href="#top" class="top" id="show-new-vc"></a>
-### 4.2 Showing our New View Controller
+## 4.2 Showing our New View Controller
 Now that we have our UI all laid out, we need to work on actual showing our new view when we tap on a Pokemon in our list. Let's do that now.
 
 <a href="#top" class="top" id="coll-view-del"></a>
@@ -950,7 +950,7 @@ func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath i
 ```
 
 <a href="#top" class="top" id="detail-data"></a>
-### 4.3 Adding our Detail Data
+## 4.3 Adding our Detail Data
 Now that we have the resource URI inside of our detail view controller, we can use that URI to load details about our individual Pokemon in a way similar to how we loaded data for our Pokedex. Open up `PokemonDetailViewController.swift`, and let's write some code.
 
 Also, before we forget, add `import Alamofire` and `import SwiftyJSON` at the top of the file as well.
@@ -1206,11 +1206,11 @@ If we run our app, we'll see our detail view is complete: we see the Pokemon's n
 ![Gyrados](https://dl.dropboxusercontent.com/s/hon8jk6tkmfy1om/gyrados.png)
 
 <a href="#top" class="top" id="level5"></a>
-## Level 5: Filtering Data
+# Level 5: Filtering Data
 Now that we have a nice detail page for each of our Pokemon, I'd love to be able to look up my favorite Pokemon. However, with 778 to search through, it can be tough. I think it would be a great feature to add a search bar so we can search for individual Pokemon.
 
 <a href="#top" class="top" id="search-bar"></a>
-### 5.1 Adding a Search Bar
+## 5.1 Adding a Search Bar
 Since we'll need a search bar to be able to find Pokemon, let's add that.
 
 <a href="#top" class="top" id="uisearchbar"></a>
@@ -1248,7 +1248,7 @@ searchBar.delegate = self
 ```
 
 <a href="#top" class="top" id="filter-data"></a>
-### 5.2 Filtering Data
+## 5.2 Filtering Data
 Now that we're have our `textDidChange` method, we can implement the functionality that actual sorts our results.
 
 <a href="#top" class="top" id="filtered-array"></a>
@@ -1421,7 +1421,7 @@ If your code looks like the above code, then let's run our app. Try typing somet
 ![Dragonite](https://dl.dropboxusercontent.com/s/yvux8vp8pcs6ti2/dragonite.png)
 
 <a href="#top" class="top" id="next-steps"></a>
-## Next Steps
+# Next Steps
 Congratulations on finishing your Pokedex app! You've learned most of the fundamentals of iOS programming while making the app, so you should feel very proud. If you're interested in doing more with your Pokedex app, some things you may want to work on:
 
 - Use [Core Data][core-data] to implement the marking of favorites in your Pokedex.
@@ -1438,7 +1438,7 @@ If you're interested in knowing all of the major areas of iOS, here's a cool [ch
 
 ___________
 <a href="#top" class="top" id="additional-resources"></a>
-## Additional Resources
+# Additional Resources
 Along with this tutorial, there is a wealth of information available on iOS development all across the web. Below are some good places to start:
 
 - [ADI Resources][learn]
