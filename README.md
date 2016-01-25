@@ -793,7 +793,7 @@ extension PokedexViewController: UICollectionViewDataSource {
 }
 ```
 
-As you see in `numberOfItemsInSection`, we return the number of items in the `pokemmonData` array, each one of which is a Pokemon we'll want to show in our list. In our `cellForItemAtIndexPath`, we select the Pokemon at the row we're being asked for a cell from, then set the string of that cell equal to the name of our `PokemonModel` object (which we capitalize - our API returns us un-capitalized strings).
+As you see in `numberOfItemsInSection`, we return the number of items in the `pokemonData` array, each one of which is a Pokemon we'll want to show in our list. In our `cellForItemAtIndexPath`, we select the Pokemon at the row we're being asked for a cell from, then set the string of that cell equal to the name of our `PokemonModel` object (which we capitalize - our API returns us un-capitalized strings).
 
 To go back, remember the line where we reloaded the collection data:
 
@@ -886,7 +886,7 @@ Finally, for the list of moves, we're going to use a `UICollectionView`. Drag on
 
 Once you're done, your view should look something like this:
 
-![Detail Constraints](https://dl.dropboxusercontent.com/s/j2i24ywyyqmv1gb/relatemargin.png)
+![Detail Constraints](https://dl.dropboxusercontent.com/s/dlqrrei4wmh1c8t/detailconstraints.png)
 
 <a href="#top" class="top" id="detail-outlet"></a>
 ### 4.1.3 Adding Outlets to `PokemonDetailViewController`
