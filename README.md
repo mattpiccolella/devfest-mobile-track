@@ -88,10 +88,15 @@ We'll first start by creating a basic landing page. Then, we'll show you how to 
 ------------------------------
 <a href="#top" class="top" id="level0"></a>
 # Level 0: Environment Setup
-- General DevFest environment setup (likely Git)
-- Have a Mac
-- Install XCode
-- Install Cocoapods
+To develop iOS applications, you use an application called **Xcode**. Made by Apple, Xcode is an [IDE][ide] (Integrated Development Environment) that makes a lot of things easy: building the user interface for your apps, running and testing your apps, and, of course, writing code.
+
+Unfortunately, to install Xcode, **you must have a computer that is running OS X**; pending some kind of strange dual boot, this unfortunately means that, in order to develop iOS applications, **you must have a Mac computer**. If you don't, then we'll have to sadly recommend that you select a different track.
+
+If you have a Mac, environment setup ends up being quite easy. Simply [install Xcode][install-xcode]. Pick the most recent version available at this link; at time of writing this, Xcode 7.2 is the most recent. **Important:** don't install the beta version; generally they're pretty unstable and not worth risking the breaks that could occur. These download links should redirect you to the Mac App Store, from which you'll be able to download Xcode.
+
+Once you've done this, install [Cocoapods][cocoapods-install]. To do this, you'll need to use Ruby (in the form of `gem install`), which comes pre-installed on Macs. If you are having an issue installing Cocoapods with the command, try downloading [RVM][rvm]; it's a Ruby version manager that makes it easier to install things. Stack Overflow will help you if you get into any tough spots here.
+
+Other than that, you won't need anything else to do iOS development. Most of the things you'll need come pre-installed with Xcode, which is great.
 
 <a href="#top" class="top" id="level1"></a>
 # Level 1: Your First iPhone Application
@@ -1490,3 +1495,6 @@ Thanks for reading!
 [other-sources]: https://medium.com/app-coder-io/27-places-to-learn-ios-development-best-ones-b1bcfb48efab
 [core-data]: https://developer.apple.com/library/tvos/documentation/Cocoa/Conceptual/CoreData/index.html
 [ios-chart]: http://i.imgur.com/WGEhRAe.png
+[ide]: https://en.wikipedia.org/wiki/Integrated_development_environment
+[install-xcode]: https://developer.apple.com/xcode/download/
+[rvm]: https://rvm.io/
