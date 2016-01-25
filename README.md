@@ -14,7 +14,7 @@ This guide will teach you the basics of mobile programming, in particular iOS pr
 You should have a beginner's knowledge of [Swift][swift-tour], Apple's new programming language that will be used for future generations of iPhone applications. It's a great language that is somewhere between Objective-C, Python, and Javascript. Also, you should have programmed before; we'll skip over concepts like variables and functions, assuming you know what they are.
 
 # What We're Building
-Throughout this tutorial, we're going to be creating a Pokedex application. For those of you who don't know, a [Pokedex][pokedex] is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?
+Throughout this tutorial, we're going to be creating a **Pokedex application**. For those of you who don't know, a [Pokedex][pokedex] is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?
 
 We'll first start by creating a basic landing page. Then, we'll show you how to create a list to show all the different Pokemon. Next, we'll use the PokeAPI to populate our list with information about real Pokemon. After that, we'll create a detail page that will provide more information about a Pokemon that you would select. Finally, we'll add a search bar so users can easily find their favorite Pokemon.
 
@@ -103,7 +103,7 @@ To create your first project, open XCode. Next, from the top menu bar, select `F
 
 ![Create Project](https://dl.dropboxusercontent.com/s/2648wkh80gt8zxl/create-proj.png)
 
-Next, give a name for your project; I'm calling mine Pokedex. Also, if it doesn't come pre-filled, enter an organization name and identifier; this will be used later by the App Store, but it doesn't affect us much. Make sure your language is set to 'Swift' and your devices to 'iPhone', then press next.
+Next, give a name for your project; I'm calling mine "Pokedex". Also, if it doesn't come pre-filled, enter an organization name and identifier; this will be used later by the App Store, but it doesn't affect us much. Make sure your language is set to 'Swift' and your devices to 'iPhone', then press next.
 
 ![Name Project](https://dl.dropboxusercontent.com/s/lw68oyppocjeal5/nameproject.png)
 
@@ -541,11 +541,11 @@ For our Pokedex to be functional, we're going to need to set this to a different
 
 <a href="#top" class="top" id="pokeapi"></a>
 ## 3.1 PokeAPI
-[PokeAPI][pokeapi] is an [API][api] that allows us to access information about Pokemon. To make our app functional, we'll need to load data from it
+[PokeAPI][pokeapi] is an **API** that allows us to access information about Pokemon. If you aren't familiar, [API][api] stands for "Application Programming Interface," and essentially allows us to access some data, in this case data about Pokemon. To make our app functional, we'll need to load data from it
 
 <a href="#top" class="top" id="pokedex-endpoint"></a>
 ### 3.1.1 `pokedex/1/` Endpoint
-For our list of pokemon, we'll be calling the `pokedex/1/` API. If you look at the [docs][api-docs], you'll see that this endpoint "returns the names and resource_uri for all pokemon." This is exactly what we need; we'll be able to show the name of every Pokemon, and then later on access more information about each individual Pokemon. Try entering `http://pokeapi.co/api/v1/pokedex/1/` into your browser address bar and see what happens.
+For our list of pokemon, we'll be calling the `pokedex/1/` endpoint. If you look at the [docs][api-docs], you'll see that this endpoint "returns the names and resource_uri for all pokemon." This is exactly what we need; we'll be able to show the name of every Pokemon, and then later on access more information about each individual Pokemon. Try entering `http://pokeapi.co/api/v1/pokedex/1/` into your browser address bar and see what happens.
 
 <a href="#top" class="top" id="response-data"></a>
 ### 3.1.2 Response Data
