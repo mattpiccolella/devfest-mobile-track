@@ -1,0 +1,1508 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+body{
+  color:#444;
+  font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman',
+              "Hiragino Sans GB", "STXihei", "微软雅黑", serif;
+  font-size:12px;
+  line-height:1.5em;
+  background:#fefefe;
+  width: 45em;
+  margin: 10px auto;
+  padding: 1em;
+  outline: 1300px solid #FAFAFA;
+}
+
+a{ color: #0645ad; text-decoration:none;}
+a:visited{ color: #0b0080; }
+a:hover{ color: #06e; }
+a:active{ color:#faa700; }
+a:focus{ outline: thin dotted; }
+a:hover, a:active{ outline: 0; }
+
+span.backtick {
+  border:1px solid #EAEAEA;
+  border-radius:3px;
+  background:#F8F8F8;
+  padding:0 3px 0 3px;
+}
+
+::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
+::selection{background:rgba(255,255,0,0.3);color:#000}
+
+a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
+a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
+
+p{
+margin:1em 0;
+}
+
+img{
+max-width:100%;
+}
+
+h1,h2,h3,h4,h5,h6{
+font-weight:normal;
+color:#111;
+line-height:1em;
+}
+h4,h5,h6{ font-weight: bold; }
+h1{ font-size:2.5em; }
+h2{ font-size:2em; border-bottom:1px solid silver; padding-bottom: 5px; }
+h3{ font-size:1.5em; }
+h4{ font-size:1.2em; }
+h5{ font-size:1em; }
+h6{ font-size:0.9em; }
+
+blockquote{
+color:#666666;
+margin:0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
+
+
+pre , code, kbd, samp { 
+  color: #000; 
+  font-family: monospace; 
+  font-size: 0.88em; 
+  border-radius:3px;
+  background-color: #F8F8F8;
+  border: 1px solid #CCC; 
+}
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px 12px;}
+pre code { border: 0px !important; padding: 0;}
+code { padding: 0 3px 0 3px; }
+
+b, strong { font-weight: bold; }
+
+dfn { font-style: italic; }
+
+ins { background: #ff9; color: #000; text-decoration: none; }
+
+mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+ul, ol { margin: 1em 0; padding: 0 0 0 2em; }
+li p:last-child { margin:0 }
+dd { margin: 0 0 0 2em; }
+
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+td { vertical-align: top; }
+
+@media only screen and (min-width: 480px) {
+body{font-size:14px;}
+}
+
+@media only screen and (min-width: 768px) {
+body{font-size:16px;}
+}
+
+@media print {
+  * { background: transparent !important; color: black !important; filter:none !important; -ms-filter: none !important; }
+  body{font-size:12pt; max-width:100%; outline:none;}
+  a, a:visited { text-decoration: underline; }
+  hr { height: 1px; border:0; border-bottom:1px solid black; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
+  pre, blockquote { border: 1px solid #999; padding-right: 1em; page-break-inside: avoid; }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page :left { margin: 15mm 20mm 15mm 10mm; }
+  @page :right { margin: 15mm 10mm 15mm 20mm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+</style><style>/* to allow side-by-side code blocks */
+.join {
+	height: 0;
+	margin: 0;
+}
+.join + pre {
+	width: 45%;
+  float:left;
+	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+pre + pre {
+	display: inline-block;
+	width: 45%;
+	float: right;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+pre + .clear {
+	margin: 0;
+	height: 0;
+	clear: both;
+}
+ul ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+/* Fork me on Github*/
+img.github {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+}
+
+/* headers and top links*/
+
+#top {
+  position: absolute;
+  top:0;
+}
+
+.top {
+  float:right;
+  padding-top: 20px;
+}
+
+/* "Responsive" */
+body {
+  width: 90%;
+  max-width: 50em;
+}
+
+/* make tables pretty */
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      border-bottom-width: 3px;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }</style><style>/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  color: #333;
+  background: #f8f8ff
+}
+
+pre .comment,
+pre .template_comment,
+pre .diff .header,
+pre .javadoc {
+  color: #998;
+  font-style: italic
+}
+
+pre .keyword,
+pre .css .rule .keyword,
+pre .winutils,
+pre .javascript .title,
+pre .nginx .title,
+pre .subst,
+pre .request,
+pre .status {
+  color: #333;
+  font-weight: bold
+}
+
+pre .number,
+pre .hexcolor,
+pre .ruby .constant {
+  color: #099;
+}
+
+pre .string,
+pre .tag .value,
+pre .phpdoc,
+pre .tex .formula {
+  color: #d14
+}
+
+pre .title,
+pre .id,
+pre .coffeescript .params,
+pre .scss .preprocessor {
+  color: #900;
+  font-weight: bold
+}
+
+pre .javascript .title,
+pre .lisp .title,
+pre .clojure .title,
+pre .subst {
+  font-weight: normal
+}
+
+pre .class .title,
+pre .haskell .type,
+pre .vhdl .literal,
+pre .tex .command {
+  color: #458;
+  font-weight: bold
+}
+
+pre .tag,
+pre .tag .title,
+pre .rules .property,
+pre .django .tag .keyword {
+  color: #000080;
+  font-weight: normal
+}
+
+pre .attribute,
+pre .variable,
+pre .lisp .body {
+  color: #008080
+}
+
+pre .regexp {
+  color: #009926
+}
+
+pre .class {
+  color: #458;
+  font-weight: bold
+}
+
+pre .symbol,
+pre .ruby .symbol .string,
+pre .lisp .keyword,
+pre .tex .special,
+pre .prompt {
+  color: #990073
+}
+
+pre .built_in,
+pre .lisp .title,
+pre .clojure .built_in {
+  color: #0086b3
+}
+
+pre .preprocessor,
+pre .pi,
+pre .doctype,
+pre .shebang,
+pre .cdata {
+  color: #999;
+  font-weight: bold
+}
+
+pre .deletion {
+  background: #fdd
+}
+
+pre .addition {
+  background: #dfd
+}
+
+pre .diff .change {
+  background: #0086b3
+}
+
+pre .chunk {
+  color: #aaa
+}</style><script>var hljs=new function(){function l(o){return o.replace(/&/gm,"&amp;").replace(/</gm,"&lt;").replace(/>/gm,"&gt;")}function b(p){for(var o=p.firstChild;o;o=o.nextSibling){if(o.nodeName=="CODE"){return o}if(!(o.nodeType==3&&o.nodeValue.match(/\s+/))){break}}}function h(p,o){return Array.prototype.map.call(p.childNodes,function(q){if(q.nodeType==3){return o?q.nodeValue.replace(/\n/g,""):q.nodeValue}if(q.nodeName=="BR"){return"\n"}return h(q,o)}).join("")}function a(q){var p=(q.className+" "+q.parentNode.className).split(/\s+/);p=p.map(function(r){return r.replace(/^language-/,"")});for(var o=0;o<p.length;o++){if(e[p[o]]||p[o]=="no-highlight"){return p[o]}}}function c(q){var o=[];(function p(r,s){for(var t=r.firstChild;t;t=t.nextSibling){if(t.nodeType==3){s+=t.nodeValue.length}else{if(t.nodeName=="BR"){s+=1}else{if(t.nodeType==1){o.push({event:"start",offset:s,node:t});s=p(t,s);o.push({event:"stop",offset:s,node:t})}}}}return s})(q,0);return o}function j(x,v,w){var p=0;var y="";var r=[];function t(){if(x.length&&v.length){if(x[0].offset!=v[0].offset){return(x[0].offset<v[0].offset)?x:v}else{return v[0].event=="start"?x:v}}else{return x.length?x:v}}function s(A){function z(B){return" "+B.nodeName+'="'+l(B.value)+'"'}return"<"+A.nodeName+Array.prototype.map.call(A.attributes,z).join("")+">"}while(x.length||v.length){var u=t().splice(0,1)[0];y+=l(w.substr(p,u.offset-p));p=u.offset;if(u.event=="start"){y+=s(u.node);r.push(u.node)}else{if(u.event=="stop"){var o,q=r.length;do{q--;o=r[q];y+=("</"+o.nodeName.toLowerCase()+">")}while(o!=u.node);r.splice(q,1);while(q<r.length){y+=s(r[q]);q++}}}}return y+l(w.substr(p))}function f(q){function o(s,r){return RegExp(s,"m"+(q.cI?"i":"")+(r?"g":""))}function p(y,w){if(y.compiled){return}y.compiled=true;var s=[];if(y.k){var r={};function z(A,t){t.split(" ").forEach(function(B){var C=B.split("|");r[C[0]]=[A,C[1]?Number(C[1]):1];s.push(C[0])})}y.lR=o(y.l||hljs.IR,true);if(typeof y.k=="string"){z("keyword",y.k)}else{for(var x in y.k){if(!y.k.hasOwnProperty(x)){continue}z(x,y.k[x])}}y.k=r}if(w){if(y.bWK){y.b="\\b("+s.join("|")+")\\s"}y.bR=o(y.b?y.b:"\\B|\\b");if(!y.e&&!y.eW){y.e="\\B|\\b"}if(y.e){y.eR=o(y.e)}y.tE=y.e||"";if(y.eW&&w.tE){y.tE+=(y.e?"|":"")+w.tE}}if(y.i){y.iR=o(y.i)}if(y.r===undefined){y.r=1}if(!y.c){y.c=[]}for(var v=0;v<y.c.length;v++){if(y.c[v]=="self"){y.c[v]=y}p(y.c[v],y)}if(y.starts){p(y.starts,w)}var u=[];for(var v=0;v<y.c.length;v++){u.push(y.c[v].b)}if(y.tE){u.push(y.tE)}if(y.i){u.push(y.i)}y.t=u.length?o(u.join("|"),true):{exec:function(t){return null}}}p(q)}function d(D,E){function o(r,M){for(var L=0;L<M.c.length;L++){var K=M.c[L].bR.exec(r);if(K&&K.index==0){return M.c[L]}}}function s(K,r){if(K.e&&K.eR.test(r)){return K}if(K.eW){return s(K.parent,r)}}function t(r,K){return K.i&&K.iR.test(r)}function y(L,r){var K=F.cI?r[0].toLowerCase():r[0];return L.k.hasOwnProperty(K)&&L.k[K]}function G(){var K=l(w);if(!A.k){return K}var r="";var N=0;A.lR.lastIndex=0;var L=A.lR.exec(K);while(L){r+=K.substr(N,L.index-N);var M=y(A,L);if(M){v+=M[1];r+='<span class="'+M[0]+'">'+L[0]+"</span>"}else{r+=L[0]}N=A.lR.lastIndex;L=A.lR.exec(K)}return r+K.substr(N)}function z(){if(A.sL&&!e[A.sL]){return l(w)}var r=A.sL?d(A.sL,w):g(w);if(A.r>0){v+=r.keyword_count;B+=r.r}return'<span class="'+r.language+'">'+r.value+"</span>"}function J(){return A.sL!==undefined?z():G()}function I(L,r){var K=L.cN?'<span class="'+L.cN+'">':"";if(L.rB){x+=K;w=""}else{if(L.eB){x+=l(r)+K;w=""}else{x+=K;w=r}}A=Object.create(L,{parent:{value:A}});B+=L.r}function C(K,r){w+=K;if(r===undefined){x+=J();return 0}var L=o(r,A);if(L){x+=J();I(L,r);return L.rB?0:r.length}var M=s(A,r);if(M){if(!(M.rE||M.eE)){w+=r}x+=J();do{if(A.cN){x+="</span>"}A=A.parent}while(A!=M.parent);if(M.eE){x+=l(r)}w="";if(M.starts){I(M.starts,"")}return M.rE?0:r.length}if(t(r,A)){throw"Illegal"}w+=r;return r.length||1}var F=e[D];f(F);var A=F;var w="";var B=0;var v=0;var x="";try{var u,q,p=0;while(true){A.t.lastIndex=p;u=A.t.exec(E);if(!u){break}q=C(E.substr(p,u.index-p),u[0]);p=u.index+q}C(E.substr(p));return{r:B,keyword_count:v,value:x,language:D}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:l(E)}}else{throw H}}}function g(s){var o={keyword_count:0,r:0,value:l(s)};var q=o;for(var p in e){if(!e.hasOwnProperty(p)){continue}var r=d(p,s);r.language=p;if(r.keyword_count+r.r>q.keyword_count+q.r){q=r}if(r.keyword_count+r.r>o.keyword_count+o.r){q=o;o=r}}if(q.language){o.second_best=q}return o}function i(q,p,o){if(p){q=q.replace(/^((<[^>]+>|\t)+)/gm,function(r,v,u,t){return v.replace(/\t/g,p)})}if(o){q=q.replace(/\n/g,"<br>")}return q}function m(r,u,p){var v=h(r,p);var t=a(r);if(t=="no-highlight"){return}var w=t?d(t,v):g(v);t=w.language;var o=c(r);if(o.length){var q=document.createElement("pre");q.innerHTML=w.value;w.value=j(o,c(q),v)}w.value=i(w.value,u,p);var s=r.className;if(!s.match("(\\s|^)(language-)?"+t+"(\\s|$)")){s=s?(s+" "+t):t}r.innerHTML=w.value;r.className=s;r.result={language:t,kw:w.keyword_count,re:w.r};if(w.second_best){r.second_best={language:w.second_best.language,kw:w.second_best.keyword_count,re:w.second_best.r}}}function n(){if(n.called){return}n.called=true;Array.prototype.map.call(document.getElementsByTagName("pre"),b).filter(Boolean).forEach(function(o){m(o,hljs.tabReplace)})}function k(){window.addEventListener("DOMContentLoaded",n,false);window.addEventListener("load",n,false)}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=m;this.initHighlighting=n;this.initHighlightingOnLoad=k;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.BE={b:"\\\\[\\s\\S]",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(q,r){var o={};for(var p in q){o[p]=q[p]}if(r){for(var p in r){o[p]=r[p]}}return o}}();hljs.LANGUAGES.bash=function(a){var g="true false";var e="if then else elif fi for break continue while in do done echo exit return set declare";var c={cN:"variable",b:"\\$[a-zA-Z0-9_#]+"};var b={cN:"variable",b:"\\${([^}]|\\\\})+}"};var h={cN:"string",b:'"',e:'"',i:"\\n",c:[a.BE,c,b],r:0};var d={cN:"string",b:"'",e:"'",c:[{b:"''"}],r:0};var f={cN:"test_condition",b:"",e:"",c:[h,d,c,b],k:{literal:g},r:0};return{k:{keyword:e,literal:g},c:[{cN:"shebang",b:"(#!\\/bin\\/bash)|(#!\\/bin\\/sh)",r:10},c,b,a.HCM,h,d,a.inherit(f,{b:"\\[ ",e:" \\]",r:0}),a.inherit(f,{b:"\\[\\[ ",e:" \\]\\]"})]}}(hljs);hljs.LANGUAGES.cs=function(a){return{k:"abstract as base bool break byte case catch char checked class const continue decimal default delegate do double else enum event explicit extern false finally fixed float for foreach goto if implicit in int interface internal is lock long namespace new null object operator out override params private protected public readonly ref return sbyte sealed short sizeof stackalloc static string struct switch this throw true try typeof uint ulong unchecked unsafe ushort using virtual volatile void while ascending descending from get group into join let orderby partial select set value var where yield",c:[{cN:"comment",b:"///",e:"$",rB:true,c:[{cN:"xmlDocTag",b:"///|<!--|-->"},{cN:"xmlDocTag",b:"</?",e:">"}]},a.CLCM,a.CBLCLM,{cN:"preprocessor",b:"#",e:"$",k:"if else elif endif define undef warning error line region endregion pragma checksum"},{cN:"string",b:'@"',e:'"',c:[{b:'""'}]},a.ASM,a.QSM,a.CNM]}}(hljs);hljs.LANGUAGES.ruby=function(e){var a="[a-zA-Z_][a-zA-Z0-9_]*(\\!|\\?)?";var j="[a-zA-Z_]\\w*[!?=]?|[-+~]\\@|<<|>>|=~|===?|<=>|[<>]=?|\\*\\*|[-/+%^&*~`|]|\\[\\]=?";var g={keyword:"and false then defined module in return redo if BEGIN retry end for true self when next until do begin unless END rescue nil else break undef not super class case require yield alias while ensure elsif or include"};var c={cN:"yardoctag",b:"@[A-Za-z]+"};var k=[{cN:"comment",b:"#",e:"$",c:[c]},{cN:"comment",b:"^\\=begin",e:"^\\=end",c:[c],r:10},{cN:"comment",b:"^__END__",e:"\\n$"}];var d={cN:"subst",b:"#\\{",e:"}",l:a,k:g};var i=[e.BE,d];var b=[{cN:"string",b:"'",e:"'",c:i,r:0},{cN:"string",b:'"',e:'"',c:i,r:0},{cN:"string",b:"%[qw]?\\(",e:"\\)",c:i},{cN:"string",b:"%[qw]?\\[",e:"\\]",c:i},{cN:"string",b:"%[qw]?{",e:"}",c:i},{cN:"string",b:"%[qw]?<",e:">",c:i,r:10},{cN:"string",b:"%[qw]?/",e:"/",c:i,r:10},{cN:"string",b:"%[qw]?%",e:"%",c:i,r:10},{cN:"string",b:"%[qw]?-",e:"-",c:i,r:10},{cN:"string",b:"%[qw]?\\|",e:"\\|",c:i,r:10}];var h={cN:"function",bWK:true,e:" |$|;",k:"def",c:[{cN:"title",b:j,l:a,k:g},{cN:"params",b:"\\(",e:"\\)",l:a,k:g}].concat(k)};var f=k.concat(b.concat([{cN:"class",bWK:true,e:"$|;",k:"class module",c:[{cN:"title",b:"[A-Za-z_]\\w*(::\\w+)*(\\?|\\!)?",r:0},{cN:"inheritance",b:"<\\s*",c:[{cN:"parent",b:"("+e.IR+"::)?"+e.IR}]}].concat(k)},h,{cN:"constant",b:"(::)?(\\b[A-Z]\\w*(::)?)+",r:0},{cN:"symbol",b:":",c:b.concat([{b:j}]),r:0},{cN:"symbol",b:a+":",r:0},{cN:"number",b:"(\\b0[0-7_]+)|(\\b0x[0-9a-fA-F_]+)|(\\b[1-9][0-9_]*(\\.[0-9_]+)?)|[0_]\\b",r:0},{cN:"number",b:"\\?\\w"},{cN:"variable",b:"(\\$\\W)|((\\$|\\@\\@?)(\\w+))"},{b:"("+e.RSR+")\\s*",c:k.concat([{cN:"regexp",b:"/",e:"/[a-z]*",i:"\\n",c:[e.BE,d]}]),r:0}]));d.c=f;h.c[1].c=f;return{l:a,k:g,c:f}}(hljs);hljs.LANGUAGES.diff=function(a){return{c:[{cN:"chunk",b:"^\\@\\@ +\\-\\d+,\\d+ +\\+\\d+,\\d+ +\\@\\@$",r:10},{cN:"chunk",b:"^\\*\\*\\* +\\d+,\\d+ +\\*\\*\\*\\*$",r:10},{cN:"chunk",b:"^\\-\\-\\- +\\d+,\\d+ +\\-\\-\\-\\-$",r:10},{cN:"header",b:"Index: ",e:"$"},{cN:"header",b:"=====",e:"=====$"},{cN:"header",b:"^\\-\\-\\-",e:"$"},{cN:"header",b:"^\\*{3} ",e:"$"},{cN:"header",b:"^\\+\\+\\+",e:"$"},{cN:"header",b:"\\*{5}",e:"\\*{5}$"},{cN:"addition",b:"^\\+",e:"$"},{cN:"deletion",b:"^\\-",e:"$"},{cN:"change",b:"^\\!",e:"$"}]}}(hljs);hljs.LANGUAGES.javascript=function(a){return{k:{keyword:"in if for while finally var new function do return void else break catch instanceof with throw case default try this switch continue typeof delete let yield const",literal:"true false null undefined NaN Infinity"},c:[a.ASM,a.QSM,a.CLCM,a.CBLCLM,a.CNM,{b:"("+a.RSR+"|\\b(case|return|throw)\\b)\\s*",k:"return throw case",c:[a.CLCM,a.CBLCLM,{cN:"regexp",b:"/",e:"/[gim]*",i:"\\n",c:[{b:"\\\\/"}]},{b:"<",e:">;",sL:"xml"}],r:0},{cN:"function",bWK:true,e:"{",k:"function",c:[{cN:"title",b:"[A-Za-z$_][0-9A-Za-z$_]*"},{cN:"params",b:"\\(",e:"\\)",c:[a.CLCM,a.CBLCLM],i:"[\"'\\(]"}],i:"\\[|%"}]}}(hljs);hljs.LANGUAGES.css=function(a){var b={cN:"function",b:a.IR+"\\(",e:"\\)",c:[a.NM,a.ASM,a.QSM]};return{cI:true,i:"[=/|']",c:[a.CBLCLM,{cN:"id",b:"\\#[A-Za-z0-9_-]+"},{cN:"class",b:"\\.[A-Za-z0-9_-]+",r:0},{cN:"attr_selector",b:"\\[",e:"\\]",i:"$"},{cN:"pseudo",b:":(:)?[a-zA-Z0-9\\_\\-\\+\\(\\)\\\"\\']+"},{cN:"at_rule",b:"@(font-face|page)",l:"[a-z-]+",k:"font-face page"},{cN:"at_rule",b:"@",e:"[{;]",eE:true,k:"import page media charset",c:[b,a.ASM,a.QSM,a.NM]},{cN:"tag",b:a.IR,r:0},{cN:"rules",b:"{",e:"}",i:"[^\\s]",r:0,c:[a.CBLCLM,{cN:"rule",b:"[^\\s]",rB:true,e:";",eW:true,c:[{cN:"attribute",b:"[A-Z\\_\\.\\-]+",e:":",eE:true,i:"[^\\s]",starts:{cN:"value",eW:true,eE:true,c:[b,a.NM,a.QSM,a.ASM,a.CBLCLM,{cN:"hexcolor",b:"\\#[0-9A-F]+"},{cN:"important",b:"!important"}]}}]}]}]}}(hljs);hljs.LANGUAGES.xml=function(a){var c="[A-Za-z0-9\\._:-]+";var b={eW:true,c:[{cN:"attribute",b:c,r:0},{b:'="',rB:true,e:'"',c:[{cN:"value",b:'"',eW:true}]},{b:"='",rB:true,e:"'",c:[{cN:"value",b:"'",eW:true}]},{b:"=",c:[{cN:"value",b:"[^\\s/>]+"}]}]};return{cI:true,c:[{cN:"pi",b:"<\\?",e:"\\?>",r:10},{cN:"doctype",b:"<!DOCTYPE",e:">",r:10,c:[{b:"\\[",e:"\\]"}]},{cN:"comment",b:"<!--",e:"-->",r:10},{cN:"cdata",b:"<\\!\\[CDATA\\[",e:"\\]\\]>",r:10},{cN:"tag",b:"<style(?=\\s|>|$)",e:">",k:{title:"style"},c:[b],starts:{e:"</style>",rE:true,sL:"css"}},{cN:"tag",b:"<script(?=\\s|>|$)",e:">",k:{title:"script"},c:[b],starts:{e:"<\/script>",rE:true,sL:"javascript"}},{b:"<%",e:"%>",sL:"vbscript"},{cN:"tag",b:"</?",e:"/?>",c:[{cN:"title",b:"[^ />]+"},b]}]}}(hljs);hljs.LANGUAGES.http=function(a){return{i:"\\S",c:[{cN:"status",b:"^HTTP/[0-9\\.]+",e:"$",c:[{cN:"number",b:"\\b\\d{3}\\b"}]},{cN:"request",b:"^[A-Z]+ (.*?) HTTP/[0-9\\.]+$",rB:true,e:"$",c:[{cN:"string",b:" ",e:" ",eB:true,eE:true}]},{cN:"attribute",b:"^\\w",e:": ",eE:true,i:"\\n|\\s|=",starts:{cN:"string",e:"$"}},{b:"\\n\\n",starts:{sL:"",eW:true}}]}}(hljs);hljs.LANGUAGES.java=function(a){return{k:"false synchronized int abstract float private char boolean static null if const for true while long throw strictfp finally protected import native final return void enum else break transient new catch instanceof byte super volatile case assert short package default double public try this switch continue throws",c:[{cN:"javadoc",b:"/\\*\\*",e:"\\*/",c:[{cN:"javadoctag",b:"@[A-Za-z]+"}],r:10},a.CLCM,a.CBLCLM,a.ASM,a.QSM,{cN:"class",bWK:true,e:"{",k:"class interface",i:":",c:[{bWK:true,k:"extends implements",r:10},{cN:"title",b:a.UIR}]},a.CNM,{cN:"annotation",b:"@[A-Za-z]+"}]}}(hljs);hljs.LANGUAGES.php=function(a){var e={cN:"variable",b:"\\$+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*"};var b=[a.inherit(a.ASM,{i:null}),a.inherit(a.QSM,{i:null}),{cN:"string",b:'b"',e:'"',c:[a.BE]},{cN:"string",b:"b'",e:"'",c:[a.BE]}];var c=[a.BNM,a.CNM];var d={cN:"title",b:a.UIR};return{cI:true,k:"and include_once list abstract global private echo interface as static endswitch array null if endwhile or const for endforeach self var while isset public protected exit foreach throw elseif include __FILE__ empty require_once do xor return implements parent clone use __CLASS__ __LINE__ else break print eval new catch __METHOD__ case exception php_user_filter default die require __FUNCTION__ enddeclare final try this switch continue endfor endif declare unset true false namespace trait goto instanceof insteadof __DIR__ __NAMESPACE__ __halt_compiler",c:[a.CLCM,a.HCM,{cN:"comment",b:"/\\*",e:"\\*/",c:[{cN:"phpdoc",b:"\\s@[A-Za-z]+"}]},{cN:"comment",eB:true,b:"__halt_compiler.+?;",eW:true},{cN:"string",b:"<<<['\"]?\\w+['\"]?$",e:"^\\w+;",c:[a.BE]},{cN:"preprocessor",b:"<\\?php",r:10},{cN:"preprocessor",b:"\\?>"},e,{cN:"function",bWK:true,e:"{",k:"function",i:"\\$|\\[|%",c:[d,{cN:"params",b:"\\(",e:"\\)",c:["self",e,a.CBLCLM].concat(b).concat(c)}]},{cN:"class",bWK:true,e:"{",k:"class",i:"[:\\(\\$]",c:[{bWK:true,eW:true,k:"extends",c:[d]},d]},{b:"=>"}].concat(b).concat(c)}}(hljs);hljs.LANGUAGES.python=function(a){var f={cN:"prompt",b:"^(>>>|\\.\\.\\.) "};var c=[{cN:"string",b:"(u|b)?r?'''",e:"'''",c:[f],r:10},{cN:"string",b:'(u|b)?r?"""',e:'"""',c:[f],r:10},{cN:"string",b:"(u|r|ur)'",e:"'",c:[a.BE],r:10},{cN:"string",b:'(u|r|ur)"',e:'"',c:[a.BE],r:10},{cN:"string",b:"(b|br)'",e:"'",c:[a.BE]},{cN:"string",b:'(b|br)"',e:'"',c:[a.BE]}].concat([a.ASM,a.QSM]);var e={cN:"title",b:a.UIR};var d={cN:"params",b:"\\(",e:"\\)",c:["self",a.CNM,f].concat(c)};var b={bWK:true,e:":",i:"[${=;\\n]",c:[e,d],r:10};return{k:{keyword:"and elif is global as in if from raise for except finally print import pass return exec else break not with class assert yield try while continue del or def lambda nonlocal|10",built_in:"None True False Ellipsis NotImplemented"},i:"(</|->|\\?)",c:c.concat([f,a.HCM,a.inherit(b,{cN:"function",k:"def"}),a.inherit(b,{cN:"class",k:"class"}),a.CNM,{cN:"decorator",b:"@",e:"$"},{b:"\\b(print|exec)\\("}])}}(hljs);hljs.LANGUAGES.sql=function(a){return{cI:true,c:[{cN:"operator",b:"(begin|start|commit|rollback|savepoint|lock|alter|create|drop|rename|call|delete|do|handler|insert|load|replace|select|truncate|update|set|show|pragma|grant)\\b(?!:)",e:";",eW:true,k:{keyword:"all partial global month current_timestamp using go revoke smallint indicator end-exec disconnect zone with character assertion to add current_user usage input local alter match collate real then rollback get read timestamp session_user not integer bit unique day minute desc insert execute like ilike|2 level decimal drop continue isolation found where constraints domain right national some module transaction relative second connect escape close system_user for deferred section cast current sqlstate allocate intersect deallocate numeric public preserve full goto initially asc no key output collation group by union session both last language constraint column of space foreign deferrable prior connection unknown action commit view or first into float year primary cascaded except restrict set references names table outer open select size are rows from prepare distinct leading create only next inner authorization schema corresponding option declare precision immediate else timezone_minute external varying translation true case exception join hour default double scroll value cursor descriptor values dec fetch procedure delete and false int is describe char as at in varchar null trailing any absolute current_time end grant privileges when cross check write current_date pad begin temporary exec time update catalog user sql date on identity timezone_hour natural whenever interval work order cascade diagnostics nchar having left call do handler load replace truncate start lock show pragma exists number",aggregate:"count sum min max avg"},c:[{cN:"string",b:"'",e:"'",c:[a.BE,{b:"''"}],r:0},{cN:"string",b:'"',e:'"',c:[a.BE,{b:'""'}],r:0},{cN:"string",b:"`",e:"`",c:[a.BE]},a.CNM]},a.CBLCLM,{cN:"comment",b:"--",e:"$"}]}}(hljs);hljs.LANGUAGES.ini=function(a){return{cI:true,i:"[^\\s]",c:[{cN:"comment",b:";",e:"$"},{cN:"title",b:"^\\[",e:"\\]"},{cN:"setting",b:"^[a-z0-9\\[\\]_-]+[ \\t]*=[ \\t]*",e:"$",c:[{cN:"value",eW:true,k:"on off true false yes no",c:[a.QSM,a.NM]}]}]}}(hljs);hljs.LANGUAGES.perl=function(e){var a="getpwent getservent quotemeta msgrcv scalar kill dbmclose undef lc ma syswrite tr send umask sysopen shmwrite vec qx utime local oct semctl localtime readpipe do return format read sprintf dbmopen pop getpgrp not getpwnam rewinddir qqfileno qw endprotoent wait sethostent bless s|0 opendir continue each sleep endgrent shutdown dump chomp connect getsockname die socketpair close flock exists index shmgetsub for endpwent redo lstat msgctl setpgrp abs exit select print ref gethostbyaddr unshift fcntl syscall goto getnetbyaddr join gmtime symlink semget splice x|0 getpeername recv log setsockopt cos last reverse gethostbyname getgrnam study formline endhostent times chop length gethostent getnetent pack getprotoent getservbyname rand mkdir pos chmod y|0 substr endnetent printf next open msgsnd readdir use unlink getsockopt getpriority rindex wantarray hex system getservbyport endservent int chr untie rmdir prototype tell listen fork shmread ucfirst setprotoent else sysseek link getgrgid shmctl waitpid unpack getnetbyname reset chdir grep split require caller lcfirst until warn while values shift telldir getpwuid my getprotobynumber delete and sort uc defined srand accept package seekdir getprotobyname semop our rename seek if q|0 chroot sysread setpwent no crypt getc chown sqrt write setnetent setpriority foreach tie sin msgget map stat getlogin unless elsif truncate exec keys glob tied closedirioctl socket readlink eval xor readline binmode setservent eof ord bind alarm pipe atan2 getgrent exp time push setgrent gt lt or ne m|0 break given say state when";var d={cN:"subst",b:"[$@]\\{",e:"\\}",k:a,r:10};var b={cN:"variable",b:"\\$\\d"};var i={cN:"variable",b:"[\\$\\%\\@\\*](\\^\\w\\b|#\\w+(\\:\\:\\w+)*|[^\\s\\w{]|{\\w+}|\\w+(\\:\\:\\w*)*)"};var f=[e.BE,d,b,i];var h={b:"->",c:[{b:e.IR},{b:"{",e:"}"}]};var g={cN:"comment",b:"^(__END__|__DATA__)",e:"\\n$",r:5};var c=[b,i,e.HCM,g,{cN:"comment",b:"^\\=\\w",e:"\\=cut",eW:true},h,{cN:"string",b:"q[qwxr]?\\s*\\(",e:"\\)",c:f,r:5},{cN:"string",b:"q[qwxr]?\\s*\\[",e:"\\]",c:f,r:5},{cN:"string",b:"q[qwxr]?\\s*\\{",e:"\\}",c:f,r:5},{cN:"string",b:"q[qwxr]?\\s*\\|",e:"\\|",c:f,r:5},{cN:"string",b:"q[qwxr]?\\s*\\<",e:"\\>",c:f,r:5},{cN:"string",b:"qw\\s+q",e:"q",c:f,r:5},{cN:"string",b:"'",e:"'",c:[e.BE],r:0},{cN:"string",b:'"',e:'"',c:f,r:0},{cN:"string",b:"`",e:"`",c:[e.BE]},{cN:"string",b:"{\\w+}",r:0},{cN:"string",b:"-?\\w+\\s*\\=\\>",r:0},{cN:"number",b:"(\\b0[0-7_]+)|(\\b0x[0-9a-fA-F_]+)|(\\b[1-9][0-9_]*(\\.[0-9_]+)?)|[0_]\\b",r:0},{b:"("+e.RSR+"|\\b(split|return|print|reverse|grep)\\b)\\s*",k:"split return print reverse grep",r:0,c:[e.HCM,g,{cN:"regexp",b:"(s|tr|y)/(\\\\.|[^/])*/(\\\\.|[^/])*/[a-z]*",r:10},{cN:"regexp",b:"(m|qr)?/",e:"/[a-z]*",c:[e.BE],r:0}]},{cN:"sub",bWK:true,e:"(\\s*\\(.*?\\))?[;{]",k:"sub",r:5},{cN:"operator",b:"-\\w\\b",r:0}];d.c=c;h.c[1].c=c;return{k:a,c:c}}(hljs);hljs.LANGUAGES.json=function(a){var e={literal:"true false null"};var d=[a.QSM,a.CNM];var c={cN:"value",e:",",eW:true,eE:true,c:d,k:e};var b={b:"{",e:"}",c:[{cN:"attribute",b:'\\s*"',e:'"\\s*:\\s*',eB:true,eE:true,c:[a.BE],i:"\\n",starts:c}],i:"\\S"};var f={b:"\\[",e:"\\]",c:[a.inherit(c,{cN:null})],i:"\\S"};d.splice(d.length,0,b,f);return{c:d,k:e,i:"\\S"}}(hljs);hljs.LANGUAGES.cpp=function(a){var b={keyword:"false int float while private char catch export virtual operator sizeof dynamic_cast|10 typedef const_cast|10 const struct for static_cast|10 union namespace unsigned long throw volatile static protected bool template mutable if public friend do return goto auto void enum else break new extern using true class asm case typeid short reinterpret_cast|10 default double register explicit signed typename try this switch continue wchar_t inline delete alignof char16_t char32_t constexpr decltype noexcept nullptr static_assert thread_local restrict _Bool complex",built_in:"std string cin cout cerr clog stringstream istringstream ostringstream auto_ptr deque list queue stack vector map set bitset multiset multimap unordered_set unordered_map unordered_multiset unordered_multimap array shared_ptr"};return{k:b,i:"</",c:[a.CLCM,a.CBLCLM,a.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},a.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:b,r:10,c:["self"]}]}}(hljs);
+</script><script>hljs.initHighlightingOnLoad();</script><title>DevFest Mobile.md</title></head><body><a href="https://github.com/mjp2220/devfest-mobile-track.git"><img class="github" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a><p><a id="top"></a></p>
+<h1 id="devfest-mobile-development-track">DevFest Mobile Development Track</h1>
+<p><em>Dive into iOS development by building your first application.</em></p>
+<p>Written and developed by <a href="http://mattpic.com">Matt Piccolella</a> and <a href="http://adicu.com">ADI</a>.</p>
+<p><a class="top" id="getting-started"></a></p>
+<h1 id="about-this-document">About This Document</h1>
+<h2 id="methodology">Methodology</h2>
+<p>This guide will teach you the basics of mobile programming, in particular iOS programming, by helping you to create your first mobile application. We will start with a basic app, incrementally adding features at each level until we have a fully-featured app. You can start at any of the levels if you have prior experience with iOS programming, but we recommend beginners start at the beginning to make sure they see the entire picture.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>You should have a beginner's knowledge of <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html">Swift</a>, Apple's new programming language that will be used for future generations of iPhone applications. It's a great language that is somewhere between Objective-C, Python, and Javascript. Also, you should have programmed before; we'll skip over concepts like variables and functions, assuming you know what they are.</p>
+<h2 id="starter-code">Starter Code</h2>
+<p>This document advances linearly, meaning that level 2 builds atop level 1, level 3 atop level 2, and so on. If you don't want to do some of the levels, we provide starter code at the top of each level past the first; simply download it, unzip it, and open the relevant file, either <code>Pokedex.xcworkspace</code> or <code>Pokedex.xcodeproj</code>. Also, code can be taken from <a href="https://github.com/mjp2220/Pokedex">GitHub</a>; there are branches for each of the different levels.</p>
+<h1 id="what-were-building">What We're Building</h1>
+<p>Throughout this tutorial, we're going to be creating a <strong>Pokedex application</strong>. For those of you who don't know, a <a href="http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9dex">Pokedex</a> is a digital encyclopedia from the show "Pokemon" that holds information about all the world's pokemon. Who needs to carry around a Pokedex when we can build one for our iPhone?</p>
+<p>We'll first start by creating a basic landing page. Then, we'll show you how to create a list to show all the different Pokemon. Next, we'll use the PokeAPI to populate our list with information about real Pokemon. After that, we'll create a detail page that will provide more information about a Pokemon that you would select. Finally, we'll add a search bar so users can easily find their favorite Pokemon.</p>
+<h1 id="table-of-contents">Table of Contents</h1>
+<ul>
+<li><a href="#level0">Level 0: Environment Setup</a></li>
+<li><a href="#level1">Level 1: Your First iPhone Application</a><ul>
+<li><a href="#first-project">1.1 Creating your First Project</a></li>
+<li><a href="#exploring-xcode">1.2 Exploring XCode</a><ul>
+<li><a href="#editor">1.2.1 The Editor</a></li>
+<li><a href="#navigator">1.2.2 The Project Navigator</a></li>
+<li><a href="#utilities">1.2.3 The Utilities</a></li>
+<li><a href="#toolbar">1.2.4 The Project Toolbar</a></li>
+</ul>
+</li>
+<li><a href="#file-structure">1.3 Project File Structure</a><ul>
+<li><a href="#storyboards">1.3.1 Storyboards</a></li>
+<li><a href="#view-controller">1.3.2 View Controller</a></li>
+<li><a href="#app-delegate">1.3.3 App Delegate</a></li>
+<li><a href="#other-files">1.3.4 Other Files</a></li>
+</ul>
+</li>
+<li><a href="#home-screen">1.4 Creating our Home Screen</a><ul>
+<li><a href="#first-prop">1.4.1 Setting our First Property</a></li>
+<li><a href="#first-view">1.4.2 Adding our First View</a></li>
+<li><a href="#second-view">1.4.3 Adding our Second View</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#level2">Level 2: Simple List View</a><ul>
+<li><a href="#add-nav">2.1 Adding Navigation</a><ul>
+<li><a href="#ui-nav">2.1.1 <code>UINavigationController</code></a></li>
+<li><a href="#new-screen">2.1.2 Adding a New Screen</a></li>
+<li><a href="#add-segue">2.1.3 Adding a Segue</a></li>
+</ul>
+</li>
+<li><a href="#connect-story">2.2 Connceting our Storyboard to Code</a><ul>
+<li><a href="#ui-coll">2.2.1 <code>UICollectionView</code></a></li>
+<li><a href="#outlets">2.2.2 Outlets</a></li>
+</ul>
+</li>
+<li><a href="#add-data">2.3 Adding Data to our Collection</a><ul>
+<li><a href="#custom-cell">2.3.1 Creating a Custom Cell</a></li>
+<li><a href="#cell-size">2.3.2 Setting Cell Size</a></li>
+<li><a href="#pass-data">2.3.3 Passing Data to the List</a></li>
+<li><a href="#config-view">2.3.4 Configuring our View</a></li>
+<li><a href="#add-titles">2.3.5 Adding Titles</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#level3">Level 3: Loading Web Data</a><ul>
+<li><a href="#pokeapi">3.1 PokeAPI</a><ul>
+<li><a href="#pokedex-endpoint">3.1.1 <code>pokedex/1/</code> Endpoint</a></li>
+<li><a href="#response-data">3.1.2 Response Data</a></li>
+</ul>
+</li>
+<li><a href="#external-lib">3.2 Using External Libraries with CocoaPods</a><ul>
+<li><a href="#cocoapods">3.2.1 Cocoapods</a></li>
+<li><a href="#alamo-swift">3.2.2 Alamofire and SwiftyJSON</a></li>
+<li><a href="#xcworkspace">3.2.3 <code>Pokedex.xcworkspace</code></a></li>
+</ul>
+</li>
+<li><a href="#data-poke">3.3 Loading our Data from PokeAPI</a><ul>
+<li><a href="#model-rep">3.3.1 Creating a Model Representation</a></li>
+<li><a href="#query-api">3.3.2 Querying the API</a></li>
+<li><a href="#data-coll">3.3.3 Passing the Data to our Collection View</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#level4">Level 4: Adding a Detail View</a><ul>
+<li><a href="#new-vc">4.1 Creating a New View Controller</a><ul>
+<li><a href="#main-story">4.1.1 Adding to <code>Main.storyboard</code></a></li>
+<li><a href="#sub-detail">4.1.2 Adding Sub-Views to our Detail View</a></li>
+<li><a href="#detail-outlet">4.1.3 Adding Outlets to <code>PokemonDetailViewController</code></a></li>
+</ul>
+</li>
+<li><a href="#show-new-vc">4.2 Showing our New View Controller</a><ul>
+<li><a href="#coll-view-del">4.2.1 <code>UICollectionViewDelegate</code></a></li>
+<li><a href="#unique-view">4.2.2 Making our View Unique</a></li>
+</ul>
+</li>
+<li><a href="#detail-data">4.3 Adding our Detail Data</a><ul>
+<li><a href="#fetch-data">4.3.1 Fetching the Data</a></li>
+<li><a href="#set-sub-views">4.3.2 Setting our Sub-Views</a></li>
+<li><a href="#fetch-image">4.3.3 Fetching the Image</a></li>
+<li><a href="#list-moves">4.3.4 Displaying our List of Moves</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#level5">Level 5: Filtering Data</a><ul>
+<li><a href="#search-bar">5.1 Adding a Search Bar</a><ul>
+<li><a href="#uisearchbar">5.1.1 Adding a <code>UISearchBar</code> sub-view</a></li>
+<li><a href="#uisearchbardelegate">5.1.2 <code>UISearchBarDelegate</code></a></li>
+</ul>
+</li>
+<li><a href="#filter-data">5.2 Filtering Data</a><ul>
+<li><a href="#filtered-array">5.2.1 Adding a Filtered Array</a></li>
+<li><a href="#sort-strings">5.2.2 Sorting Strings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#next-steps">Next Steps</a></li>
+<li><a href="#additional-resources">Additional Resources</a></li>
+</ul>
+<hr />
+<p><a href="#top" class="top" id="level0"></a></p>
+<h1 id="level-0-environment-setup">Level 0: Environment Setup</h1>
+<p>To develop iOS applications, you use an application called <strong>Xcode</strong>. Made by Apple, Xcode is an <a href="https://en.wikipedia.org/wiki/Integrated_development_environment">IDE</a> (Integrated Development Environment) that makes a lot of things easy: building the user interface for your apps, running and testing your apps, and, of course, writing code.</p>
+<p>Unfortunately, to install Xcode, <strong>you must have a computer that is running OS X</strong>; pending some kind of strange dual boot, this unfortunately means that, in order to develop iOS applications, <strong>you must have a Mac computer</strong>. If you don't, then we'll have to sadly recommend that you select a different track.</p>
+<p>If you have a Mac, environment setup ends up being quite easy. Simply <a href="https://developer.apple.com/xcode/download/">install Xcode</a>. Pick the most recent version available at this link; at time of writing this, Xcode 7.2 is the most recent. <strong>Important:</strong> don't install the beta version; generally they're pretty unstable and not worth risking the breaks that could occur. These download links should redirect you to the Mac App Store, from which you'll be able to download Xcode.</p>
+<p>Once you've done this, install <a href="https://guides.cocoapods.org/using/getting-started.html#getting-started">Cocoapods</a>. To do this, you'll need to use Ruby (in the form of <code>gem install</code>), which comes pre-installed on Macs. If you are having an issue installing Cocoapods with the command, try downloading <a href="https://rvm.io/">RVM</a>; it's a Ruby version manager that makes it easier to install things. Stack Overflow will help you if you get into any tough spots here.</p>
+<p>Other than that, you won't need anything else to do iOS development. Most of the things you'll need come pre-installed with Xcode, which is great.</p>
+<p><a href="#top" class="top" id="level1"></a></p>
+<h1 id="level-1-your-first-iphone-application">Level 1: Your First iPhone Application</h1>
+<p>In this section, we're going to be starting our first iOS project. We'll explore the fundamentals of how to use XCode, what a Storyboard is, and how to layout your user interface using constraints.</p>
+<p><a href="#top" class="top" id="first-project"></a></p>
+<h2 id="11-creating-your-first-project">1.1 Creating your First Project</h2>
+<p>To create your first project, open XCode. Next, from the top menu bar, select <code>File -&gt; New -&gt; Project</code>. For your project, on the left side, select 'Application' under 'iOS', and make sure it's a 'Single View Application', as seen below. Then press next.</p>
+<p><img alt="Create Project" src="https://dl.dropboxusercontent.com/s/2648wkh80gt8zxl/create-proj.png" /></p>
+<p>Next, give a name for your project; I'm calling mine "Pokedex". Also, if it doesn't come pre-filled, enter an organization name and identifier; this will be used later by the App Store, but it doesn't affect us much. Make sure your language is set to 'Swift' and your devices to 'iPhone', then press next.</p>
+<p><img alt="Name Project" src="https://dl.dropboxusercontent.com/s/lw68oyppocjeal5/nameproject.png" /></p>
+<p>Now you've created your first project!</p>
+<p><a href="#top" class="top" id="exploring-xcode"></a></p>
+<h2 id="12-exploring-xcode">1.2 Exploring XCode</h2>
+<p>XCode is the application that you develop iOS applications in. Because it's such a large piece of software with a lot of functionality, it can be confusing to understand at times. Generally though, the application is broken up into four parts: the editor, the project navigator, the utilities, and the project toolbar.</p>
+<p><a href="#top" class="top" id="editor"></a></p>
+<h3 id="121-the-editor">1.2.1 The Editor</h3>
+<p>The editor is the large part in the center. This is where you'll write code, build your user interfaces, and essentially do most of the work. It's essentially a text editor built into the application as you might see in Sublime or some other IDE.</p>
+<p><a href="#top" class="top" id="navigator"></a></p>
+<h3 id="122-the-project-navigator">1.2.2 The Project Navigator</h3>
+<p>The project navigator is the column all the way to the left in the project. It shows all of the files that are in your project. Clicking on one opens the file in our editor. For our project, this is what it should look like:</p>
+<p><img alt="Navigator" src="https://dl.dropboxusercontent.com/s/g4rv9k3rdp7kd8q/navigator.png" /></p>
+<p><a href="#top" class="top" id="utilities"></a></p>
+<h3 id="123-the-utilities">1.2.3 The Utilities</h3>
+<p>A lot of different things are crammed into the utilities sidebar, which appears on the right side. We'll see most of them as we continue, but it features attribute inspectors, which allow us to attributes, like fonts and colors, to UI elements, size inspectors, which allow us to configure their positions, and identity inspectors which allow us to assign specific classes to views. Also, it features our object library, which has all of the built-in views we'll use in our app, including buttons, labels, and other things.</p>
+<p><a href="#top" class="top" id="toolbar"></a></p>
+<h3 id="124-the-project-toolbar">1.2.4 The Project Toolbar</h3>
+<p>The project toolbar is all the way at the top, above the editor, project navigator, and utilities. On the left side, we'll see a play button and a stop button. As you may expect, these are used to run your project and to stop your project. You just pick which device you want to run your project on and press the play button.</p>
+<p><img alt="Play Button" src="https://dl.dropboxusercontent.com/s/ss71tvkwylozff0/playbutton.png" /></p>
+<p>On the right side are some buttons that change the way our views are presented Play around with them to see what they do.</p>
+<p><a href="#top" class="top" id="file-structure"></a></p>
+<h2 id="13-project-file-structure">1.3 Project File Structure</h2>
+<p>In the Project Navigator we saw above, you'll notice that there are several files that we have: <code>Main.storyboard</code>, <code>ViewController.swift</code>, and <code>AppDelegate.swift</code> are the most important. Let's discuss each one of them in detail.</p>
+<p><a href="#top" class="top" id="storyboards"></a></p>
+<h3 id="131-storyboards">1.3.1 Storyboards</h3>
+<p><code>Main.storyboard</code> will be where we create our user interface. As the name suggests, the storyboard allows us to build different screens and then configure how we get from one screen to another. For example, in this level, we'll create our home screen in our <code>Main.storyboard</code> file. In the next level, we'll configure the 'Enter' button on our homescreen to bring us to the Pokedex list screen. Thus, by looking at our storyboard file, we'll be able to understand the entire flow of our application, from start to finish.</p>
+<p>By default, we are given <code>Main.storyboard</code>, which is configured to by the entry point to our application. When our application runs, the first thing that will be presented will be the entry point of our storyboard.</p>
+<p>You can read more about storyboards <a href="https://developer.apple.com/library/ios/recipes/xcode_help-IB_storyboard/Chapters/AboutStoryboards.html">here</a>.</p>
+<p><a href="#top" class="top" id="view-controller"></a></p>
+<h3 id="132-view-controller">1.3.2 View Controller</h3>
+<p><code>ViewController.swift</code> represents our home screen. As the name suggests, a view controller controls the view. This means that we do things like set the text for labels, set the images for image views, load data from an API to present, and many other things. Roughly, each view controller corresponds to a different screen in our application; thus, if we want a new screen in our application, we'll create a new view controller file in our project.</p>
+<p>Each ViewController extends the base class <code>UIViewController</code>; thus, our default <code>ViewController</code> inherits many methods from this base class, which we'll see later. To use new custom classes, we simply set the custom class inside of our <code>Main.storyboard</code> file, in the utilities sidebar. We'll see much more of this later.</p>
+<p>You can read more about view controllers <a href="https://developer.apple.com/library/ios/featuredarticles/ViewControllerPGforiPhoneOS/">here</a>.</p>
+<p><a href="#top" class="top" id="app-delegate"></a></p>
+<h3 id="133-app-delegate">1.3.3 App Delegate</h3>
+<p><code>AppDelegate.swift</code> contains many of the global configurations for our application. We won't touch this file often, but it is the first code that is run when our application is launched. The top function in this file, <code>applicationDidFinishLaunchingWithOptions</code>, runs immediately after the application has launched, and allows us to decide which storyboard should be used, whether we have a logged-in user or not, and many other kinds of things. Global variables are also often stored in this file.</p>
+<p>As we'll see later, a delegate is essentially an object that gets notified when certain events occur or when certain states are reached. If you click on <code>AppDelegate.swift</code>, you'll see <code>applicationDidEnterBackground</code> and <code>applicationWillTerminate</code>; without knowing how these things are detected, we can simply write code that will run whenever our application performs these things. Delegates are really helpful, and we'll explore them more later.</p>
+<p>I found this <a href="http://stackoverflow.com/questions/652460/what-is-the-appdelegate-for-and-how-do-i-know-when-to-use-it">StackOverflow question</a> to be quite helpful.</p>
+<p><a href="#top" class="top" id="other-files"></a></p>
+<h3 id="134-other-files">1.3.4 Other Files</h3>
+<p>While the above three are our main files, there are some other files in our project that are less important, but still worth discussing.</p>
+<p><code>Info.plist</code> contains information about our application, such as our application name, what version of our application we're on, and other things like this. Some things may require configurations to be made in this file.</p>
+<p><code>LaunchScreen.storyboard</code>, as you may expect, is a storyboard that represents our launch screen. Here, you can configure the screen that appears just before our application launches. It defaults to just being a blank screen.</p>
+<p><code>Assets.xcassets</code> is a file that contains the assets for our project. If you click it, you'll see just one asset, 'AppIcon', on the left side. If you click it, you'll see the asset configuration screen open. This screen allows you to drag and drop the different sizes of the image you'll need for different screen sizes; it's fairly self-explanatory.</p>
+<p><img alt="Assets" src="https://dl.dropboxusercontent.com/s/flwod4zizqvsz2j/assets.png" /></p>
+<p><a href="#top" class="top" id="home-screen"></a></p>
+<h2 id="14-creating-our-home-screen">1.4 Creating our Home Screen</h2>
+<p>Now that we have a pretty good idea of how to use XCode and what all our different files mean, let's start making our app! To start, in our project toolbar up at the top, select 'iPhone 6s' from the dropdown and press the 'Play' button. </p>
+<p>After a moment, you should see the iPhone simulator appear. The simulator is essentially a simulated iPhone running inside of our computer; it allows us to test iPhone applications easily without needing a physical device. Play around in the toolbar for Simulator and you'll find that you can reach the home screen, open the 'Settings' page for the device, and do all sorts of our other things.</p>
+<p>Initially, your application should just be a blank screen, as below. From here, let's start adding some stuff to it.</p>
+<p><img alt="Blank Screen" src="https://dl.dropboxusercontent.com/s/pxzgu8mq4s94we0/blankscreen.png" /></p>
+<p><a href="#top" class="top" id="first-prop"></a></p>
+<h3 id="141-setting-our-first-property">1.4.1 Setting our First Property</h3>
+<p>Everyone knows that the Pokedex is red, so our plain white background definitely won't do. Let's set the background of our home screen to be red!</p>
+<p>On the left side, click <code>Main.storyboard</code> to open our storyboard in our center editor. You should see something like this:</p>
+<p><img alt="Storyboard Editor" src="https://dl.dropboxusercontent.com/s/4lpp3vqarp9dlf1/storyboardeditor.png" /></p>
+<p>On the left side, you'll see the hierarchy of the view controllers. Right now, we have a 'View Controller Scene', which represents some action in our application. Inside of that, we have a single view controller, which corresponds to our home screen. If you click on 'View Controller' on the left side, then look over at our Utilies sidebar on the right and select the third icon from the left; in this screen, under 'Custom Class', you'll see 'ViewController' is filled in. </p>
+<p><img alt="Custom Class" src="https://dl.dropboxusercontent.com/s/2fbimp9ge2a0tsr/configuration.png" /></p>
+<p>Thus, in order to change what type of view controller we're using, we simply need to change this class. For example, if we wanted our first view controller to be a login screen, we might create a new file, <code>LoginViewController</code>, and set the Custom Class on this view controller to be 'LoginViewController'.</p>
+<p>Now, inside this ViewController hierarchy, we should see 'View'. For each ViewController, we have a View object, which corresponds to what we see visually. Click on 'View' on the left side. On the utilities sidebar on the right, click the attributes inspector; it's the third icon from the right. Click the 'Background' dropdown, click 'Other', and then select 'Red'; you can do this by entering 255,0,0 in the RGB selectors.</p>
+<p><img alt="Attribute Selector" src="https://dl.dropboxusercontent.com/s/sg19rtqx475s2i0/attributeselector.png" /></p>
+<p>Once you do this, the background color of the view should change to red. Press the play button to run the app, and you'll see the changed background color.</p>
+<p><a href="#top" class="top" id="first-view"></a></p>
+<h3 id="142-adding-our-first-view">1.4.2 Adding our First View</h3>
+<p>You can't make an app just by changing the background color; we need things like buttons, text labels, and text fields. Let's start by adding some.</p>
+<p>Views in iOS are recursive by definition; views are composed of a collection of views, which we call subviews, and they all descend from the class <code>UIView</code>. Some examples of subclasses of <code>UIView</code> include <code>UILabel</code>, <code>UIButton</code>, and <code>UITextField</code>. In our <code>Main.storyboard</code> file, we can add these things to our view controller's view.</p>
+<p>To start making our app, let's add the Pokemon logo; it's a good way for people to know what exactly our app does.</p>
+<p>Make sure our red view is up. Next, you should see a section in the bottom right with things like "View Controller" and "Storyboard Reference" in there. This is where all of the UI widgets for iOS apps, like buttons, tab bars, and text fields, reside; to add one, you just drag and drop onto your storyboard file. In the text box, type "image"; you should see one result, "Image View": Drag and drop from the Image View into the center of the red canvas. We now have an image in our app!</p>
+<p><img alt="Image View" src="https://dl.dropboxusercontent.com/s/ef0ql52ku5wiunk/image.png" /></p>
+<p>Something you may be wondering: our storyboard view is a square, not the dimensions of an iPhone. This is because the view isn't for any particular iPhone, but is meant to represent all the different iPhones, from the iPhone 4 to the iPhone 6s. We do this with a system called <a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/index.html">Auto Layout</a>.</p>
+<p><strong>Auto Layout</strong> is essentially a generic way of laying out your views so that iOS can handle the views given a set of <strong>constraints</strong>. Constraints are a set of rules that the view must fulfill; it's the job of iOS to layout each of the views given a screen size, which we know once the app runs on the device. An example of a constraint would be to make sure that the left side of the view is 20px from the left edge, or to make sure that the top of one view is 10px from the bottom of another view, or to make sure that the view is 40px high.</p>
+<p>If we don't use constraints, our app has no idea how to layout our views. It doesn't know how big it should be or in what position it should be. So, to make sure our image looks like we want it to, we need to add constraints.</p>
+<p>First, let's make sure our logo is centered vertically; we want it to appear in the middle of the screen. To do this, we can add a constraint. Control-drag from our ImageView in our left bar to its parent View; we drag in this direction because we want the subview to be centered within the parent view. Once you do this, you'll see several options for different constraints, most of which do what you'd think they'd do. </p>
+<p><img alt="Constraints" src="https://dl.dropboxusercontent.com/s/hea7osfnenno6g7/constraints.png" /></p>
+<p>To center it vertically, please select "Center Vertically in Container". Since we know that it should be centered vertically, now we should define how it will look horizontally. Control-drag the same way you did above, and first select 'Leading Space to Container Margin'. Then, select 'Trailing Space to Container Margin'. These essentially say 'How much space comes before it to the left?' and 'How much space comes before it to the right?'.</p>
+<p>To set the actual values, select the Size inspector icon on the right side; it's the second from the right. Down toward the bottom, you'll see all the constraints that you've added. To change a value of something, just click 'Edit'. For each the trailing space and leading space, change the value to 20; this way we'll add 20px on each side within our view. Once you're done, it should look as follows:</p>
+<p><img alt="Constraints View" src="https://dl.dropboxusercontent.com/s/6ubzlgsg8r0j74e/Constraints%20View.png" /></p>
+<p>Once we've done this, on the left side you should see a red dot appear to indicate an error. Double click it, and you'll see this screen:</p>
+<p><img alt="Constraint Error" src="https://dl.dropboxusercontent.com/s/nu276g9cd7nla2m/constrainterror.png" /></p>
+<p>Our error is telling us that we don't have constraints for Y position or height. What exactly does this mean?</p>
+<p>When we set constraints, we need to add constraints to fulfill four different things:</p>
+<ol>
+<li>X-position</li>
+<li>Y-position</li>
+<li>Width</li>
+<li>Height</li>
+</ol>
+<p>If we don't fulfill each of these, we'll get an error, and rightfully so! If we don't give each one of these four things, iOS won't have enough information to layout our views!</p>
+<p>Let's think about what our first three constraints did for us. Centering the image vertically means we've provided Y-position; if the view is 200px tall, iOS knows that the center of our view should be at 100px. We've also set our width; if our view is 200px wide, our view will be (200 - (2*20))px wide because of the padding we've added on each side. We've also set X-position, though this one may be less obvious. Since we've put 20px of padding on each side, we know that our view's center will be centered horizontally; we could have just as easily added another constraint, "Center Horizontally in Container."</p>
+<p>So, as our error tells us, we're missing height. How do we decide how tall our image should be? To do this, let's think back to why we're adding this image in the first place; we want to display the Pokemon logo. To do this, we need the Pokemon logo. So, download the image <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/English_Pok%C3%A9mon_logo.svg/2000px-English_Pok%C3%A9mon_logo.svg.png">here</a>. Since we already know the width, and we know the aspect ratio of our image, it would probably be a good idea to set the aspect ratio for our image; that way, the height can be determined from our width.</p>
+<p>To do this, Control-drag and drop from "Image View" to itself; you'll see a new menu for constraints appear. These constraints are a little bit different, in that they aren't in terms of the views container, but in terms of attributes of the view itself. Thus, if we wanted to set the width to 200px, we wouldn't need to know anything about the containing view. </p>
+<p><img alt="Self Constraints" src="https://dl.dropboxusercontent.com/s/sbmk0fkwxz4aple/selfconstraints.png" /></p>
+<p>Once we've added this, in the "Constraint" menu on the right side, edit the "Aspect Ratio" constraint to be equal to 125:46, the aspect ratio of our attached image.</p>
+<p>Now that we've done this, we're almost done. However, you may notice there is a yellow warning to the right of the view hierarchy. Click it, and you should see this:</p>
+<p><img alt="Constraints" src="https://dl.dropboxusercontent.com/s/vnhzidkibiw8vfq/constraintissues.png" /></p>
+<p>What the errors (and the yellow lines we see on the views) tell us is that our views the actual dimensions don't match our expected errors. This is because iOS is trying to layout our views based on our default view size (it's 600 x 600 by default). To fix this, press the triangle in the bottom right corner and press "Update Frames". After this, you'll see the frames of our views update.</p>
+<p><img alt="Update Frames" src="https://dl.dropboxusercontent.com/s/jd8e1jguueu44nf/updateframes.png" /> </p>
+<p>Once you've done that, let's actually add our Pokemon logo. In XCode, click <code>File -&gt; Add Files to "Pokedex"</code>, locate the Pokemon icon, and press "Add". At this point, you should see the file in the project navigator on the left, entitled "English_Pokemon_logo.svg.png". To set the image of our Image View, open <code>Main.storyboard</code>, and click the Image View in the view hierarchy on the left. Then, in your attribute selector, start typing the name of your image in the Image box, at which point it should autocomplete. Once you press enter, you'll see the Pokemon logo appear, and with that, we're done adding our first view!</p>
+<p><img alt="Image Name" src="https://dl.dropboxusercontent.com/s/18l1wak4hhqzu3o/imageselect.png" /></p>
+<p>Note: Auto Layout can be quite difficult to understand at first. Deciding what constraints will lead to the layout you want can feel like a logic puzzle at times. However, it's MUCH better than the alternative, which would be designing an interface for each of the six different iPhones. It's worth putting in the time to learn, perhaps by re-reading this section a couple times.</p>
+<p><a href="#top" class="top" id="second-view"></a></p>
+<h3 id="142-adding-our-second-view">1.4.2 Adding our Second View</h3>
+<p>We're going to need a way to enter our Pokedex; let's add a button to do that. Make sure your <code>Main.storyboard</code> file is open. Just like we did last time, search "button" in the bottom-right widget section. Then, drag and drop a button onto the view just below our logo. First, let's add a constraint to center it horizontally; do this by Control-dragging from Button to View in the view hierarchy on the left and selecting "Center Horizontally in Container". </p>
+<p>Next, let's set the y-position relative to the Pokemon logo. Control-drag from Button to our Image View in the view hierarchy on the left (not everything has to be relative to our parent view, we can set constraints relative to two subviews). Once you've done this, select "Vertical Spacing". Once you've done this, edit the value in the right sidebar to be equal to 20; we'll want 20px between the bottom of our logo and the top of our button. Once you've done this, the constraints should look as follows:</p>
+<p><img alt="Button Constraints" src="https://dl.dropboxusercontent.com/s/ot08708z63m1exa/buttonconstraints.png" /></p>
+<p>To finish up, double click the button and change the text to "Enter Pokedex". (Note: At this time, you may have to press "Update Frames", depending on where you dragged the button.)</p>
+<p>Now that you're done, your storyboard should look as follows:</p>
+<p><img alt="Finished Storyboard" src="https://dl.dropboxusercontent.com/s/hx66dk5diemg4sz/finstoryboard.png" /></p>
+<p>Run your app, and you'll see your first completed application!</p>
+<p><img alt="First App" src="https://dl.dropboxusercontent.com/s/mvkh63kmdyqtyvg/level1shot.png" /></p>
+<p><a href="#top" class="top" id="level2"></a></p>
+<h1 id="level-2-creating-a-list-of-data">Level 2: Creating a List of Data</h1>
+<h4 id="download-prerequisite-code"><a href="https://dl.dropboxusercontent.com/s/a3h962t1k2fsvbs/Pokedex-level2-starter.zip">Download Prerequisite Code</a></h4>
+<p>Now that we have a landing page, let's start fleshing out the bulk of the app. As you may imagine, if we're going to have a Pokedex, we'll probably need to create a list of Pokemon. Let's start that in this level.</p>
+<p><a href="#top" class="top" id="add-nav"></a></p>
+<h2 id="21-adding-navigation">2.1 Adding Navigation</h2>
+<p>In the last section, we added a button to "Enter Pokedex". Thus, we'll need a new screen to appear when we press this button, which will show the information about our pokemon. Also, ideally, we'll make it so we can press a "Back" button to get back to our landing page at any point. Let's do that here.</p>
+<p><a href="#top" class="top" id="ui-nav"></a></p>
+<h3 id="211-uinavigationcontroller">2.1.1 <code>UINavigationController</code></h3>
+<p><code>UINavigationController</code> is a built-in view controller in iOS that essentially handles navigation. You've probably seen apps where you can press a button and enter a new screen, and then there's a "Back" button in the upper left corner that brings you back to your previous page. The iOS Settings page is a good example of this.</p>
+<p><img alt="Settings" src="https://dl.dropboxusercontent.com/s/8vw7gpnh2a1q3wf/SettingsPage.png" /></p>
+<p>A <code>UINavigationController</code> handles all of this navigation by essentially embedding a stack of view controllers within it and showing a navigation bar at the top to allow the user to take further actions, like going back. We can hook up actions to add view controllers to the stack, pushing the navigation one layer deeper. We can always push the back button to back out of the navigation; that is, until we reach what is called the 'root view controller', the first view controller we want to appear.</p>
+<p>As you may guess, we want to add a UINavigationController to our project. Also, we'll want our landing page to be our root view controller. To do this is quite easy. Open your <code>Main.storyboard</code> file and click on our view controller. Then, in the menu bar, selector <code>Editor -&gt; Embed In -&gt; Navigation Controller</code>. Once you do this, you should see the following (you may need to zoom out a bit):</p>
+<p><img alt="Nav Controller" src="https://dl.dropboxusercontent.com/s/esidomv8oiaqhgd/navcontroller.png" /></p>
+<p>This gives us a better idea of what a full storyboard will look like. As we add screens, we'll be adding more and more view controllers onto our storyboard, just like we added a navigation controller here. Also, we'll see an arrow that connects our <code>UINavigationController</code> to our <code>ViewController</code>; if we click the arrow, we'll see it highlights a message on the left that says "Relationship 'root view controller' to 'View Controller". This is telling us that the arrow represents the fact that our <code>ViewController</code> is the root view controller, meaning it will be the first screen to appear.</p>
+<p>If you run the app at this point, it should look exactly the same as before, yet you'll see a navigation bar at the top. We'll handle this later.</p>
+<p><a href="#top" class="top" id="new-screen"></a></p>
+<h3 id="212-adding-a-new-screen">2.1.2 Adding a New Screen</h3>
+<p>Now that we have our navigation controller, it's easy to show our next page when we press the button. First, let's begin by dragging a new view controller from our widgets section in the bottom right. Drag it anywhere onto the storyboard. It should look as follows when you're done:</p>
+<p><img alt="Second View" src="https://dl.dropboxusercontent.com/s/mckhbiiaa76dy9d/secondviewcontroller.png" /></p>
+<p>Now, we're going to need to write some code to make our list, so let's create a new custom view controller. To do this, click on "Pokedex" in the project navigator and click "New File". </p>
+<p><img alt="New File" src="https://dl.dropboxusercontent.com/s/ccb890frngfnnh4/newfile.png" /></p>
+<p>Select "Cocoa Touch Class" from the iOS section, and name your file <code>PokedexViewController</code>. <strong>IMPORTANT</strong>: Make sure the "Subclass of" box is <code>UIViewController</code>; we're making a custom subclass for our new view controller.</p>
+<p><img alt="Pokedex View" src="https://dl.dropboxusercontent.com/s/vipoay7td1pma18/pokedexview.png" /></p>
+<p>You should see a new file, <code>PokedexViewController.swift</code>, in the project navigator. Feel free to look inside the file, but we'll be getting to it in just a moment.</p>
+<p>As we saw before, we want to set the custom class of the view controller we dragged onto the storyboard. To do this, click on the view controller in our storyboard, and set the custom class to 'PokedexViewController'; it can be found in the right sidebar when you click the icon third from the left. Note: the class name should autocomplete. If it doesn't, you may have added the file incorrectly.</p>
+<p><img alt="Pokedex Custom" src="https://dl.dropboxusercontent.com/s/d4galttyp4e8cz9/pokedexcustom.png" /></p>
+<p><a href="#top" class="top" id="add-segue"></a></p>
+<h3 id="213-adding-a-segue">2.1.3 Adding a Segue</h3>
+<p>Now that we have a new screen, we need a way to present it. In particular, we need it to show when we press our 'Enter Pokedex' button. To do this, we can add a segue.</p>
+<p>A <a href="https://developer.apple.com/library/ios/recipes/xcode_help-IB_storyboard/Chapters/StoryboardSegue.html">seque</a> is a transition between scenes. It allows us to move from one screen to the next when certain actions take place, such as pressing a button. To add a segue, simply Control-drag from our button to our new view controller. From the menu that pops up, select "Push"; you'll see a new arrow appear between the two view controllers.</p>
+<p><img alt="Push Segue" src="https://dl.dropboxusercontent.com/s/l6nuc0jtvmn8ed9/pushsegue.png" /></p>
+<p>Now, try running our app. If you click the "Enter Pokedex" button, you should see our new (albeit blank) screen appear! We have navigation! Try pressing the back button, and you'll see we end up back at our home screen.</p>
+<p><img alt="Second Screen" src="https://dl.dropboxusercontent.com/s/25fn5to7xp1lrer/SecondScreen.png" /></p>
+<p><a href="#top" class="top" id="connect-story"></a></p>
+<h2 id="22-connecting-our-storyboard-to-code">2.2 Connecting our Storyboard to Code</h2>
+<p>There's something that you may have noticed: we haven't written any code yet! The truth is, a lot of iOS development can be done using the interface builder we've been using to create our storyboard. However, now is the time that we begin writing code. We'll start by adding a collection view to our new view controller.</p>
+<p><a href="#top" class="top" id="ui-coll"></a></p>
+<h3 id="221-uicollectionview">2.2.1 <code>UICollectionView</code></h3>
+<p><code>UICollectionView</code> is arguably one of the most important classes in all of iOS development. It's safe to say that most apps on your phone use this class in one way or another, as it's one of the most universal. Essentially what it does is manage a collection of data, as its name may suggest. In it's most common form, this consists of a list of items, but grids and other forms of collections are also implemented using it. You can read more about the class <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionView_class/">here</a>.</p>
+<p>We're going to want to use one in our <code>PokedexViewController</code>. As a review of the things we learned in level 1, drag a collection view into the view on our <code>PokedexViewController</code>. Also, since we want our collection view to take up the entire screen, add constraints to do this; to do this, simply make the top/bottom/left/right space equal to 0. When you're done, the constraints and view hierarchy should look like this:</p>
+<p><img alt="Collection View" src="https://dl.dropboxusercontent.com/s/8p1smrffn3podmb/collectionview.png" /></p>
+<p>One thing that you may notice above is that the view has some extra padding, approximately 20px, on each the left and right side. This is because of <a href="http://stackoverflow.com/questions/25701979/xcode-6-beta-7-storyboard-adds-extra-space-on-right-and-left-sides">content margins</a>, a concept in iOS that adds default padding to the left and right side. However, in this case, we want our collection view to take up the entire screen. To do this, we need to make a change.</p>
+<p>In the left sidebar, you'll see a dropdown called "Constraints" under our <code>PokedexViewController</code> view. Click to expand this. Click on the constraint starting with "CollectionView.leading". On the left side, you'll see a dropdown entitled "Second Item". Click on this dropdown and uncheck the item "Relative to margin".</p>
+<p><img alt="Relative to Margin" src="https://dl.dropboxusercontent.com/s/mundhwfvgu34cre/constrainmargin.png" /></p>
+<p>Do the same thing for "CollectionView.trailing", and you should see the left and right margins disappear.</p>
+<p><a href="#top" class="top" id="outlets"></a></p>
+<h3 id="222-outlets">2.2.2 Outlets</h3>
+<p>Up until now, we've set the properties for different things using our Attributes inspector in the right sidebar; remember when we set the background color of our view to be red? However, in the future, we're going to need to do these things programmatically; imagine we wanted the background to be red during the day but black at night, we'd need code to be able to do this.</p>
+<p>To do this, we can add what's called an <a href="https://developer.apple.com/library/mac/documentation/General/Conceptual/Devpedia-CocoaApp/Outlet.html">outlet</a>. An outlet basically connects an element in our storyboard file to an instance variable in our view controller. When iOS creates our view programmatically, the connection between the variable and the actual view is made. As a result, we can write code like <code>outletButton.text = "Enter Pokedex"</code>, rather than double-clicking and manually entering the text.</p>
+<p>To add an outlet, we'll be doing more Control-dragging. First, open the Assistant editor; to do this, click the overlapping circles in the top bar. Then, we'll see two files appear next to each other; make sure one of them is <code>Main.storyboard</code> and the other is <code>PokedexViewController.swift</code>. Control-drag from the collection view to the top of the <code>PokedexViewController.swift</code>, like this:</p>
+<p><img alt="Pokedex Drag" src="https://dl.dropboxusercontent.com/s/i4zvwphqp29czi3/outlet.png" /></p>
+<p>In the box that appears, make sure "Outlet" is selected, and use the name "collectionView".</p>
+<p><img alt="Outlet Name" src="https://dl.dropboxusercontent.com/s/1h2fgsghjy6sffw/collectionViewOutlet.png" /></p>
+<p>You should see, at the top of our <code>PokedexViewController.swift</code> file, that a new variable called <code>collectionView</code> appeared. Your file should now look something like this:</p>
+<pre><code class="swift">import UIKit
+
+class PokedexViewController: UIViewController {
+
+  @IBOutlet var collectionView: UICollectionView!
+
+  ...
+}
+</code></pre>
+
+<p>Now that we've got our outlet, we can write some code! Change back to the Standard editor (press the button to the left of the overlapping circles) so we get a full screen again.</p>
+<p>Just to verify that we have added our <code>UICollectionView</code> correctly, run your app; if see a black screen after pressing "Enter Pokedex", everything is correct.</p>
+<p><a href="#top" class="top" id="add-data"></a></p>
+<h2 id="23-adding-data-to-our-collection">2.3 Adding Data to our Collection</h2>
+<p>We saw a black screen in the last step because we haven't added any data to our collection view. We're going to work on that here.</p>
+<p>In this section, we're going to be making extensive use of delegate methods. As we discussed before, delegate methods are implemented by the programmer (us) and the system calls them when they need them. Essentially, the delegate is like an interface; they expect us to provide implementations of some method, and the iOS internals call the respective methods when they are needed.</p>
+<p><a href="#top" class="top" id="custom-cell"></a></p>
+<h3 id="231-creating-a-custom-cell">2.3.1 Creating a Custom Cell</h3>
+<p>As you may expect, a <code>UICollectionView</code> contains <code>UICollectionViewCell</code>s, each of which represents a single piece of data. In order to show some custom information about our Pokemon, let's make a custom cell for our collection view.</p>
+<p>To do this, do the same thing we did before to add a new file; right-click on "Pokedex", click "New File", make sure it's Cocoa Touch, and make sure the "Subclass of" says "UICollectionViewCell"; we want to subclass the parent to make our own custom cell. Name it "PokedexCollectionViewCell".</p>
+<p><img alt="Custom Cell" src="https://dl.dropboxusercontent.com/s/ynjo4cx2kq2c5al/customcell.png" /></p>
+<p>From here, let's set our collection view's cells to be of type <code>PokedexCollectionViewCell</code>. To do this, click the Collection View Cell inside of our Collection View in our storyboard file, and change its custom class to "PokedexCollectionViewCell". </p>
+<p><img alt="Pokedex Cell" src="https://dl.dropboxusercontent.com/s/2f67eykf4qn4g27/pokedexcell.png" /></p>
+<p>Now, let's actually format our cell. We're going to make it very simple: let's just add a label for the name of the Pokemon for now. To do this, drag the cell to be as wide as the view; right now, it should just be a small square. Once you've done this, find a <code>UILabel</code> from the widgets box on the side and drag it onto our cell. For constraints, center it vertically and add 10 pixels of leading spacing to its container.</p>
+<p><img alt="Label Constraints" src="https://dl.dropboxusercontent.com/s/kaobx989ghcusda/labelconstraint.png" /></p>
+<p>Then, control-drag from our label (while in Assistant editor) to our new <code>PokedexCollectionViewCell</code> file; add it as an outlet, and call it <code>nameLabel</code>, so that your file looks like this:</p>
+<pre><code class="swift">import UIKit
+
+class PokedexCollectionViewCell: UICollectionViewCell {
+
+  @IBOutlet var nameLabel: UILabel!
+
+}
+</code></pre>
+
+<p>Once you're done with this, you've successfully created our custom cell. The last thing we need to do is set the "Reuse Identifier," which is basically a label which helps us to uniquely identify this type of cell. To set it, select the PokedexCollectionViewCell in the storyboard view hierarchy, pick the Attributes inspector in the right sidebar (third from the left), and enter "Pokedex Cell" in the box titled "Identifier". We'll use this later.</p>
+<p>Now, let's add some data to our Pokedex.</p>
+<p><a href="#top" class="top" id="cell-size"></a></p>
+<h3 id="232-setting-cell-size">2.3.2 Setting Cell Size</h3>
+<p>Since our collection view can consist of many different kinds of arrangements (2D grid, list, etc.), we need to be able to specify the dimensions of each of our cells. To do this, we use something called <code>UICollectionViewDelegateFlowLayout</code>. As the <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewDelegateFlowLayout_protocol/">reference</a> tells us, the methods in this delegate define the size of the items and the spacing between items in the grid.</p>
+<p>At the bottom of our <code>PokedexViewController.swift</code> file, below the last closing curly brace, add the following code:</p>
+<pre><code class="swift">extension PokedexViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -&gt; CGSize {
+    return CGSizeMake(self.view.frame.width, 40.0)
+  }
+
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -&gt; CGFloat {
+    return 3.0
+  }
+}
+</code></pre>
+
+<p>There are several things happening here. First, we're creating an <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Extensions.html">extension</a>. If you're not familiar, this is basically a way of adding functionality to an existing class; if you know Java, think of it as implementing a new interface. </p>
+<p>Next, we're implementing two delegate methods. The first method, <code>sizeForItemAtIndexPath</code>, provides us an index (the position in our list) and we're expected to return a cell size. Since we want all of our cells to be the same size (at least initially), we simply return a size that is as wide as the screen and 40px tall. Our second method, <code>minimumLineSpacingForSectionAtIndex</code>, allows us to set the spacing between each row in our list. We'll make it so that there's 3px between each row. Since we only have one section, we don't need to worry about the parameter.</p>
+<p><a href="#top" class="top" id="pass-data"></a></p>
+<h3 id="233-passing-data-to-the-list">2.3.3 Passing Data to the List</h3>
+<p>To actually give the data we want to give to the list, we need to implement <code>UICollectionViewDataSource</code>. As you might expect, this is responsible for providing data and the views that will display in the collection view.</p>
+<p>Just below your flow layout extension, add the following code:</p>
+<pre><code class="swift">extension PokedexViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -&gt; UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier(&quot;PokedexCell&quot;, forIndexPath: indexPath) as! PokedexCollectionViewCell
+    newCell.nameLabel.text = &quot;Pikachu&quot;
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int {
+    return 20
+  }
+}
+</code></pre>
+
+<p>In the same way as above, we're using an extension. Next, we implement two delegate methods. </p>
+<p>The first, <code>cellForItemAtIndexPath</code>, is where most of the interesting stuff happens. We make the call to <code>dequeueReusableCellWithReuseIdentifier</code> to get a PokedexCollectionViewCell. Because the task of creating a new cell is pretty computationally expensive, iOS handles the reusing of these cells; basically, if you're scrolling through a list and you pass by one cell, that cell will be reused to show you cells that occur lower in the list. We use the "PokedexCell" reuse identifier because it is the one we set before. We force the cast to <code>PokedexCollectionViewCell</code>, which works because we set our custom class in interface builder. Next, we set the name label to "Pikachu"; this is just filler data for now until we have real data to present. Next, we just make the background color white and return it.</p>
+<p>The second, <code>numberOfItemsInSection</code>, is the number of items in our table. We return 20 as an arbitrary number. Feel free to increase or decrease this and view the results.</p>
+<p><a href="#top" class="top" id="config-view"></a></p>
+<h3 id="234-configuring-our-view">2.3.4 Configuring our View</h3>
+<p>Finally, we're going to implement perhaps the most important method in a <code>UIViewController</code>: <code>viewDidLoad</code>. This method is called right after a view is loaded, and thus before it is going to be shown. This is the place where all configurations of the view, such as background color, changes to data, or things of that sort should be made.</p>
+<p>In our case, here is what our modified <code>viewDidLoad</code> method looks like:</p>
+<pre><code class="swift">override func viewDidLoad() {
+    super.viewDidLoad()
+
+    collectionView.backgroundColor = UIColor.lightGrayColor()
+    collectionView.delegate = self
+    collectionView.dataSource = self
+
+    self.automaticallyAdjustsScrollViewInsets = false
+}
+</code></pre>
+
+<p>First, we set the background to a nice light gray. Then, we set both the delegate and the data source of our view controller; we set these so our collection view knows to call the methods we just implemented when it needs data or sizing information. Finally, we set <code>automaticallyAdjustsScrollViewInsets</code> to false so that we don't run into any issue with margins.</p>
+<p><a href="#top" class="top" id="add-titles"></a></p>
+<h3 id="235-adding-titles">2.3.5 Adding Titles</h3>
+<p>Now that we've seen how to change our views programmatically, let's make one small change. Let's add titles to our navigation bars.</p>
+<p>In <code>ViewController.swift</code>, add one line to <code>viewDidLoad</code> so that it looks like this:</p>
+<pre><code class="swift">self.navigationItem.title = &quot;Home&quot;
+</code></pre>
+
+<p>Also, in <code>PokedexViewController.swift</code>, add one line to <code>viewDidLoad</code>, just after your <code>automaticallyAdjustsScrollViewInsets</code> line:</p>
+<pre><code class="swift">self.navigationItem.title = &quot;My Pokedex&quot;
+</code></pre>
+
+<p>As you can imagine, this changes the title of our navigation bar. If you'd like to read more about <code>UINavigationItem</code>, more information is available <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationItem_Class/">here</a>.</p>
+<p>Finally we're done! Our app is starting to look more like a real app. Here's what yours should look like at this point:</p>
+<p><img alt="Home Screen" src="https://dl.dropboxusercontent.com/s/s7twtysa59p98zp/homescreen.png" /></p>
+<p><img alt="Pokedex List" src="https://dl.dropboxusercontent.com/s/vgtlhvt1yn9oy6a/PokedexList.png" /></p>
+<p><a href="#top" class="top" id="level3"></a></p>
+<h1 id="level-3-loading-web-data">Level 3: Loading Web Data</h1>
+<h4 id="download-prerequisite-code_1"><a href="https://dl.dropboxusercontent.com/s/9wkffmfa8wfncx9/Pokedex-level3-starter.zip">Download Prerequisite Code</a></h4>
+<p>Remember the line where we set the name of our cell?</p>
+<pre><code class="swift">newCell.nameLabel.text = &quot;Pikachu&quot;
+</code></pre>
+
+<p>For our Pokedex to be functional, we're going to need to set this to a different name for each Pokemon. To do this, we're going to need data from the web!</p>
+<p><a href="#top" class="top" id="pokeapi"></a></p>
+<h2 id="31-pokeapi">3.1 PokeAPI</h2>
+<p><a href="http://pokeapi.co/">PokeAPI</a> is an <strong>API</strong> that allows us to access information about Pokemon. If you aren't familiar, <a href="https://en.wikipedia.org/wiki/Application_programming_interface">API</a> stands for "Application Programming Interface," and essentially allows us to access some data, in this case data about Pokemon. To make our app functional, we'll need to load data from it</p>
+<p><a href="#top" class="top" id="pokedex-endpoint"></a></p>
+<h3 id="311-pokedex1-endpoint">3.1.1 <code>pokedex/1/</code> Endpoint</h3>
+<p>For our list of pokemon, we'll be calling the <code>pokedex/1/</code> endpoint. If you look at the <a href="http://pokeapi.co/docs/">docs</a>, you'll see that this endpoint "returns the names and resource_uri for all pokemon." This is exactly what we need; we'll be able to show the name of every Pokemon, and then later on access more information about each individual Pokemon. Try entering <code>http://pokeapi.co/api/v1/pokedex/1/</code> into your browser address bar and see what happens.</p>
+<p><a href="#top" class="top" id="response-data"></a></p>
+<h3 id="312-response-data">3.1.2 Response Data</h3>
+<p>Your response will be a <a href="http://www.json.org/">JSON</a> object, which is basically just a list of key-value pairs. Inside of that, we'll see a key, <code>pokemon</code>, inside of which is a list of Pokemon:</p>
+<pre><code class="json">&quot;pokemon&quot;: [
+    {
+        &quot;name&quot;: &quot;rattata&quot;,
+        &quot;resource_uri&quot;: &quot;api/v1/pokemon/19/&quot;
+    },
+    {
+        &quot;name&quot;: &quot;charmander&quot;,
+        &quot;resource_uri&quot;: &quot;api/v1/pokemon/4/&quot;
+    },
+    {
+        &quot;name&quot;: &quot;charmeleon&quot;,
+        &quot;resource_uri&quot;: &quot;api/v1/pokemon/5/&quot;
+    },
+    {
+        &quot;name&quot;: &quot;wartortle&quot;,
+        &quot;resource_uri&quot;: &quot;api/v1/pokemon/8/&quot;
+    },
+    {
+        &quot;name&quot;: &quot;blastoise&quot;,
+        &quot;resource_uri&quot;: &quot;api/v1/pokemon/9/&quot;
+    },
+    ...
+]
+</code></pre>
+
+<p>These are exactly the things we'll be needing. Now, let's integrate them into our application.</p>
+<p><a href="#top" class="top" id="external-lib"></a></p>
+<h2 id="32-using-external-libraries-with-cocoapods">3.2 Using External Libraries with CocoaPods</h2>
+<p>For many applications, you'll need external libraries. For example, say if you want to add Google Maps support into your application; you'll need an external library. To do this, there's a lot of ugly configuration you'd normally have to do to make sure you could use that library. However, there's a thing called CocoaPods that will make your life a lot easier.</p>
+<p><a href="#top" class="top" id="cocoapods"></a></p>
+<h3 id="321-cocoapods">3.2.1 CocoaPods</h3>
+<p><a href="https://cocoapods.org/">CocoaPods</a> is a dependency manager for Swift and Objective-C projects. Basically, you have a file named <code>Podfile</code>, in which you describe all of the external libraries you'll need. Then, you run a single command, and CocoaPods installs them all and configures them with your project so you can use them in your code.</p>
+<p>To start, open your <a href="https://en.wikipedia.org/wiki/Terminal_(OS_X)">Terminal</a>. Make sure you already have CocoaPods installed; if you don't, follow the instructions available <a href="https://guides.cocoapods.org/using/getting-started.html#getting-started">here</a>. Once you've done that, enter the following command:</p>
+<pre><code class="bash">$ pod init
+</code></pre>
+
+<p>If this works, you should have the following files in your directory:</p>
+<pre><code class="bash">$ ls
+Podfile           Pokedex           Pokedex.xcodeproj PokedexTests      PokedexUITests
+</code></pre>
+
+<p>We'll see that we now have a new file: <code>Podfile</code>. This is the file in which you will add configurations for the libraries we'll need.</p>
+<p><a href="#top" class="top" id="alamo-swift"></a></p>
+<h3 id="322-alamofire-and-swiftyjson">3.2.2 Alamofire and SwiftyJSON</h3>
+<p>For our project, we'll be using two different external libraries: <a href="https://github.com/Alamofire/Alamofire">Alamofire</a>, which will make it easier for us to query the API and retrieve the data we need, and <a href="https://github.com/SwiftyJSON/SwiftyJSON">SwiftyJSON</a>, a library that makes dealing with JSON in Swift much easier.</p>
+<p>To install these, simply add them to our <code>Podfile</code>. If you open the file, it should look like this:</p>
+<pre><code class="bash">$ cat Podfile
+# Uncomment this line to define a global platform for your project
+# platform :ios, '8.0'
+# Uncomment this line if you're using Swift
+# use_frameworks!
+
+target 'Pokedex' do
+
+end
+
+target 'PokedexTests' do
+
+end
+
+target 'PokedexUITests' do
+
+end
+</code></pre>
+
+<p>To add our files, we're going to add two lines to our 'Pokedex' target; the other two are for testing. Also, let's uncomment the two lines at the top, as the file instructs us to do. Your final file should look like this:</p>
+<pre><code class="bash"># Uncomment this line to define a global platform for your project
+platform :ios, '8.0'
+# Uncomment this line if you're using Swift
+use_frameworks!
+
+target 'Pokedex' do
+  pod 'Alamofire', :git =&gt; 'https://github.com/Alamofire/Alamofire.git'
+  pod 'SwiftyJSON', :git =&gt; 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+end
+
+target 'PokedexTests' do
+
+end
+
+target 'PokedexUITests' do
+
+end
+</code></pre>
+
+<p>As you'll see, we're defining two 'pods', and providing the link to the GitHub repo in which the code for them are installed. Now, to install them, simply run:</p>
+<pre><code class="bash">$ pod install
+</code></pre>
+
+<p><a href="#top" class="top" id="xcworkspace"></a></p>
+<h3 id="323-pokedexxcworkspace">3.2.3 <code>Pokedex.xcworkspace</code></h3>
+<p>If everything worked, you should now have the following files in your directory:</p>
+<pre><code class="bash">$ ls
+Podfile             Pods                Pokedex.xcodeproj   PokedexTests
+Podfile.lock        Pokedex             Pokedex.xcworkspace PokedexUITests
+</code></pre>
+
+<p>We already discussed <code>Podfile</code>. <code>Podfile.lock</code> is an internal file for CocoaPods' use. <code>Pods</code> is a directory, inside of which is all of the code for the external libraries. Perhaps the most important file for us is <code>Pokedex.xcworkspace</code>. This has everything we need to run our project; before, we opened <code>Pokedex.xcodeproj</code>, but as our install output tells us, now we'll be opening <code>Pokedex.xcworkspace</code>.</p>
+<p><strong>Important</strong>: close XCode, making sure all of your different windows are closed. Then, from your terminal, enter the following command to open your new CocoaPods project:</p>
+<pre><code class="bash">$ open Pokedex.xcworkspace
+</code></pre>
+
+<p>You should see the top status bar showing that the project is "Indexing"; this means that XCode is taking note of all the new files we added so it can do things like autocompletion. Also, you should notice you have a new target on the left-side called "Pods":</p>
+<p><img alt="Pods Target" src="https://dl.dropboxusercontent.com/s/dctfw0mscbuf29w/pods.png" /></p>
+<p>Just to make sure our install worked correctly, add the following two lines to the top of <code>PokedexViewController.swift</code>, so we'll have three total <code>import</code> statements:</p>
+<pre><code class="swift">import Alamofire
+import SwiftyJSON
+</code></pre>
+
+<p>Now, try running your project. If everything works as you'd expect, your install worked, and we're ready to use our libraries!</p>
+<p>If you get an error on either of the two lines, trying cleaning your project by running <code>Product -&gt; Clean</code>.</p>
+<p><a href="#top" class="top" id="data-poke"></a></p>
+<h2 id="33-loading-our-data-from-pokeapi">3.3 Loading our Data from PokeAPI</h2>
+<p>Now that we have the libraries we need, we can write the code to actually load and present our data. Let's start by loading our data from the API.</p>
+<p><a href="#top" class="top" id="model-rep"></a></p>
+<h3 id="331-creating-a-model-representation">3.3.1 Creating a Model Representation</h3>
+<p>As we saw before in our response data, there are two things we need to remember for each Pokemon: its name and the resource URI, which we will use later to gather more information about each Pokemon. It's a good idea to create a Swift object for each record you're presenting information about in a list; that way, you can store the data easily in an array.</p>
+<p>To do that, let's add a new file. As we've done, click 'Pokedex', press 'New File'; this time, select 'Swift File', and name it 'PokemonModel'. Let's add the following code inside of that file, to create our new <code>PokemonModel</code> class:</p>
+<pre><code class="swift">class PokemonModel {
+
+  var name: String!
+  var resourceURI: String!
+
+  init(name: String, resourceURI: String) {
+    self.name = name
+    self.resourceURI = resourceURI
+  }
+
+}
+</code></pre>
+
+<p>This model is quite simple. We create two string variables, one for each of the things we'll need. We use the <code>!</code> to mark that these variables can never be <code>nil</code>; we will never have a Pokemon that doesn't have both of these. Also, we create a basic constructor to make sure we can create new <code>PokemonModel</code>s.</p>
+<p><a href="#top" class="top" id="query-api"></a></p>
+<h3 id="332-querying-the-api">3.3.2 Querying the API</h3>
+<p>Once we have a model to represent our results, let's actually fetch our results! First, we'll need a way to store them. Just below your outlet, add an array of <code>PokemonModel</code> objects:</p>
+<pre><code class="swift">var pokemonData: [PokemonModel] = []
+</code></pre>
+
+<p>Next, we'll need to actually fetch the data from our API. For this, let's creating a new method called <code>fetchData</code>, as follows:</p>
+<pre><code class="swift">func fetchData(url: String, completion: () -&gt; Void) {
+    Alamofire.request(.GET, url, encoding: .JSON).responseData { response in
+      switch response.result {
+      case .Success(_):
+        let responseData: JSON = JSON(data: response.data!)
+        if let pokemon = responseData[&quot;pokemon&quot;].array {
+          self.pokemonData = pokemon.map({ (json: JSON) -&gt; PokemonModel in
+            PokemonModel(name: json[&quot;name&quot;].string!, resourceURI: json[&quot;resource_uri&quot;].string!)
+          })
+        }
+      case .Failure(let error):
+        self.pokemonData = []
+        print(error)
+      }
+      completion()
+    }
+}
+</code></pre>
+
+<p>This is the most Swift code we've written thus far, so let's go through it line-by-line. In our function definition, we take a string, which will be the Pokedex API we saw earlier, as well as, more interestingly, a function that takes no parameters and doesn't return anything. As you can read about [here][swift-functions], Swift allows you to pass functions to a function as a parameter. In this case, we're doing it so we can run some code only after our results are loaded; we'll want to reload the data in our collection once we have new data to show. Generally, these callbacks can be useful to update UI elements once some data is available.</p>
+<p>In the next line, we use our Alamofire library to call our API, after passing some configuration parameters. Next, we call for the response data, to which we pass a closure, which <a href="http://fuckingswiftblocksyntax.com/">this website</a> really helps you to understand, as they are definitely quite confusing. Inside the closure, we check for success or failure. In the case of a failure, meaning we got a non-200 response code from our URL, we can just print an error and make our data an empty array.</p>
+<p>In the case of a success, we use our SwiftyJSON library to create a new JSON object from our response data. In the next line, we use the <code>if let ...</code> check to make sure that our <code>pokemon</code> array is not nil. Inside the check, we use the built-in <code>map</code> function, which iterates through an array, passing each item to a function and then returning your object of choice. We do this to change our array of JSON objects into an array of <code>PokemonModel</code> objects. You can read more about the map function <a href="https://www.weheartswift.com/higher-order-functions-map-filter-reduce-and-more/">here</a>. Inside the <code>map</code> function, we get the two things we need from our JSON (name and resource_uri) to create a new <code>PokemonModel</code>, which we then return. After all of this, we call <code>completion()</code>, which is the function we passed.</p>
+<p>Now, we have to call our function and supply it with the function we want to run after our data is loaded. Let's add this code to the bottom of our <code>viewDidLoad</code> function:</p>
+<pre><code class="swift">fetchData(&quot;http://pokeapi.co/api/v1/pokedex/1/&quot;, completion: {
+    self.collectionView.reloadData()
+})
+</code></pre>
+
+<p>We call our <code>fetchData</code> function by passing our PokeAPI URL, as well as a closure function, inside of which we reload the data in our collection view. We will discuss this more later.</p>
+<p>One more thing: since our PokeAPI URL is <code>http</code> instead of <code>https</code>, iOS blocks it by default because they want API accesses to be secure. Unfortunately, since we aren't the makers of this API, we have to use a workaround.</p>
+<p>To fix this, open the <code>Info.plist</code> file. Next to the "Information Property List", which is a dictionary, press the + button to add a new key-value pair.</p>
+<p><img alt="Info Property" src="https://dl.dropboxusercontent.com/s/ddngofk0kkh7e0a/informationprop.png" /></p>
+<p>In the new pair, type "App Transport Security Settings". On the left side of that, press the down arrow, then press the + button to add a new key-value pair. The key should autocomplete to "Allow Arbitrary Loads", which is a boolean that defaults to "NO"; change this to "YES", as you see below.</p>
+<p><img alt="Allow Arbitrary" src="https://dl.dropboxusercontent.com/s/p8ibbds4h4clvg7/allowarbitrary.png" /></p>
+<p>Once you've done this, save the file, and run your app. If you enter the Pokedex, you should still see just a list of our Pikachus.</p>
+<p><a href="#top" class="top" id="data-coll"></a></p>
+<h3 id="333-passing-the-data-to-our-collection-view">3.3.3 Passing the Data to our Collection View</h3>
+<p>You may be wondering why we still see only Pikachus, when we've loaded all of our data from the API. As you may recall from our previous level, we use our <code>UICollectionViewDataSource</code> delegate methods to pass information to our collection view. Thus, if we want to change what cells go to our collection view, we need to change the implementation of those two methods. Let's do that here:</p>
+<pre><code class="swift">extension PokedexViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -&gt; UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier(&quot;PokedexCell&quot;, forIndexPath: indexPath) as! PokedexCollectionViewCell
+    let pokemonModel = pokemonData[indexPath.row]
+    newCell.nameLabel.text = pokemonModel.name.capitalizedString
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int {
+    return pokemonData.count
+  }
+}
+</code></pre>
+
+<p>As you see in <code>numberOfItemsInSection</code>, we return the number of items in the <code>pokemonData</code> array, each one of which is a Pokemon we'll want to show in our list. In our <code>cellForItemAtIndexPath</code>, we select the Pokemon at the row we're being asked for a cell from, then set the string of that cell equal to the name of our <code>PokemonModel</code> object (which we capitalize - our API returns us un-capitalized strings).</p>
+<p>To go back, remember the line where we reloaded the collection data:</p>
+<pre><code class="swift">self.collectionView.reloadData()
+</code></pre>
+
+<p>This is a very important line. It forces iOS to re-call each of the methods in our data source; it'll call <code>numberOfItemsInSection</code> to find out the new number of items. Then, it'll call <code>cellForItemAtIndexPath</code> for each cell that is visible in the app.</p>
+<p>Now, we're ready to run our app! Enter our Pokedex; you should temporarily see our gray background, as it takes a moment for all 778 Pokemon to be loaded. But after this short delay, you should see our completed list of Pokemon!</p>
+<p><img alt="Complete List" src="https://dl.dropboxusercontent.com/s/u4jymwjk36knur9/completelist.png" /></p>
+<p><a href="#top" class="top" id="level4"></a></p>
+<h1 id="level-4-adding-a-detail-view">Level 4: Adding a Detail View</h1>
+<h4 id="download-prerequisite-code_2"><a href="https://dl.dropboxusercontent.com/s/bvbgu1yqkgmh9kl/Pokedex-level4-starter.zip">Download Prerequisite Code</a></h4>
+<p>Now that we have a list, it would be great to have more details about each individual Pokemon, as a Pokedex should. To do this, take a look at the <code>resource_uri</code> for our first Pokemon, Rattata: <code>api/v1/pokemon/19/</code>. Append this to <code>http://pokeapi.co/</code>, enter it in your browser search box, and you should get these results:</p>
+<pre><code class="json">{
+    &quot;abilities&quot;: [
+        {
+            &quot;name&quot;: &quot;run-away&quot;,
+            &quot;resource_uri&quot;: &quot;/api/v1/ability/50/&quot;
+        },
+        {
+            &quot;name&quot;: &quot;hustle&quot;,
+            &quot;resource_uri&quot;: &quot;/api/v1/ability/55/&quot;
+        },
+        {
+            &quot;name&quot;: &quot;guts&quot;,
+            &quot;resource_uri&quot;: &quot;/api/v1/ability/62/&quot;
+        }
+    ],
+    &quot;attack&quot;: 56,
+    &quot;catch_rate&quot;: 0,
+    &quot;created&quot;: &quot;2013-11-03T15:05:41.305777&quot;,
+    &quot;defense&quot;: 35,
+    &quot;descriptions&quot;: [
+        {
+            &quot;name&quot;: &quot;rattata_gen_1&quot;,
+            &quot;resource_uri&quot;: &quot;/api/v1/description/290/&quot;
+        },
+        {
+            &quot;name&quot;: &quot;rattata_gen_1&quot;,
+            &quot;resource_uri&quot;: &quot;/api/v1/description/291/&quot;
+        },
+        ...
+    ]
+    ...
+}
+</code></pre>
+
+<p>Here, we have all sorts of information available to us about our specific Pokemon. Let's create a detail view so we can show all of this information to our user!</p>
+<p><a href="#top" class="top" id="new-vc"></a></p>
+<h2 id="41-creating-a-new-view-controller">4.1 Creating a New View Controller</h2>
+<p>Let's create a new view controller, called <code>PokemonDetailViewController</code>. This will be the screen on which we can show all of the information about our Pokemon.</p>
+<p><a href="#top" class="top" id="main-story"></a></p>
+<h3 id="411-adding-to-mainstoryboard">4.1.1 Adding to <code>Main.storyboard</code></h3>
+<p>To do this, let's do it as we have in the past. Open <code>Main.storyboard</code>, and drag a new "View Controller" onto the canvas. </p>
+<p>Now, let's add the <code>UIViewController</code> custom class that we're going to associate with it. Control-click on "Pokemon" in our Project Navigator, select "New File", make sure it's a Cocoa Touch Class, and make sure it's a subclass of <code>UIViewController</code>. Name it "PokemonDetailViewController.swift". </p>
+<p>Finally, set the custom class of the view controller we dragged onto the canvas to <code>PokemonDetailViewController</code>. Remember, we do this by clicking on the view controller and setting the class in Identity inspector, which is the third icon from the left. Also, set the Storyboard ID to 'PokemonDetail'; we'll use this later.</p>
+<p><img alt="Storyboard ID" src="https://dl.dropboxusercontent.com/s/w9wuyeg26w2zaom/storyboardid.png" /></p>
+<p>When you're finished, it should look like this:</p>
+<p><img alt="Pokemon Detail" src="https://dl.dropboxusercontent.com/s/3kgoil6urotpp3n/pokemondetail.png" /></p>
+<p><a href="#top" class="top" id="sub-detail"></a></p>
+<h3 id="412-adding-sub-views-to-our-detail-view">4.1.2 Adding Sub-Views to our Detail View</h3>
+<p>What good is a detail view if we don't show any details about the Pokemon? Let's add some views to it! After looking at what's available to us, it seems it would be useful to show a picture of the Pokemon, the name of the Pokemon, their attack and defense scores, and a list of their moves. Let's add all the views for this!</p>
+<p>For the image, drag a <code>UIImageView</code> onto the view for our new view controller. Center it horizontally, and add height and width constraints so that the image is 150 x 150 (we haven't done this yet, but just Control-drag onto itself like we did for aspect ratio; you'll see height and width). Also, for y-position, make it 20px from the top.</p>
+<p>For the name, drag a <code>UILabel</code> onto the canvas. Center it horizontally, and make it appear 10px below our image by Control-dragging from one to the other. Width will be determined automatically to fill the text provided.</p>
+<p>For the attack label, drag another <code>UILabel</code> onto the canvas. Make it 20px from the left, and 20px below our name label. Again, width will be determined automatically.</p>
+<p>For the defense label, same thing: drag another <code>UILabel</code> onto the canvas, make it 20px from the left. Now, make the defense label 10px below the attack label, just as we did for the attack label below the name label, but set the value differently.</p>
+<p>(Note: for the above two, you'll have to edit the constraint to unclick 'Relative to Margin', as we did before. As a reminder, you can do this by double-clicking the constraint in the right menu and unchecking 'Relative to Margin' in the 'Second Item' dropdown. If this doesn't work, try unchecking 'Relative to Margin' in the 'First Item' dropdown.)</p>
+<p><img alt="Relative Margin" src="https://dl.dropboxusercontent.com/s/j2i24ywyyqmv1gb/relatemargin.png" /></p>
+<p>Finally, for the list of moves, we're going to use a <code>UICollectionView</code>. Drag one onto the canvas, make it 20px below our defense label, add 0px leading spacing and 0px trailing spacing, and make it 20px to the bottom; this way, our list of moves will fill the screen left-to-right and take up whatever space is left on the bottom, minus 20px. This means that for large screens, we'll show more moves, and more smaller screens, we'll show fewer moves. Also, you'll have to do the 'Relative to Margin' checkbox for this as well to make sure it goes all the way to the edge.</p>
+<p>Once you're done, your view should look something like this:</p>
+<p><img alt="Detail Constraints" src="https://dl.dropboxusercontent.com/s/oddclave9h7nkfd/detail-constraints.png" /></p>
+<p><a href="#top" class="top" id="detail-outlet"></a></p>
+<h3 id="413-adding-outlets-to-pokemondetailviewcontroller">4.1.3 Adding Outlets to <code>PokemonDetailViewController</code></h3>
+<p>Now that we have each of our elements, we're going to need to be able to change these things programmatically. To do this, add outlets for each of our subviews to <code>PokemonDetailViewController</code>. Remember, we do this by Control-dragging from each of the UI elements to the <code>PokemonDetailViewController.swift</code> file while we're in Assistant editor.</p>
+<p>When you're done, you should have added these five lines at the top of <code>PokemonDetailViewController.swift</code>:</p>
+<pre><code class="swift">@IBOutlet var image: UIImageView!
+@IBOutlet var nameLabel: UILabel!
+@IBOutlet var attackLabel: UILabel!
+@IBOutlet var defenseLabel: UILabel!
+@IBOutlet var movesList: UICollectionView!
+</code></pre>
+
+<p><a href="#top" class="top" id="show-new-vc"></a></p>
+<h2 id="42-showing-our-new-view-controller">4.2 Showing our New View Controller</h2>
+<p>Now that we have our UI all laid out, we need to work on actual showing our new view when we tap on a Pokemon in our list. Let's do that now.</p>
+<p><a href="#top" class="top" id="coll-view-del"></a></p>
+<h3 id="421-uicollectionviewdelegate">4.2.1 <code>UICollectionViewDelegate</code></h3>
+<p>Just as we added extensions for <code>UICollectionViewDelegateFlowLayout</code> and <code>UICollectionViewDataSource</code>, we can add an extension for <code>UICollectionViewDelegate</code>. There's one method in there that will be important to us: <code>didSelectItemAtIndexPath</code>. As you may imagine, this method is called every time a cell is tapped.</p>
+<p>In <code>PokedexViewController.swift</code>, add the following code, just below our other two extensions:</p>
+<pre><code class="swift">extension PokedexViewController: UICollectionViewDelegate {
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let storyboard = UIStoryboard(name: &quot;Main&quot;, bundle: nil)
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier(&quot;PokemonDetail&quot;) as! PokemonDetailViewController
+    self.navigationController?.pushViewController(detailController, animated: true)
+  }
+}
+</code></pre>
+
+<p>The code may look a little confusing at first. First, we programmatically create an instance of our main storyboard by passing the name "Main" to the <code>UIStoryboard</code> constructor. Then, we create a <code>PokemonDetailViewController</code> by calling the <code>instantiateViewControllerWithIdentifier</code>; essentially, this loads the configuration we did in our storyboard for the <code>PokemonDetailViewController</code>, and creates an instance of that view controller. Then, we push it onto the navigation controller, which, as we saw before, will add another view controller onto our navigation stack.</p>
+<p>To look at our new view controller, run the app, enter the Pokedex, and select a Pokemon. You should see something like this:</p>
+<p><img alt="Blank Detail" src="https://dl.dropboxusercontent.com/s/w6afdy1iaa5umfl/blankdetail.png" /></p>
+<p><a href="#top" class="top" id="unique-view"></a></p>
+<h3 id="422-making-our-view-unique">4.2.2 Making our View Unique</h3>
+<p>As you can see, our view is completely blank. This is because we haven't set the view up for the Pokemon you selected. To do that, we'll need some way to keep track of which Pokemon we're currently looking at.</p>
+<p>To do this, add a string called <code>resourceURI</code> at the top of our <code>PokemonDetailViewController</code> class, just below the outlets we created before:</p>
+<pre><code class="swift">var resourceURI: String!
+</code></pre>
+
+<p>Now, in the delegate method we just implemented, we need to make sure we pass the resource URI from our stored <code>PokemonModel</code> in our Pokedex to our detail view controller. To do that, add one line to <code>didSelectItemAtIndexPath</code> to set this:</p>
+<pre><code class="swift">func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let storyboard = UIStoryboard(name: &quot;Main&quot;, bundle: nil)
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier(&quot;PokemonDetail&quot;) as! PokemonDetailViewController
+    detailController.resourceURI = pokemonData[indexPath.row].resourceURI
+    self.navigationController?.pushViewController(detailController, animated: true)
+}
+</code></pre>
+
+<p><a href="#top" class="top" id="detail-data"></a></p>
+<h2 id="43-adding-our-detail-data">4.3 Adding our Detail Data</h2>
+<p>Now that we have the resource URI inside of our detail view controller, we can use that URI to load details about our individual Pokemon in a way similar to how we loaded data for our Pokedex. Open up <code>PokemonDetailViewController.swift</code>, and let's write some code.</p>
+<p>Also, before we forget, add <code>import Alamofire</code> and <code>import SwiftyJSON</code> at the top of the file as well.</p>
+<p><a href="#top" class="top" id="fetch-data"></a></p>
+<h3 id="431-fetching-the-data">4.3.1 Fetching the Data</h3>
+<p>Let's create a new method called <code>fetchPokemonData</code>:</p>
+<pre><code class="swift">func fetchPokemonData(resourceURI: String, completion: (JSON) -&gt; Void) {
+    Alamofire.request(.GET, &quot;http://pokeapi.co/&quot; + resourceURI, encoding: .JSON).responseData { response in
+      switch response.result {
+      case .Success(_):
+        let pokemonData: JSON = JSON(data: response.data!)
+        completion(pokemonData)
+      case .Failure(let error):
+        print(error)
+      }
+    }
+}
+</code></pre>
+
+<p>Our method looks pretty similar to our earlier <code>fetchData</code> method, but there are some important differences. First, we see our <code>completion</code> function that we pass as a parameter takes a JSON object. Also, in this case, we don't pass the entire URL, instead just passing the URI we have available to us; in the request, we append it to the base URL, <code>http://pokeapi.co/</code>. Finally, we'll see we only call our completion in the case of a success; we pass the JSON data that we got back to our completion, which we'll write in the next step.</p>
+<p><a href="#top" class="top" id="set-sub-views"></a></p>
+<h3 id="432-setting-our-sub-views">4.3.2 Setting our Sub-Views</h3>
+<p>Now that we have the data, we can set the sub-views to reflect the data we have loaded. To do that, we need to call <code>fetchPokemonData</code>, passing a closure which will do all of the setting that we need to. At the bottom of <code>viewDidLoad</code>, add the following code:</p>
+<pre><code class="swift">fetchPokemonData(resourceURI) { (pokemonData: JSON) -&gt; Void in
+      self.nameLabel.text = pokemonData[&quot;name&quot;].string
+      self.attackLabel.text = String(format: &quot;Attack: %d&quot;, pokemonData[&quot;attack&quot;].int!)
+      self.defenseLabel.text = String(format: &quot;Defense: %d&quot;, pokemonData[&quot;defense&quot;].int!)
+}
+</code></pre>
+
+<p>We pass our <code>resourceURI</code>. Then, using the pokemon data we receive from our call to <code>completion</code> above, we can set the name label, the attack label, and the defense label; we use the string format to prepend "Attack" and "Defense".</p>
+<p>If you run the app, enter the pokedex, and select a Pokemon, you should see that our three text labels show our custom data! I clicked on Metapod and saw the following:</p>
+<p><img alt="Metapod" src="https://dl.dropboxusercontent.com/s/j1r352pjtt9xhgf/Metapod.png" /></p>
+<p>You may be asking why we didn't set the image or the moves; it's because they're both just a little bit more complicated. We'll do those now.</p>
+<p><a href="#top" class="top" id="fetch-image"></a></p>
+<h3 id="433-fetching-the-image">4.3.3 Fetching the Image</h3>
+<p>To set our image, we need to fetch it from a URL. After looking at the documentation, our API provides images of each Pokemon at the following URL: <code>http://pokeapi.co/media/img/_ID_.png</code>, where <code>_ID_</code> is the ID of our Pokemon. For example, if we wanted an image of Bulbasaur, Pokemon number 1, we could use <code>http://pokeapi.co/media/img/1.png</code>. Try it! Search that in your browser and you'll see a picture of Bulbasaur.</p>
+<p>Now, we'll need to load the image through Swift to set our image. Let's create a method called <code>loadAndSetImage</code>, which, as the name suggests, should load and set our image:</p>
+<pre><code class="swift">func loadAndSetImage(url: String) {
+    if let pictureURL = NSURL(string: url) {
+      if let data = NSData(contentsOfURL: pictureURL) {
+        image.image = UIImage(data: data)
+      }
+    }
+}
+</code></pre>
+
+<p>Not gonna lie, I basically copied the above code from <a href="http://stackoverflow.com/questions/29472149/swift-how-to-display-an-image-using-url">this Stack Overflow answer</a>. We generate our URL, fetch the data from it, create an image from our data, and then set our image equal to it.</p>
+<p>To make sure this method gets called, add these two lines below our other lines in our <code>fetchPokemonData</code> response closure:</p>
+<pre><code class="swift">let imageURL = String(format: &quot;http://pokeapi.co/media/img/%d.png&quot;, pokemonData[&quot;pkdx_id&quot;].int!)
+self.loadAndSetImage(imageURL)
+</code></pre>
+
+<p>This formats our image URL using the Pokemon's ID, and then calls our new method. Now, try running the app, and select a Pokemon; you should see their picture! Here's Ninetales, one of my favorites:</p>
+<p><img alt="Ninetales" src="https://dl.dropboxusercontent.com/s/jpq5vohleynwlqr/nintetales.png" /></p>
+<p>(Note: It may take a moment to the details on our screen. This is because we load our image synchronously, meaning it blocks other methods from being called until it's done. We could do this asynchronously to make it run faster, but it would require more code and would add unnecessary complexity to this tutorial.)</p>
+<p><a href="#top" class="top" id="list-moves"></a></p>
+<h3 id="434-displaying-our-list-of-moves">4.3.4 Displaying our List of Moves</h3>
+<p>The only thing that we haven't done yet is show the Pokemon's moves. We're going to be doing this with a collection view, just as we did the list of Pokemon. To do this, let's start by configuring our custom cell. Start by adding a label to the collection view cell, just as we did before. Center it vertically and make it 20px from the left side, just like we did last time.</p>
+<p><img alt="Move Cell" src="https://dl.dropboxusercontent.com/s/rnqtoanlj9395g6/movecell.png" /></p>
+<p>Then, create a new file called 'MoveCollectionViewCell'; select 'Cocoa Touch Class' and make sure it's a subclass of <code>UICollectionViewCell</code>. Once you have the file, set the custom class of the <code>UICollectionViewCell</code> we just added a label to to "MoveCollectionViewCell". Once we've done this, add an outlet to our new cell by control-dragging from the label we just added to our cell while in Assistant editor. Finally, set the identifier for the cell to "MoveCell", similar to how we did it above.</p>
+<p><img alt="Move Outlet" src="https://dl.dropboxusercontent.com/s/p0hck2ozlklz7la/moveoutlet.png" /></p>
+<p>Now that we have a custom cell, let's add the code for <code>UICollectionViewDelegateFlowLayout</code>; it looks very similar to the code we added for <code>PokedexViewController</code> before:</p>
+<pre><code class="swift">extension PokemonDetailViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -&gt; CGSize {
+    return CGSizeMake(self.view.frame.width, 30.0)
+  }
+
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -&gt; CGFloat {
+    return 3.0
+  }
+}
+</code></pre>
+
+<p>Notice, we've made the cells 30px tall in this case; they can probably be a little bit smaller in this case.</p>
+<p>Next, we need to add a way to keep track of the moves we're going to be showing. To do this, let's add an array of strings, each of which will represent a move, just below <code>resourceURI</code>:</p>
+<pre><code class="swift">var moves: [String] = []
+</code></pre>
+
+<p>Now, let's set our <code>moves</code> variable equal to the moves we get for the Pokemon. We'll do that inside of our callback, where we set the labels and the image:</p>
+<pre><code class="swift">fetchPokemonData(resourceURI) { (pokemonData: JSON) -&gt; Void in
+    ...
+    let movesArray: [JSON] = pokemonData[&quot;moves&quot;].array!
+    self.moves = movesArray.map({ (json: JSON) -&gt; String in
+        json[&quot;name&quot;].string!
+    })
+}
+</code></pre>
+
+<p>Now that we've set the data, let's add our <code>UICollectionViewDataSource</code>, so we can feed the data to the collection view:</p>
+<pre><code class="swift">extension PokemonDetailViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -&gt; UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier(&quot;MoveCell&quot;, forIndexPath: indexPath) as! MoveCollectionViewCell
+    newCell.moveName.text = moves[indexPath.row]
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int {
+    return moves.count
+  }
+}
+</code></pre>
+
+<p>Finally, we need to do some configuration in <code>viewDidLoad</code>: we need to set <code>PokemonDetailViewController</code> to the delegate and data source for our collection view, as well as changing the background color to light gray:</p>
+<pre><code class="swift">override func viewDidLoad() {
+    super.viewDidLoad()
+
+    movesList.delegate = self
+    movesList.dataSource = self
+    movesList.backgroundColor = UIColor.lightGrayColor()
+
+    fetchPokemonData(resourceURI) { (pokemonData: JSON) -&gt; Void in
+      self.nameLabel.text = pokemonData[&quot;name&quot;].string
+      self.attackLabel.text = String(format: &quot;Attack: %d&quot;, pokemonData[&quot;attack&quot;].int!)
+      self.defenseLabel.text = String(format: &quot;Defense: %d&quot;, pokemonData[&quot;defense&quot;].int!)
+      let imageURL = String(format: &quot;http://pokeapi.co/media/img/%d.png&quot;, pokemonData[&quot;pkdx_id&quot;].int!)
+      self.loadAndSetImage(imageURL)
+      let movesArray: [JSON] = pokemonData[&quot;moves&quot;].array!
+      self.moves = movesArray.map({ (json: JSON) -&gt; String in
+        json[&quot;name&quot;].string!
+      })
+      self.movesList.reloadData()
+    }
+}
+</code></pre>
+
+<p>Just to recap, this is what our <code>PokemonDetailViewController.swift</code> file looks like:</p>
+<pre><code class="swift">import UIKit
+import Alamofire
+import SwiftyJSON
+
+class PokemonDetailViewController: UIViewController {
+
+  @IBOutlet var image: UIImageView!
+  @IBOutlet var nameLabel: UILabel!
+  @IBOutlet var attackLabel: UILabel!
+  @IBOutlet var defenseLabel: UILabel!
+  @IBOutlet var movesList: UICollectionView!
+
+  var resourceURI: String!
+  var moves: [String] = []
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    movesList.delegate = self
+    movesList.dataSource = self
+    movesList.backgroundColor = UIColor.lightGrayColor()
+
+    fetchPokemonData(resourceURI) { (pokemonData: JSON) -&gt; Void in
+      self.nameLabel.text = pokemonData[&quot;name&quot;].string
+      self.attackLabel.text = String(format: &quot;Attack: %d&quot;, pokemonData[&quot;attack&quot;].int!)
+      self.defenseLabel.text = String(format: &quot;Defense: %d&quot;, pokemonData[&quot;defense&quot;].int!)
+      let imageURL = String(format: &quot;http://pokeapi.co/media/img/%d.png&quot;, pokemonData[&quot;pkdx_id&quot;].int!)
+      self.loadAndSetImage(imageURL)
+      let movesArray: [JSON] = pokemonData[&quot;moves&quot;].array!
+      self.moves = movesArray.map({ (json: JSON) -&gt; String in
+        json[&quot;name&quot;].string!
+      })
+      self.movesList.reloadData()
+    }
+  }
+
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+  }
+
+  func fetchPokemonData(resourceURI: String, completion: (JSON) -&gt; Void) {
+    Alamofire.request(.GET, &quot;http://pokeapi.co/&quot; + resourceURI, encoding: .JSON).responseData { response in
+      switch response.result {
+      case .Success(_):
+        let pokemonData: JSON = JSON(data: response.data!)
+        completion(pokemonData)
+      case .Failure(let error):
+        print(error)
+      }
+    }
+  }
+
+  func loadAndSetImage(url: String) {
+    if let pictureURL = NSURL(string: url) {
+      if let data = NSData(contentsOfURL: pictureURL) {
+        image.image = UIImage(data: data)
+      }
+    }
+  }
+
+}
+
+extension PokemonDetailViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -&gt; CGSize {
+    return CGSizeMake(self.view.frame.width, 30.0)
+  }
+
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -&gt; CGFloat {
+    return 3.0
+  }
+}
+
+extension PokemonDetailViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -&gt; UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier(&quot;MoveCell&quot;, forIndexPath: indexPath) as! MoveCollectionViewCell
+    newCell.moveName.text = moves[indexPath.row]
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int {
+    return moves.count
+  }
+}
+</code></pre>
+
+<p>If we run our app, we'll see our detail view is complete: we see the Pokemon's name, its attack and defense scores, a picture of it, as well as a scrollable list of all the moves it can learn. Here's the page for Gyrados:</p>
+<p><img alt="Gyrados" src="https://dl.dropboxusercontent.com/s/hon8jk6tkmfy1om/gyrados.png" /></p>
+<p><a href="#top" class="top" id="level5"></a></p>
+<h1 id="level-5-filtering-data">Level 5: Filtering Data</h1>
+<h4 id="download-prerequisite-code_3"><a href="https://dl.dropboxusercontent.com/s/xeuxqldhlgndt2k/Pokedex-level5-starter.zip">Download Prerequisite Code</a></h4>
+<p>Now that we have a nice detail page for each of our Pokemon, I'd love to be able to look up my favorite Pokemon. However, with 778 to search through, it can be tough. I think it would be a great feature to add a search bar so we can search for individual Pokemon.</p>
+<p><a href="#top" class="top" id="search-bar"></a></p>
+<h2 id="51-adding-a-search-bar">5.1 Adding a Search Bar</h2>
+<p>Since we'll need a search bar to be able to find Pokemon, let's add that.</p>
+<p><a href="#top" class="top" id="uisearchbar"></a></p>
+<h3 id="511-adding-a-uisearchbar-sub-view">5.1.1 Adding a <code>UISearchBar</code> sub-view</h3>
+<p>First, open <code>Main.storyboard</code>, and look at <code>PokedexViewController</code>. Currently, we have the top constraint on our collection view to be 0px from the top. Remove that constraint, and drag the collection view top down a bit. Now, from the widget box, drag a <code>UISearchBar</code> and place it above our collection view. Add constraints to make it 0px from the left, 0px from the right, and 0px from the top. Remember to remove the 'Relative to Margin' checkbox (if you find this difficult, you can also make the constraint -20px padding, which will get rid of the margin).</p>
+<p>Finally, add a constraint to have 0px of padding from the bottom of the search bar to the top of the collection view. This will make sure the search bar appears just above the collection view, just as we want it.</p>
+<p><img alt="Search Bar" src="https://dl.dropboxusercontent.com/s/n46soqln0xj3o1n/searchroom.png" /></p>
+<p>Once you've done this, add an outlet by control-dragging from the storyboard to <code>PokedexViewController</code>:</p>
+<pre><code class="swift">@IBOutlet var searchBar: UISearchBar!
+</code></pre>
+
+<p><a href="#top" class="top" id="uisearchbardelegate"></a></p>
+<h3 id="512-uisearchbardelegate">5.1.2 <code>UISearchBarDelegate</code></h3>
+<p>As we have discussed before, delegates have functions that are called when certain events happened. For search bars, there are several things events that could happen; examples include text changing, editing beginning, etc.</p>
+<p>To add functionality to our search bar, we can implement <a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UISearchBarDelegate_Protocol/index.html"><code>UISearchBarDelegate</code></a> methods. In particular, we're going to add <code>textDidChange</code> to listen to changes in the text for our search bar. Add this code below the other extensions we have in <code>PokedexViewController</code>.</p>
+<pre><code class="swift">extension PokedexViewController: UISearchBarDelegate {
+  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    // TODO: Filter results.
+  }
+}
+</code></pre>
+
+<p>Here, we merely added the function, which we will implement in the next step. However, first, we need to make sure the <code>searchBar</code> delegate is set to our view controller. Add this line at the bottom of our <code>viewDidLoad</code> method:</p>
+<pre><code class="swift">searchBar.delegate = self
+</code></pre>
+
+<p><a href="#top" class="top" id="filter-data"></a></p>
+<h2 id="52-filtering-data">5.2 Filtering Data</h2>
+<p>Now that we're have our <code>textDidChange</code> method, we can implement the functionality that actual sorts our results.</p>
+<p><a href="#top" class="top" id="filtered-array"></a></p>
+<h3 id="521-adding-a-filtered-array">5.2.1 Adding a Filtered Array</h3>
+<p>Right now, we have an array called <code>pokemonData</code>, which has all of the results we get from our API. Since we're going to need to filter our results from our original set, we should create a second array; let's call it <code>filteredData</code> and add it just below our <code>pokemonData</code>:</p>
+<pre><code class="swift">var pokemonData: [PokemonModel] = []
+var filteredData: [PokemonModel] = []
+</code></pre>
+
+<p>When we first load our data, we should set our filtered data equal to our original data, as we won't have filtered anything yet. Right below the line where we set <code>self.pokemonData</code> in <code>fetchData</code>, add this line:</p>
+<pre><code class="swift">self.filteredData = self.pokemonData
+</code></pre>
+
+<p>Now that we have our <code>filteredData</code> set, we need to make sure our collection view draws data from here instead of our original set. To do this, let's modify our <code>UICollectionViewDataSource</code> extension:</p>
+<pre><code class="swift">extension PokedexViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -&gt; UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier(&quot;PokedexCell&quot;, forIndexPath: indexPath) as! PokedexCollectionViewCell
+    let pokemonModel = filteredData[indexPath.row]
+    newCell.nameLabel.text = pokemonModel.name.capitalizedString
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int {
+    return filteredData.count
+  }
+}
+</code></pre>
+
+<p>Notice we've switched <code>pokemonData</code> for <code>filteredData</code>. We'll also need to do the same thing in <code>UICollectionViewDelegate</code> to make sure the Pokemon passed to our detail view is the one we're pressing:</p>
+<pre><code class="swift">extension PokedexViewController: UICollectionViewDelegate {
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let storyboard = UIStoryboard(name: &quot;Main&quot;, bundle: nil)
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier(&quot;PokemonDetail&quot;) as! PokemonDetailViewController
+    detailController.resourceURI = filteredData[indexPath.row].resourceURI
+    self.navigationController?.pushViewController(detailController, animated: true)
+  }
+}
+</code></pre>
+
+<p>Now, try running the app and searching for a Pokemon. Still, nothing happens!</p>
+<p><a href="#top" class="top" id="sort-strings"></a></p>
+<h3 id="522-sorting-strings">5.2.2 Sorting Strings</h3>
+<p>As you may remember, we left a TODO comment in the <code>textDidChange</code> method. Let's go and implement that now. Essentially, what we want to do whenever the text changes is filter the Pokemon from  <code>pokemonData</code> that match our search term and set those Pokemon equal to our <code>filteredData</code> array. Once we've done that, we can reload our collection view to show our new results.</p>
+<p>To do that, let's add the following code to <code>textDidChange</code> in our <code>PokedexViewController</code>:</p>
+<pre><code class="swift">func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    filteredData = pokemonData.filter({ (pokemon: PokemonModel) -&gt; Bool in
+      return pokemon.name.hasPrefix(searchText.lowercaseString) || searchText == &quot;&quot;
+    })
+    collectionView.reloadData()
+}
+</code></pre>
+
+<p>Basically, we set our filtered data equal to a filtered version of Pokemon data. For each Pokemon, we check whether our search text is a prefix of that Pokemon's name (we make sure the string is lowercase so capitalization doesn't matter). Also, we check for the blank search string, in which case we want to match all Pokemon; after checking [here][string-characters], we found that "" doesn't match as a prefix, so we needed to check for it separately.</p>
+<p>Before we run our app, here's the finalized code for <code>PokedexViewController</code>:</p>
+<pre><code class="swift">import UIKit
+import Alamofire
+import SwiftyJSON
+
+class PokedexViewController: UIViewController {
+
+  @IBOutlet var collectionView: UICollectionView!
+  var pokemonData: [PokemonModel] = []
+  var filteredData: [PokemonModel] = []
+  @IBOutlet var searchBar: UISearchBar!
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    collectionView.backgroundColor = UIColor.lightGrayColor()
+    collectionView.delegate = self
+    collectionView.dataSource = self
+
+    self.automaticallyAdjustsScrollViewInsets = false
+
+    self.navigationItem.title = &quot;My Pokedex&quot;
+
+    fetchData(&quot;http://pokeapi.co/api/v1/pokedex/1/&quot;, completion: {
+      self.collectionView.reloadData()
+    })
+
+    searchBar.delegate = self
+  }
+
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+  }
+
+  func fetchData(url: String, completion: () -&gt; Void) {
+    Alamofire.request(.GET, url, encoding: .JSON).responseData { response in
+      switch response.result {
+      case .Success(_):
+        let responseData: JSON = JSON(data: response.data!)
+        if let pokemon = responseData[&quot;pokemon&quot;].array {
+          self.pokemonData = pokemon.map({ (json: JSON) -&gt; PokemonModel in
+            PokemonModel(name: json[&quot;name&quot;].string!, resourceURI: json[&quot;resource_uri&quot;].string!)
+          })
+          self.filteredData = self.pokemonData
+        }
+      case .Failure(let error):
+        self.pokemonData = []
+        print(error)
+      }
+      completion()
+    }
+  }
+
+}
+
+extension PokedexViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -&gt; CGSize {
+    return CGSizeMake(self.view.frame.width, 40.0)
+  }
+
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -&gt; CGFloat {
+    return 3.0
+  }
+}
+
+extension PokedexViewController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -&gt; UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier(&quot;PokedexCell&quot;, forIndexPath: indexPath) as! PokedexCollectionViewCell
+    let pokemonModel = filteredData[indexPath.row]
+    newCell.nameLabel.text = pokemonModel.name.capitalizedString
+    newCell.backgroundColor = UIColor.whiteColor()
+    return newCell
+  }
+
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int {
+    return filteredData.count
+  }
+}
+
+extension PokedexViewController: UICollectionViewDelegate {
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let storyboard = UIStoryboard(name: &quot;Main&quot;, bundle: nil)
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier(&quot;PokemonDetail&quot;) as! PokemonDetailViewController
+    detailController.resourceURI = filteredData[indexPath.row].resourceURI
+    self.navigationController?.pushViewController(detailController, animated: true)
+  }
+}
+
+extension PokedexViewController: UISearchBarDelegate {
+  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    filteredData = pokemonData.filter({ (pokemon: PokemonModel) -&gt; Bool in
+      return pokemon.name.hasPrefix(searchText.lowercaseString) || searchText == &quot;&quot;
+    })
+    collectionView.reloadData()
+  }
+}
+</code></pre>
+
+<p>If your code looks like the above code, then let's run our app. Try typing something into the search box, and you should see the results update whenever you type! I tried searching for Dragonite, one of my favorites, and I was able to find him quite easily:</p>
+<p><img alt="Dragonite" src="https://dl.dropboxusercontent.com/s/yvux8vp8pcs6ti2/dragonite.png" /></p>
+<p><a href="#top" class="top" id="next-steps"></a></p>
+<h1 id="next-steps">Next Steps</h1>
+<p>Congratulations on finishing your Pokedex app! You've learned most of the fundamentals of iOS programming while making the app, so you should feel very proud. If you're interested in doing more with your Pokedex app, some things you may want to work on:</p>
+<ul>
+<li>Use <a href="https://developer.apple.com/library/tvos/documentation/Cocoa/Conceptual/CoreData/index.html">Core Data</a> to implement the marking of favorites in your Pokedex.</li>
+<li>Filter Pokemon by type (bug, grass, etc.)</li>
+<li>Add descriptions of Pokemon to their detail page (requires additional API calls)</li>
+</ul>
+<p>Other areas of iOS development that we didn't cover include that you may want to explore:</p>
+<ul>
+<li>Location Services and Maps</li>
+<li>Alert Views and Prompting the User</li>
+<li>Using the Camera</li>
+</ul>
+<p>If you're interested in knowing all of the major areas of iOS, here's a cool <a href="http://i.imgur.com/WGEhRAe.png">chart</a> that shows all the core competencies for an experienced iOS developer; it will help you to see what you should learn next.</p>
+<hr />
+<p><a href="#top" class="top" id="additional-resources"></a></p>
+<h1 id="additional-resources">Additional Resources</h1>
+<p>Along with this tutorial, there is a wealth of information available on iOS development all across the web. Below are some good places to start:</p>
+<ul>
+<li><a href="http://adicu.com/learn">ADI Resources</a></li>
+<li><a href="https://www.bignerdranch.com/we-write/ios-programming/">Big Nerd Ranch</a></li>
+<li><a href="http://www.raywenderlich.com/">Ray Wenderlich</a></li>
+<li><a href="https://littlebitesofcocoa.com/">Little Bites of Cocoa</a></li>
+<li><a href="http://nshipster.com/">NSHipster</a></li>
+<li><a href="https://medium.com/app-coder-io/27-places-to-learn-ios-development-best-ones-b1bcfb48efab">Other Sources</a></li>
+</ul>
+<p>Thanks for reading!</p>
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+    var _gaq = _gaq || [];
+    var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+    _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+    _gaq.push(['_setAccount', 'UA-18504951-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</body></html>
