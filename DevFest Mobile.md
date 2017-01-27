@@ -95,7 +95,7 @@ To develop iOS applications, you use an application called **Xcode**. Made by Ap
 
 Unfortunately, to install Xcode, **you must have a computer that is running OS X**; pending some kind of strange dual boot, this unfortunately means that, in order to develop iOS applications, **you must have a Mac computer**. If you don't, then we'll have to sadly recommend that you select a different track.
 
-If you have a Mac, environment setup ends up being quite easy. Simply [install Xcode][install-xcode]. Pick the most recent version available at this link; at time of writing this, Xcode 7.2 is the most recent. **Important:** don't install the beta version; generally they're pretty unstable and not worth risking the breaks that could occur. These download links should redirect you to the Mac App Store, from which you'll be able to download Xcode.
+If you have a Mac, environment setup ends up being quite easy. Simply [install Xcode][install-xcode]. Pick the most recent version available at this link; at time of writing this, Xcode 8.2 is the most recent. **Important:** don't install the beta version; generally they're pretty unstable and not worth risking the breaks that could occur. These download links should redirect you to the Mac App Store, from which you'll be able to download Xcode.
 
 Once you've done this, install [Cocoapods][cocoapods-install]. To do this, you'll need to use Ruby (in the form of `gem install`), which comes pre-installed on Macs. If you are having an issue installing Cocoapods with the command, try downloading [RVM][rvm]; it's a Ruby version manager that makes it easier to install things. Stack Overflow will help you if you get into any tough spots here.
 
@@ -278,7 +278,7 @@ Once you've done that, let's actually add our Pokemon logo. In XCode, click `Fil
 
 ![Image Name](https://dl.dropboxusercontent.com/s/18l1wak4hhqzu3o/imageselect.png)
 
-Note: Auto Layout can be quite difficult to understand at first. Deciding what constraints will lead to the layout you want can feel like a logic puzzle at times. However, it's MUCH better than the alternative, which would be designing an interface for each of the six different iPhones. It's worth putting in the time to learn, perhaps by re-reading this section a couple times.
+Note: Auto Layout can be quite difficult to understand at first. Deciding what constraints will lead to the layout you want can feel like a logic puzzle at times. However, it's MUCH better than the alternative, which would be designing an interface for each of the seven different iPhones. It's worth putting in the time to learn, perhaps by re-reading this section a couple times.
 
 <a href="#top" class="top" id="second-view"></a>
 ### 1.4.2 Adding our Second View
@@ -455,11 +455,11 @@ At the bottom of our `PokedexViewController.swift` file, below the last closing 
 
 ```swift
 extension PokedexViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    return CGSizeMake(self.view.frame.width, 40.0)
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: self.view.frame.width, height: 40.0)
   }
   
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 3.0
   }
 }
@@ -477,14 +477,14 @@ Just below your flow layout extension, add the following code:
 
 ```swift
 extension PokedexViewController: UICollectionViewDataSource {
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("PokedexCell", forIndexPath: indexPath) as! PokedexCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokedexCell", for: indexPath) as! PokedexCollectionViewCell
     newCell.nameLabel.text = "Pikachu"
-    newCell.backgroundColor = UIColor.whiteColor()
+    newCell.backgroundColor = UIColor.white
     return newCell
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 20
   }
 }
@@ -506,7 +506,7 @@ In our case, here is what our modified `viewDidLoad` method looks like:
 override func viewDidLoad() {
     super.viewDidLoad()
 
-    collectionView.backgroundColor = UIColor.lightGrayColor()
+    collectionView.backgroundColor = UIColor.lightGrayColor
     collectionView.delegate = self
     collectionView.dataSource = self
       
@@ -740,23 +740,23 @@ var pokemonData: [PokemonModel] = []
 Next, we'll need to actually fetch the data from our API. For this, let's creating a new method called `fetchData`, as follows:
 
 ```swift
-func fetchData(url: String, completion: () -> Void) {
-    Alamofire.request(.GET, url, encoding: .JSON).responseData { response in
-      switch response.result {
-      case .Success(_):
-        let responseData: JSON = JSON(data: response.data!)
-        if let pokemon = responseData["pokemon"].array {
-          self.pokemonData = pokemon.map({ (json: JSON) -> PokemonModel in
-            PokemonModel(name: json["name"].string!, resourceURI: json["resource_uri"].string!)
-          })
+    func fetchData(url: String, completion: @escaping () -> Void) {
+        Alamofire.request(url).responseJSON { response in
+            switch response.result {
+            case .success(_):
+                let responseData: JSON = JSON(data: response.data!)
+                if let pokemon = responseData["pokemon"].array {
+                    self.pokemonData = pokemon.map({(json: JSON) -> PokemonModel in
+                        PokemonModel(name: json["name"].stringValue, resourceURI: json["resource_uri"].stringValue)
+                    })
+                }
+            case .failure(let error):
+                self.pokemonData = []
+                print(error)
+            }
+            completion()
         }
-      case .Failure(let error):
-        self.pokemonData = []
-        print(error)
-      }
-      completion()
     }
-}
 ```
 
 This is the most Swift code we've written thus far, so let's go through it line-by-line. In our function definition, we take a string, which will be the Pokedex API we saw earlier, as well as, more interestingly, a function that takes no parameters and doesn't return anything. As you can read about [here][swift-functions], Swift allows you to pass functions to a function as a parameter. In this case, we're doing it so we can run some code only after our results are loaded; we'll want to reload the data in our collection once we have new data to show. Generally, these callbacks can be useful to update UI elements once some data is available.
@@ -768,9 +768,9 @@ In the case of a success, we use our SwiftyJSON library to create a new JSON obj
 Now, we have to call our function and supply it with the function we want to run after our data is loaded. Let's add this code to the bottom of our `viewDidLoad` function:
 
 ```swift
-fetchData("http://pokeapi.co/api/v1/pokedex/1/", completion: {
-    self.collectionView.reloadData()
-})
+    fetchData(url: "http://pokeapi.co/api/v1/pokedex/1/", completion: {
+      self.collectionView.reloadData()
+    })
 ```
 
 We call our `fetchData` function by passing our PokeAPI URL, as well as a closure function, inside of which we reload the data in our collection view. We will discuss this more later.
@@ -793,15 +793,15 @@ You may be wondering why we still see only Pikachus, when we've loaded all of ou
 
 ```swift
 extension PokedexViewController: UICollectionViewDataSource {
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("PokedexCell", forIndexPath: indexPath) as! PokedexCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokedexCell", for: indexPath) as! PokedexCollectionViewCell
     let pokemonModel = pokemonData[indexPath.row]
-    newCell.nameLabel.text = pokemonModel.name.capitalizedString
-    newCell.backgroundColor = UIColor.whiteColor()
+    newCell.nameLabel.text = pokemonModel.name.capitalized
+    newCell.backgroundColor = UIColor.white
     return newCell
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return pokemonData.count
   }
 }
@@ -931,9 +931,9 @@ In `PokedexViewController.swift`, add the following code, just below our other t
 
 ```swift
 extension PokedexViewController: UICollectionViewDelegate {
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier("PokemonDetail") as! PokemonDetailViewController
+    let detailController: PokemonDetailViewController = storyboard.instantiateViewController(withIdentifier: "PokemonDetail") as! PokemonDetailViewController
     self.navigationController?.pushViewController(detailController, animated: true)
   }
 }
@@ -977,17 +977,17 @@ Also, before we forget, add `import Alamofire` and `import SwiftyJSON` at the to
 Let's create a new method called `fetchPokemonData`:
 
 ```swift
-func fetchPokemonData(resourceURI: String, completion: (JSON) -> Void) {
-    Alamofire.request(.GET, "http://pokeapi.co/" + resourceURI, encoding: .JSON).responseData { response in
-      switch response.result {
-      case .Success(_):
-        let pokemonData: JSON = JSON(data: response.data!)
-        completion(pokemonData)
-      case .Failure(let error):
-        print(error)
-      }
+    func fetchPokemonData(resourceURI: String, completion: @escaping (JSON) -> Void) {
+        Alamofire.request("http://pokeapi.co/" + resourceURI).responseJSON { response in
+            switch response.result {
+            case .success(_):
+                let pokemonData: JSON = JSON(data: response.data!)
+                completion(pokemonData)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
-}
 ```
 
 Our method looks pretty similar to our earlier `fetchData` method, but there are some important differences. First, we see our `completion` function that we pass as a parameter takes a JSON object. Also, in this case, we don't pass the entire URL, instead just passing the URI we have available to us; in the request, we append it to the base URL, `http://pokeapi.co/`. Finally, we'll see we only call our completion in the case of a success; we pass the JSON data that we got back to our completion, which we'll write in the next step.
@@ -999,8 +999,8 @@ Now that we have the data, we can set the sub-views to reflect the data we have 
 ```swift
 fetchPokemonData(resourceURI) { (pokemonData: JSON) -> Void in
       self.nameLabel.text = pokemonData["name"].string
-      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].int!)
-      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].int!)
+      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].intValue)
+      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].intValue)
 }
 ```
 
@@ -1019,9 +1019,9 @@ To set our image, we need to fetch it from a URL. After looking at the documenta
 Now, we'll need to load the image through Swift to set our image. Let's create a method called `loadAndSetImage`, which, as the name suggests, should load and set our image:
 
 ```swift
-func loadAndSetImage(url: String) {
-    if let pictureURL = NSURL(string: url) {
-      if let data = NSData(contentsOfURL: pictureURL) {
+func loadAndSetImage(_ url: String) {
+    if let pictureURL = URL(string: url) {
+      if let data = try? Data(contentsOf: pictureURL) {
         image.image = UIImage(data: data)
       }
     }
@@ -1030,10 +1030,12 @@ func loadAndSetImage(url: String) {
 
 Not gonna lie, I basically copied the above code from [this Stack Overflow answer][stack-overflow]. We generate our URL, fetch the data from it, create an image from our data, and then set our image equal to it.
 
+Our function `loadAndSetImage` takes in the URL that links to a Pokemon's image and creates a `URL` object from it. Next, we pass that `URL` object into a `Data` objects initializer, which allows us to download the literal binary data of that specific image. We also encounter our first error handling keyword in Swift `try?`. In this context the `try?` is required because there is no guarentee that our Data object was created successfully, the server could have returned incomplete data or even no data at all!. 
+
 To make sure this method gets called, add these two lines below our other lines in our `fetchPokemonData` response closure:
 
 ```swift
-let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].int!)
+let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].intValue)
 self.loadAndSetImage(imageURL)
 ```
 
@@ -1057,11 +1059,11 @@ Now that we have a custom cell, let's add the code for `UICollectionViewDelegate
 
 ```swift
 extension PokemonDetailViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    return CGSizeMake(self.view.frame.width, 30.0)
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: self.view.frame.width, height: 30.0)
   }
   
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 3.0
   }
 }
@@ -1091,14 +1093,14 @@ Now that we've set the data, let's add our `UICollectionViewDataSource`, so we c
 
 ```swift
 extension PokemonDetailViewController: UICollectionViewDataSource {
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("MoveCell", forIndexPath: indexPath) as! MoveCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MoveCell", for: indexPath) as! MoveCollectionViewCell
     newCell.moveName.text = moves[indexPath.row]
-    newCell.backgroundColor = UIColor.whiteColor()
+    newCell.backgroundColor = UIColor.white
     return newCell
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return moves.count
   }
 }
@@ -1112,13 +1114,13 @@ override func viewDidLoad() {
     
     movesList.delegate = self
     movesList.dataSource = self
-    movesList.backgroundColor = UIColor.lightGrayColor()
+    movesList.backgroundColor = UIColor.lightGray
 
     fetchPokemonData(resourceURI) { (pokemonData: JSON) -> Void in
       self.nameLabel.text = pokemonData["name"].string
-      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].int!)
-      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].int!)
-      let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].int!)
+      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].intValue)
+      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].intValue)
+      let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].intValue)
       self.loadAndSetImage(imageURL)
       let movesArray: [JSON] = pokemonData["moves"].array!
       self.moves = movesArray.map({ (json: JSON) -> String in
@@ -1152,13 +1154,13 @@ class PokemonDetailViewController: UIViewController {
     
     movesList.delegate = self
     movesList.dataSource = self
-    movesList.backgroundColor = UIColor.lightGrayColor()
+    movesList.backgroundColor = UIColor.lightGray
 
-    fetchPokemonData(resourceURI) { (pokemonData: JSON) -> Void in
+    fetchPokemonData(resourceURI: resourceURI) { (pokemonData: JSON) -> Void in
       self.nameLabel.text = pokemonData["name"].string
-      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].int!)
-      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].int!)
-      let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].int!)
+      self.attackLabel.text = String(format: "Attack: %d", pokemonData["attack"].intValue)
+      self.defenseLabel.text = String(format: "Defense: %d", pokemonData["defense"].intValue)
+      let imageURL = String(format: "http://pokeapi.co/media/img/%d.png", pokemonData["pkdx_id"].intValue)
       self.loadAndSetImage(imageURL)
       let movesArray: [JSON] = pokemonData["moves"].array!
       self.moves = movesArray.map({ (json: JSON) -> String in
@@ -1172,47 +1174,46 @@ class PokemonDetailViewController: UIViewController {
     super.didReceiveMemoryWarning()
   }
   
-  func fetchPokemonData(resourceURI: String, completion: (JSON) -> Void) {
-    Alamofire.request(.GET, "http://pokeapi.co/" + resourceURI, encoding: .JSON).responseData { response in
-      switch response.result {
-      case .Success(_):
-        let pokemonData: JSON = JSON(data: response.data!)
-        completion(pokemonData)
-      case .Failure(let error):
-        print(error)
-      }
+    func fetchPokemonData(resourceURI: String, completion: @escaping (JSON) -> Void) {
+        Alamofire.request("http://pokeapi.co/" + resourceURI).responseJSON { response in
+            switch response.result {
+            case .success(_):
+                let pokemonData: JSON = JSON(data: response.data!)
+                completion(pokemonData)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
-  }
   
-  func loadAndSetImage(url: String) {
-    if let pictureURL = NSURL(string: url) {
-      if let data = NSData(contentsOfURL: pictureURL) {
+  func loadAndSetImage(_ url: String) {
+    if let pictureURL = URL(string: url) {
+      if let data = try? Data(contentsOf: pictureURL) {
         image.image = UIImage(data: data)
       }
     }
   }
-
 }
 
 extension PokemonDetailViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    return CGSizeMake(self.view.frame.width, 30.0)
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: self.view.frame.width, height: 30.0)
   }
   
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 3.0
   }
 }
 
 extension PokemonDetailViewController: UICollectionViewDataSource {
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("MoveCell", forIndexPath: indexPath) as! MoveCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MoveCell", for: indexPath) as! MoveCollectionViewCell
     newCell.moveName.text = moves[indexPath.row]
-    newCell.backgroundColor = UIColor.whiteColor()
+    newCell.backgroundColor = UIColor.white
     return newCell
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return moves.count
   }
 }
@@ -1255,7 +1256,7 @@ To add functionality to our search bar, we can implement [`UISearchBarDelegate`]
 
 ```swift
 extension PokedexViewController: UISearchBarDelegate {
-  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     // TODO: Filter results.
   }
 }
@@ -1290,15 +1291,15 @@ Now that we have our `filteredData` set, we need to make sure our collection vie
 
 ```swift
 extension PokedexViewController: UICollectionViewDataSource {
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("PokedexCell", forIndexPath: indexPath) as! PokedexCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokedexCell", for: indexPath) as! PokedexCollectionViewCell
     let pokemonModel = filteredData[indexPath.row]
-    newCell.nameLabel.text = pokemonModel.name.capitalizedString
-    newCell.backgroundColor = UIColor.whiteColor()
+    newCell.nameLabel.text = pokemonModel.name.capitalized
+    newCell.backgroundColor = UIColor.white
     return newCell
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return filteredData.count
   }
 }
@@ -1308,12 +1309,12 @@ Notice we've switched `pokemonData` for `filteredData`. We'll also need to do th
 
 ```swift
 extension PokedexViewController: UICollectionViewDelegate {
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier("PokemonDetail") as! PokemonDetailViewController
-    detailController.resourceURI = filteredData[indexPath.row].resourceURI
-    self.navigationController?.pushViewController(detailController, animated: true)
-  }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let detailViewController: PokemonDetailViewController = storyboard.instantiateViewController(withIdentifier: "PokemonDetail") as! PokemonDetailViewController
+        detailViewController.resourceURI = filteredData[indexPath.row].resourceURI
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
 }
 ```
 
@@ -1326,12 +1327,12 @@ As you may remember, we left a TODO comment in the `textDidChange` method. Let's
 To do that, let's add the following code to `textDidChange` in our `PokedexViewController`:
 
 ```swift
-func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-    filteredData = pokemonData.filter({ (pokemon: PokemonModel) -> Bool in
-      return pokemon.name.hasPrefix(searchText.lowercaseString) || searchText == ""
-    })
-    collectionView.reloadData()
-}
+func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredData = pokemonData.filter({ (pokemon: PokemonModel) -> Bool in
+            return pokemon.name.hasPrefix(searchText.lowercased()) || searchText == ""
+        })
+        collectionView.reloadData()
+    }
 ```
 
 Basically, we set our filtered data equal to a filtered version of Pokemon data. For each Pokemon, we check whether our search text is a prefix of that Pokemon's name (we make sure the string is lowercase so capitalization doesn't matter). Also, we check for the blank search string, in which case we want to match all Pokemon; after checking [here][string-characters], we found that "" doesn't match as a prefix, so we needed to check for it separately.
@@ -1346,92 +1347,95 @@ import SwiftyJSON
 class PokedexViewController: UIViewController {
 
   @IBOutlet var collectionView: UICollectionView!
-  var pokemonData: [PokemonModel] = []
-  var filteredData: [PokemonModel] = []
-  @IBOutlet var searchBar: UISearchBar!
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    collectionView.backgroundColor = UIColor.lightGrayColor()
-    collectionView.delegate = self
-    collectionView.dataSource = self
-      
-    self.automaticallyAdjustsScrollViewInsets = false
-
-    self.navigationItem.title = "My Pokedex"
+    @IBOutlet weak var searchBar: UISearchBar!
     
-    fetchData("http://pokeapi.co/api/v1/pokedex/1/", completion: {
-      self.collectionView.reloadData()
-    })
     
-    searchBar.delegate = self
-  }
-
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-  }
-  
-  func fetchData(url: String, completion: () -> Void) {
-    Alamofire.request(.GET, url, encoding: .JSON).responseData { response in
-      switch response.result {
-      case .Success(_):
-        let responseData: JSON = JSON(data: response.data!)
-        if let pokemon = responseData["pokemon"].array {
-          self.pokemonData = pokemon.map({ (json: JSON) -> PokemonModel in
-            PokemonModel(name: json["name"].string!, resourceURI: json["resource_uri"].string!)
-          })
-          self.filteredData = self.pokemonData
+    var pokemonData: [PokemonModel] = []
+    var filteredData: [PokemonModel] = []
+    
+    func fetchData(url: String, completion: @escaping () -> Void) {
+        Alamofire.request(url).responseJSON { response in
+            switch response.result {
+            case .success(_):
+                let responseData: JSON = JSON(data: response.data!)
+                if let pokemon = responseData["pokemon"].array {
+                    self.pokemonData = pokemon.map({(json: JSON) -> PokemonModel in
+                        PokemonModel(name: json["name"].stringValue, resourceURI: json["resource_uri"].stringValue)
+                    })
+                    self.filteredData = self.pokemonData
+                }
+            case .failure(let error):
+                self.pokemonData = []
+                print(error)
+            }
+            completion()
         }
-      case .Failure(let error):
-        self.pokemonData = []
-        print(error)
-      }
-      completion()
     }
-  }
+  
+    override func viewDidLoad() {
+      super.viewDidLoad()
+
+      collectionView.backgroundColor = UIColor.lightGray
+      collectionView.delegate = self
+      collectionView.dataSource = self
+        searchBar.delegate = self
+      
+      self.automaticallyAdjustsScrollViewInsets = false
+
+      self.navigationItem.title = "My Pokedex"
+        
+        fetchData(url: "http://pokeapi.co/api/v1/pokedex/1/", completion: {
+            self.collectionView.reloadData()
+        })
+        print(pokemonData)
+    }
+
+    override func didReceiveMemoryWarning() {
+      super.didReceiveMemoryWarning()
+    }
 
 }
 
+extension PokedexViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredData = pokemonData.filter({ (pokemon: PokemonModel) -> Bool in
+            return pokemon.name.hasPrefix(searchText.lowercased()) || searchText == ""
+        })
+        collectionView.reloadData()
+    }
+}
+
+extension PokedexViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let detailViewController: PokemonDetailViewController = storyboard.instantiateViewController(withIdentifier: "PokemonDetail") as! PokemonDetailViewController
+        detailViewController.resourceURI = filteredData[indexPath.row].resourceURI
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
+
+
 extension PokedexViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    return CGSizeMake(self.view.frame.width, 40.0)
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: self.view.frame.width, height: 40.0)
   }
   
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 3.0
   }
 }
 
 extension PokedexViewController: UICollectionViewDataSource {
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let newCell = collectionView.dequeueReusableCellWithReuseIdentifier("PokedexCell", forIndexPath: indexPath) as! PokedexCollectionViewCell
-    let pokemonModel = filteredData[indexPath.row]
-    newCell.nameLabel.text = pokemonModel.name.capitalizedString
-    newCell.backgroundColor = UIColor.whiteColor()
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let newCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokedexCell", for: indexPath) as! PokedexCollectionViewCell
+    let pokemonModal = filteredData[indexPath.row]
+    newCell.nameLabel.text = pokemonModal.name.capitalized
+    newCell.backgroundColor = UIColor.white
     return newCell
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return filteredData.count
-  }
-}
-
-extension PokedexViewController: UICollectionViewDelegate {
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let detailController: PokemonDetailViewController = storyboard.instantiateViewControllerWithIdentifier("PokemonDetail") as! PokemonDetailViewController
-    detailController.resourceURI = filteredData[indexPath.row].resourceURI
-    self.navigationController?.pushViewController(detailController, animated: true)
-  }
-}
-
-extension PokedexViewController: UISearchBarDelegate {
-  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-    filteredData = pokemonData.filter({ (pokemon: PokemonModel) -> Bool in
-      return pokemon.name.hasPrefix(searchText.lowercaseString) || searchText == ""
-    })
-    collectionView.reloadData()
   }
 }
 ```
